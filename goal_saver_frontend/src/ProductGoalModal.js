@@ -3,7 +3,7 @@ import { fetchAmazonProduct, fetchFlipkartProduct } from "./apiProductLive";
 
 /**
  * Modal for creating a goal using a live Amazon or Flipkart product.
- * Lets user search by keyword, select marketplace, fetch actual data, and auto-fill goal details.
+ * Securely queries backend proxy; no secrets/real APIs in-browser.
  */
 function ProductGoalModal({ onClose, onCreateGoal }) {
   const [market, setMarket] = useState("amazon");
@@ -13,7 +13,7 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
   const [product, setProduct] = useState(null);
 
   // PUBLIC_INTERFACE
-  /** Perform live fetch from selected marketplace by keyword */
+  /** Fetch and parse product from backend proxy, NEVER calls real product APIs from browser */
   async function handleFetchProduct(e) {
     e.preventDefault();
     setErr("");
@@ -26,28 +26,32 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
       } else {
         data = await fetchFlipkartProduct(query);
       }
-      if (!data) setErr("No product found for your keywords.");
-      setProduct(data);
+      if (!data) {
+        setErr("No product found for your keywords.");
+        setProduct(null);
+      } else {
+        setProduct(data);
+      }
     } catch (ex) {
-      setErr("API error: " + (ex.message || "Could not fetch product."));
+      setErr(
+        "API error: Could not fetch product. " +
+          (ex && ex.message ? String(ex.message) : "Unknown error")
+      );
       setProduct(null);
     }
     setLoading(false);
   }
 
   // PUBLIC_INTERFACE
-  /** User accepts the suggested product and proceeds to create a goal */
+  /** User selects product for new goal, uses only safe fields. */
   function handleUseThisProduct() {
     if (!product) return;
-    // Goal fields: { name, target, deadline, notes }
     onCreateGoal({
-      name: product.name || product.title,
+      name: product.name,
       target: product.price,
-      // User still chooses deadline in next step
-      notes: `Live product goal from ${product.provider || market}: ${product.url}`,
-      // You can extend to save image url if your goal model allows
-      // image: product.image,
-      // url: product.url
+      // User chooses deadline in next step
+      notes: `Live product goal from ${product.provider || market}: ${product.url}`
+      // (Image and url can be added to modal if goal model is extended)
     });
     onClose();
   }
@@ -160,7 +164,7 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
           >
             <img
               src={product.image}
-              alt={product.name || product.title}
+              alt={product.name}
               style={{
                 width: 85,
                 height: 85,
@@ -174,7 +178,7 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
             />
             <div>
               <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 1, color: "#473BC9" }}>
-                {product.name || product.title}
+                {product.name}
               </div>
               <div style={{ fontSize: 17, fontWeight: 700, color: "#4CAF50", margin: "3px 0" }}>
                 {typeof product.price === "number" && product.price > 0
@@ -212,7 +216,7 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
         )}
 
         <div style={{ color: "#aaa", fontSize: 13, textAlign: "right", marginTop: 7 }}>
-          Powered by live {market === "amazon" ? "Amazon" : "Flipkart"} APIs
+          Powered by live {market === "amazon" ? "Amazon" : "Flipkart"} APIs (via backend proxy)
         </div>
       </div>
     </div>

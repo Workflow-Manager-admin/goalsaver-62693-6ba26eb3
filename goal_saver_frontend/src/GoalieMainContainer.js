@@ -1,6 +1,97 @@
 import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
+// --- CURRENCY RATE COMPONENT ---
+// Fetches and displays INR→USD currency exchange rate using exchangerate.host (public API)
+function CurrencyRateSection() {
+  const [rate, setRate] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(null);
+
+  useEffect(() => {
+    // PUBLIC_INTERFACE
+    /** Fetches INR→USD exchange rate from exchangerate.host */
+    async function fetchRate() {
+      setLoading(true);
+      setErr(null);
+      try {
+        const url = "https://api.exchangerate.host/latest?base=INR&symbols=USD";
+        const resp = await fetch(url);
+        if (!resp.ok) throw new Error("Network error");
+        const data = await resp.json();
+        const usdRate =
+          data && data.rates && data.rates.USD
+            ? (typeof data.rates.USD === "number"
+                ? data.rates.USD
+                : parseFloat(data.rates.USD)).toFixed(4)
+            : null;
+        setRate(usdRate);
+      } catch (e) {
+        setErr("Could not fetch current rate.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchRate();
+    // Optionally, refresh every 6 hrs
+    // const interval = setInterval(fetchRate, 6 * 3600 * 1000);
+    // return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div
+      className="goalie-currencyrate-wrap"
+      style={{
+        background: "var(--progress-bg)",
+        border: "1.2px solid var(--border-color)",
+        color: "var(--lavender-dark)",
+        borderRadius: 15,
+        fontWeight: 510,
+        fontSize: 15.2,
+        maxWidth: 370,
+        margin: "14px auto 12px auto",
+        padding: "9px 19px 6px 19px",
+        display: "flex",
+        alignItems: "center",
+        boxShadow: "0 1.5px 6px 0 #d9d3ff17",
+        fontFamily: "inherit"
+      }}
+      aria-live="polite"
+      aria-label="INR to USD Exchange Rate"
+    >
+      <span style={{ fontWeight: 700, color: "var(--lavender-main)", display:"flex", alignItems:'center', gap:7 }}>
+        <span role="img" aria-label="money" style={{ fontSize: 17, verticalAlign: "middle" }}>💱</span>
+        Currency Rate
+      </span>
+      <span style={{ marginLeft: 14, color: "var(--lavender-dark)" }}>
+        {loading ? (
+          <span style={{ color: "var(--faded-txt)" }}>Loading...</span>
+        ) : err ? (
+          <span style={{ color: "#fe5666", fontWeight: 600 }}>{err}</span>
+        ) : rate ? (
+          <span>
+            <span style={{ color: "var(--lavender-main)", fontWeight: 800 }}>
+              1 INR
+            </span>{" "}
+            ={" "}
+            <span
+              style={{
+                color: "var(--lavender-accent)",
+                fontWeight: 700,
+                fontSize: 15.5,
+              }}
+            >
+              {rate} USD
+            </span>
+          </span>
+        ) : (
+          <span style={{ color: "var(--faded-txt)" }}>Unavailable</span>
+        )}
+      </span>
+    </div>
+  );
+}
+
 // --- DAILY TIP COMPONENT ---
 // Fetches a daily motivational/financial tip from a free public API.
 function DailyTipSection() {
@@ -1005,6 +1096,8 @@ function GoalieMainContainer() {
     >
       {/* Daily Tip Section, at the very top */}
       <DailyTipSection />
+      {/* Exchange Rate Section, placed after tip and above the header */}
+      <CurrencyRateSection />
       {showOnboarding && <OnboardingModal />}
       <ReminderNotification />
       {/* Header */}

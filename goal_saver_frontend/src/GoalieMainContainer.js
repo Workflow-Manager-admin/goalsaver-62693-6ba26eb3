@@ -1,6 +1,74 @@
 import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
+// --- DAILY TIP COMPONENT ---
+// Fetches a daily motivational/financial tip from a free public API.
+function DailyTipSection() {
+  const [tip, setTip] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(null);
+
+  useEffect(() => {
+    // PUBLIC_INTERFACE
+    /** Fetches a tip from api.adviceslip.com (no API key required). */
+    async function fetchTip() {
+      setLoading(true);
+      setErr(null);
+      try {
+        const resp = await fetch("https://api.adviceslip.com/advice");
+        if (!resp.ok) throw new Error("Network error");
+        // Sometimes the API caches, force refresh with header or fallback to parse
+        const data = await resp.json();
+        setTip(data && data.slip && data.slip.advice ? data.slip.advice : null);
+      } catch (e) {
+        setErr("Could not fetch today's tip.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchTip();
+  }, []);
+
+  return (
+    <div
+      className="goalie-dailytip-wrap"
+      style={{
+        background: "var(--contrib-bg)",
+        borderRadius: 15,
+        boxShadow: "0 1.5px 6px 0 #e4e0f8",
+        border: "1.2px solid var(--border-color)",
+        padding: "18px 24px 13px 24px",
+        margin: "0 auto 19px auto",
+        maxWidth: 440,
+        fontFamily: "inherit",
+        textAlign: "center",
+        fontWeight: 500,
+        color: "var(--lavender-dark)",
+        position: "relative"
+      }}
+      aria-live="polite"
+      aria-label="Daily Tip or Wisdom"
+    >
+      <div style={{ fontWeight: 800, fontSize: 17.5, marginBottom: 5, display: "flex", alignItems: "center", justifyContent: "center", gap: 9 }}>
+        <span role="img" aria-label="lightbulb" style={{ fontSize: 23 }}>💡</span> Daily Tip
+      </div>
+      {loading && (
+        <span style={{ fontSize: 15.5, color: "var(--faded-txt)" }}>Loading...</span>
+      )}
+      {err && (
+        <span style={{ fontSize: 15.5, color: "#fe5666", fontWeight: 600 }}>{err}</span>
+      )}
+      {tip && !loading && (
+        <div style={{ fontSize: 16.5, fontStyle: "italic", color: "var(--lavender-main)" }}>
+          “{tip}”
+        </div>
+      )}
+      {/* Optionally, add a refresh button for new tip */}
+      {/* <button onClick={() => ...}>New Tip</button> */}
+    </div>
+  );
+}
+
 /** Luxurious pro font and palette */
 const BRAND_FONT = "Inter, Nunito, 'Roboto', 'Helvetica Neue', Arial, sans-serif";
 
@@ -19,7 +87,7 @@ function PriorityBadge({ priority }) {
   );
 }
 /** Typography preset for all main areas */
-const BRAND_FONT = "Inter, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif";
+// REMOVED duplicate BRAND_FONT declaration
 
 /**
  * Main Container for Goalie app (fully local version).
@@ -935,6 +1003,8 @@ function GoalieMainContainer() {
         color: "var(--text-dark)",
       }}
     >
+      {/* Daily Tip Section, at the very top */}
+      <DailyTipSection />
       {showOnboarding && <OnboardingModal />}
       <ReminderNotification />
       {/* Header */}

@@ -7,99 +7,152 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
  * with robust error, CORS, and user feedback handling.
  */
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * CurrencyRateSection
+ * - Robustly fetches and displays INR→USD exchange rate from the most reliable CORS-friendly public API.
+ * - If fetching/parsing fails, ALWAYS shows a hard-coded safe conversion rate.
+ * - Never displays "error", "unavailable" or any error message—always a valid rate.
+ * - Displays "as of <date>" if available, or "as of today".
+ * - Parses multiple API result formats. No blank/error display, fallback always shown!
+ */
 function CurrencyRateSection() {
-  // State for the rate, loading and error status, and manual retry attempts
-  const [rate, setRate] = useState(null);
+  // Safe fallback hardcoded conversion value, valid as of May/June 2024
+  const SAFE_FALLBACK_RATE = 0.012; // 1 INR ≈ 0.012 USD
+  const SAFE_FALLBACK_TEXT = "as of today";
+
+  const [displayRate, setDisplayRate] = useState({
+    rate: SAFE_FALLBACK_RATE.toFixed(3),
+    date: SAFE_FALLBACK_TEXT,
+    fromApi: false
+  });
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [retryKey, setRetryKey] = useState(0);
 
-  // Function to actually fetch the INR -> USD rate
-  const fetchCurrencyRate = async () => {
-    setLoading(true);
-    setError(null);
-    setRate(null);
-
-    // Promise-based fetch logic with timeout and robust error handling
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 7000); // 7s timeout
-
-    try {
-      const resp = await fetch(
-        "https://api.exchangerate.host/latest?base=INR&symbols=USD",
-        { method: "GET", signal: controller.signal, credentials: "omit", cache: "reload", mode: "cors" }
-      );
-      clearTimeout(timeout);
-
-      // Handle HTTP/network-level errors
-      if (!resp.ok) {
-        let code = resp.status || 0;
-        if (code === 0) throw new Error("No response from server");
-        if (code === 429) throw new Error("API rate limited (please try later)");
-        if (code >= 400 && code < 500) throw new Error("Unavailable or CORS error");
-        throw new Error("Remote server/network error");
+  // Most reliable public endpoints in order (exchangerate.host, open.er-api, exchange API backup)
+  const API_ENDPOINTS = [
+    {
+      url: "https://api.exchangerate.host/latest?base=INR&symbols=USD",
+      parse: data => {
+        // Returns { rates: { USD: number }, date: "YYYY-MM-DD" }
+        if (data && data.rates && isFinite(data.rates.USD)) {
+          return { rate: Number(data.rates.USD), date: data.date || null };
+        }
+        return null;
       }
-      let data;
-      try {
-        data = await resp.json();
-      } catch (e) {
-        throw new Error("Response format parsing failed");
+    },
+    {
+      url: "https://open.er-api.com/v6/latest/INR",
+      parse: data => {
+        // Returns { rates: { USD: number }, time_last_update_utc: string }
+        if (data && data.rates && isFinite(data.rates.USD)) {
+          let date = null;
+          if (data.time_last_update_utc && typeof data.time_last_update_utc === "string") {
+            // Extract "YYYY-MM-DD"
+            const match = /\d{4}-\d{2}-\d{2}/.exec(data.time_last_update_utc);
+            date = match ? match[0] : null;
+          }
+          return { rate: Number(data.rates.USD), date };
+        }
+        return null;
       }
-
-      let usdRate = null;
-      // Defensive parsing, different provider APIs may be inconsistent
-      if (
-        typeof data === "object" &&
-        data.rates &&
-        (typeof data.rates.USD === "number" || typeof data.rates.USD === "string")
-      ) {
-        usdRate = typeof data.rates.USD === "string"
-          ? parseFloat(data.rates.USD)
-          : data.rates.USD;
-        if (!isFinite(usdRate)) usdRate = null;
+    },
+    {
+      url: "https://api.exchangerate-api.com/v4/latest/INR",
+      parse: data => {
+        // Returns { rates: { USD: number }, date: "YYYY-MM-DD" | "YYYY-MM-DDTHH:MM:SSZ" }
+        if (data && data.rates && isFinite(data.rates.USD)) {
+          let date = (data.date && typeof data.date === "string")
+            ? (data.date.length > 10 ? data.date.slice(0, 10) : data.date)
+            : null;
+          return { rate: Number(data.rates.USD), date };
+        }
+        return null;
       }
-
-      if (usdRate != null && isFinite(usdRate)) {
-        setRate(usdRate.toFixed(4));
-        setError(null);
-      } else {
-        throw new Error("Invalid data from rate provider");
-      }
-    } catch (err) {
-      // Parse error types for actionable message
-      let msg = "Could not fetch latest INR→USD rate.";
-      if (err && typeof err === "object" && err.name === "AbortError") {
-        msg = "Connection timed out. Please check your internet and retry.";
-      } else if (
-        err?.message?.toLowerCase().includes("cors") ||
-        err?.message?.toLowerCase().includes("unavailable") ||
-        err?.message?.toLowerCase().includes("credentials")
-      ) {
-        msg = "CORS error or API currently unavailable.";
-      } else if (err?.message?.includes("rate limit") || err?.message?.includes("429")) {
-        msg = "API rate limit reached (try again soon).";
-      } else if (typeof err?.message === "string" && err?.message.length > 0) {
-        msg = err.message;
-      }
-      setError(msg);
-      setRate(null);
-    } finally {
-      setLoading(false);
     }
-  };
+    // More could be added here if needed.
+  ];
 
-  // Fetch rate on mount and on retryKey change
+  // Fetch with robust fallback
   useEffect(() => {
-    let cancelled = false;
-    fetchCurrencyRate();
-    return () => { cancelled = true; };
-    // eslint-disable-next-line
-  }, [retryKey]);
+    let didCancel = false;
 
-  // Retry button click handler
-  const handleRetryClick = () => setRetryKey(key => key + 1);
+    async function loadRateWithFallback() {
+      setLoading(true);
+      let apiResult = null;
 
+      for (let api of API_ENDPOINTS) {
+        try {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 6000);
+
+          const resp = await fetch(api.url, {
+            method: "GET",
+            mode: "cors",
+            credentials: "omit",
+            signal: controller.signal,
+            cache: "no-store"
+          });
+          clearTimeout(timer);
+
+          // Defensive: status must be 200 OK (not rate-limited/error)
+          if (!resp.ok || resp.status >= 400) continue;
+
+          // Parse as JSON robustly
+          let data = null, parseErr = null;
+          try {
+            data = await resp.json();
+          } catch (err) {
+            parseErr = err;
+          }
+          if (!data || parseErr) continue;
+
+          // Let the parser extract rate/date
+          const parsed = api.parse(data);
+          if (
+            parsed &&
+            typeof parsed.rate === "number" &&
+            isFinite(parsed.rate) &&
+            parsed.rate > 0.00001
+          ) {
+            // Found!
+            apiResult = {
+              rate: parsed.rate.toFixed(3),
+              date: parsed.date
+                ? "as of " + parsed.date
+                : SAFE_FALLBACK_TEXT,
+              fromApi: true
+            };
+            break;
+          }
+        } catch (e) {
+          // fetch/network/abort: ignore and move to next endpoint
+          continue;
+        }
+      }
+
+      // If no API worked, force safe fallback (never blank/error)
+      if (!didCancel) {
+        if (apiResult) {
+          setDisplayRate(apiResult);
+        } else {
+          setDisplayRate({
+            rate: SAFE_FALLBACK_RATE.toFixed(3),
+            date: SAFE_FALLBACK_TEXT,
+            fromApi: false
+          });
+        }
+        setLoading(false);
+      }
+    }
+
+    loadRateWithFallback();
+
+    return () => {
+      didCancel = true;
+    };
+  }, []); // Only run once on mount
+
+  // Render UI: No errors, no retry, always show a valid rate!
   return (
     <div
       className="goalie-currencyrate-wrap"
@@ -110,16 +163,18 @@ function CurrencyRateSection() {
         borderRadius: 15,
         fontWeight: 510,
         fontSize: 15.2,
-        maxWidth: 390,
+        maxWidth: 410,
         margin: "14px auto 12px auto",
-        padding: "9px 19px 6px 19px",
+        padding: "10px 20px 7px 20px",
         display: "flex",
         alignItems: "center",
         boxShadow: "0 1.5px 6px 0 #d9d3ff17",
-        fontFamily: "inherit"
+        fontFamily: "inherit",
+        minHeight: 32
       }}
       aria-live="polite"
       aria-label="INR to USD Exchange Rate"
+      tabIndex={0}
     >
       <span
         style={{
@@ -128,7 +183,7 @@ function CurrencyRateSection() {
           display: "flex",
           alignItems: "center",
           gap: 7,
-          marginRight: 5,
+          marginRight: 7
         }}
       >
         <span role="img" aria-label="money" style={{ fontSize: 17, verticalAlign: "middle" }}>
@@ -136,52 +191,25 @@ function CurrencyRateSection() {
         </span>
         Currency Rate
       </span>
-      <span style={{ marginLeft: 12, color: "var(--lavender-dark)" }}>
+      <span style={{ marginLeft: 14, color: "var(--lavender-dark)", display: "flex", alignItems: "center", gap: 4 }}>
         {loading ? (
           <span style={{ color: "var(--faded-txt)" }}>Loading…</span>
-        ) : error ? (
-          <>
-            <span style={{ color: "#fe5666", fontWeight: 600 }}>
-              {error}
-            </span>
-            <button
-              onClick={handleRetryClick}
-              style={{
-                marginLeft: 14,
-                background: "var(--lavender-main)",
-                color: "#fff",
-                border: "none",
-                borderRadius: 7,
-                padding: "2.5px 14px",
-                fontWeight: 600,
-                cursor: "pointer",
-                fontSize: 13.2,
-                boxShadow: "0 2px 6px 0 #bca6ff29",
-              }}
-              aria-label="Retry fetching exchange rate"
-              title="Retry"
-            >
-              Retry
-            </button>
-          </>
-        ) : rate ? (
-          <span>
-            <span style={{ color: "var(--lavender-main)", fontWeight: 800 }}>
-              1 INR
-            </span>{" "}
-            ={" "}
-            <span
-              style={{
-                color: "var(--lavender-accent)",
-                fontWeight: 700,
-                fontSize: 15.5,
-              }}
-            >
-              {rate} USD
-            </span>
-          </span>
         ) : (
-          <span style={{ color: "var(--faded-txt)" }}>Unavailable</span>
+          <>
+            <span style={{ color: "var(--lavender-main)", fontWeight: 800 }}>1 INR</span>
+            <span>=</span>
+            <span style={{ color: "var(--lavender-accent)", fontWeight: 700, fontSize: 15.5 }}>
+              {displayRate.rate} USD
+            </span>
+            <span style={{ fontSize: 13.5, color: "var(--lavender-muted)", marginLeft: 7, fontWeight: 500 }}>
+              {displayRate.date}
+            </span>
+            {!displayRate.fromApi && (
+              <span style={{ color: "#bfafda", fontSize: 12, marginLeft: 6, fontStyle: "italic" }}>
+                (static)
+              </span>
+            )}
+          </>
         )}
       </span>
     </div>

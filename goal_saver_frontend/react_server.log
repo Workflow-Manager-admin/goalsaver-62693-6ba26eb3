@@ -23,4 +23,34 @@ modules by path ./.ve/ 15.1 KiB
     ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
     ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
   ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 2429 ms
+webpack 5.99.9 compiled successfully in 2417 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 3.03 MiB
+  asset bundle.js 3.02 MiB [emitted] (name: main)
+  asset main.67ddc86b14eeb78e9d1a.hot-update.js 12.4 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.67ddc86b14eeb78e9d1a.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.03 MiB = bundle.js 3.02 MiB main.67ddc86b14eeb78e9d1a.hot-update.js 12.4 KiB
+cached modules 2.74 MiB [cached] 630 modules
+runtime modules 27.5 KiB 14 modules
+./src/ProductGoalModal.js 8.73 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 222 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 3.03 MiB
+  asset bundle.js 3.02 MiB [emitted] (name: main)
+  asset main.a622baf908940b403c20.hot-update.js 12.4 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.a622baf908940b403c20.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.03 MiB = bundle.js 3.02 MiB main.a622baf908940b403c20.hot-update.js 12.4 KiB
+cached modules 2.74 MiB [cached] 630 modules
+runtime modules 27.5 KiB 14 modules
+./src/ProductGoalModal.js 8.78 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 131 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 3.02 MiB
+  asset bundle.js 3.02 MiB [emitted] (name: main)
+  asset main.6a0fd749d20487bbe4f1.hot-update.js 3.08 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.6a0fd749d20487bbe4f1.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.02 MiB = bundle.js 3.02 MiB main.6a0fd749d20487bbe4f1.hot-update.js 3.08 KiB
+cached modules 2.75 MiB [cached] 630 modules
+runtime modules 27.5 KiB 14 modules
+./src/apiProductLive.js 1.59 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 95 ms

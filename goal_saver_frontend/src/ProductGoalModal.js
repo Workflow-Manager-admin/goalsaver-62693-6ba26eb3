@@ -39,13 +39,15 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
   /** User accepts the suggested product and proceeds to create a goal */
   function handleUseThisProduct() {
     if (!product) return;
-    // Goal: {name, target, deadline, notes}
+    // Goal fields: { name, target, deadline, notes }
     onCreateGoal({
-      name: product.title,
+      name: product.name || product.title,
       target: product.price,
-      // deadline left empty to have user fill manually in main add/edit
-      notes: `Live product goal from ${market[0].toUpperCase() + market.slice(1)}: ${product.url}`,
-      // Optionally extend to image etc.
+      // User still chooses deadline in next step
+      notes: `Live product goal from ${product.provider || market}: ${product.url}`,
+      // You can extend to save image url if your goal model allows
+      // image: product.image,
+      // url: product.url
     });
     onClose();
   }
@@ -158,7 +160,7 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
           >
             <img
               src={product.image}
-              alt={product.title}
+              alt={product.name || product.title}
               style={{
                 width: 85,
                 height: 85,
@@ -172,7 +174,7 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
             />
             <div>
               <div style={{ fontWeight: 700, fontSize: 16, marginBottom: 1, color: "#473BC9" }}>
-                {product.title}
+                {product.name || product.title}
               </div>
               <div style={{ fontSize: 17, fontWeight: 700, color: "#4CAF50", margin: "3px 0" }}>
                 {typeof product.price === "number" && product.price > 0
@@ -185,7 +187,7 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
                 rel="noopener noreferrer"
                 style={{ color: "#2196F3", fontSize: 14, fontWeight: 500, textDecoration: "underline" }}
               >
-                View on {market === "amazon" ? "Amazon" : "Flipkart"}
+                View on {product.provider || (market === "amazon" ? "Amazon" : "Flipkart")}
               </a>
               <div style={{ marginTop: 10 }}>
                 <button

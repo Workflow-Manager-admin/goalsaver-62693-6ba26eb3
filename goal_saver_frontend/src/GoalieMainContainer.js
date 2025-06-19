@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 /**
  * Main Container for Goalie app.
@@ -755,6 +756,139 @@ function GoalieMainContainer() {
   // --- MAIN CONTENT ---
   const sortedGoals = [...goals].sort((a, b) => a.priority - b.priority);
 
+  // Pie chart colors: play on lavender theme (soft pastels and lavender shades)
+  const chartColors = [
+    "#8682e4", // lavender-main
+    "#a391ff", // lavender-accent
+    "#473BC9", // lavender-dark
+    "#bfbbec", // lavender-muted
+    "#dad5fa",
+    "#d3c6fa",
+    "#b9adf1",
+    "#9a90e8",
+    "#aba6fe",
+  ];
+
+  // Prepare pie chart data (skip if goal.target is 0 by logic)
+  const pieData =
+    sortedGoals.length === 0
+      ? []
+      : sortedGoals.map((goal, i) => {
+          const pct =
+            goal.target && goal.target > 0
+              ? Math.min(((goal.saved / goal.target) * 100), 100)
+              : 0;
+          return {
+            name: goal.name,
+            value: pct,
+            percentText: `${Math.round(pct)}%`,
+            original: goal,
+            fill: chartColors[i % chartColors.length],
+          };
+        });
+
+  // Chart Custom Tooltip
+  function CustomTooltip({ active, payload }) {
+    if (active && payload && payload.length) {
+      const { name, value } = payload[0].payload;
+      return (
+        <div style={{
+          background: "white",
+          border: "1.5px solid var(--lavender-accent)",
+          color: "var(--lavender-main)",
+          boxShadow: "0 3px 12px var(--lavender-shadow)",
+          borderRadius: 9,
+          padding: "10px 19px",
+          fontWeight: 600,
+          fontSize: 17
+        }}>
+          <div style={{color:"var(--lavender-dark)", fontWeight:700, fontSize:"1.07em"}}>{name}</div>
+          <div style={{fontSize:15, color:"var(--lavender-main)",marginTop:3}}>
+            Completion: <span style={{color:"var(--lavender-accent)",fontWeight:600}}>{Math.round(value)}%</span>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  // Pie chart block (show blank with message if no goals)
+  function GoalsCompletionPieChart() {
+    if (!pieData.length) {
+      return (
+        <div style={{
+          margin: "0 auto",
+          textAlign: "center",
+          padding: "44px 0 36px 0"
+        }}>
+          <div style={{
+            color: "var(--lavender-main)",
+            background: "var(--progress-bg)",
+            fontSize: 22,
+            borderRadius: 21,
+            padding: "24px 28px",
+            display: "inline-block",
+            fontWeight: 600
+          }}>
+            No data yet — Add a goal to see your progress!
+          </div>
+        </div>
+      );
+    }
+    return (
+      <div style={{
+        width: "100%",
+        maxWidth: 610,
+        margin: "0 auto",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        paddingTop: 12,
+        paddingBottom: 36,
+      }}>
+        <div style={{
+          fontSize: 24,
+          color: "var(--lavender-main)",
+          fontWeight: 800,
+          letterSpacing: "-0.7px",
+          marginBottom: 4
+        }}>
+          Overall Goal Progress
+        </div>
+        <ResponsiveContainer width="100%" minWidth={320} height={340}>
+          <PieChart>
+            <Pie
+              data={pieData}
+              cx="50%"
+              cy="47%"
+              innerRadius={80}
+              outerRadius={130}
+              dataKey="value"
+              paddingAngle={sortedGoals.length > 1 ? 4 : 0}
+              labelLine={false}
+              label={({ name, value }) =>
+                value > 8
+                  ? `${name}: ${Math.round(value)}%`
+                  : ""
+              }
+              isAnimationActive={true}
+              animationDuration={1100}
+              style={{ cursor: "pointer" }}
+            >
+              {pieData.map((entry, idx) => (
+                <Cell key={entry.name} fill={entry.fill}/>
+              ))}
+            </Pie>
+            <Tooltip content={<CustomTooltip />} />
+          </PieChart>
+        </ResponsiveContainer>
+        <div style={{color:"var(--faded-txt)",fontWeight:400,marginTop:-14,fontSize:14}}>
+          Each slice shows a goal's saved percent — hover to see details.
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="goalie-theme-root">
       {showOnboarding && <OnboardingModal />}
@@ -802,6 +936,10 @@ function GoalieMainContainer() {
           + Add New Goal
         </button>
       </div>
+
+      {/* PIE CHART SECTION: render above goal list */}
+      <GoalsCompletionPieChart />
+
       {/* Goal list */}
       {showGoalForm && <GoalForm />}
       <div className="goalie-goals-wrap">

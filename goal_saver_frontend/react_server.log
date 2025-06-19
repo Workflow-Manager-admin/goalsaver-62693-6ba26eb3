@@ -7,13 +7,13 @@
 <i> [webpack-dev-server] On Your Network (IPv4): http://172.17.0.2:3000/
 <i> [webpack-dev-server] Content not from webpack is served from './public' directory
 Injecting EditorRootWrapper import: ../.ve/EditorRootWrapper
-asset bundle.js 1.42 MiB [emitted] (name: main)
+asset bundle.js 1.43 MiB [emitted] (name: main)
 asset index.html 1.98 KiB [emitted]
 runtime modules 27.5 KiB 14 modules
 modules by path ./node_modules/ 1.24 MiB 31 modules
-modules by path ./src/ 31.1 KiB
-  modules by path ./src/*.css 7.49 KiB 4 modules
-  modules by path ./src/*.js 23.6 KiB
+modules by path ./src/ 44.5 KiB
+  modules by path ./src/*.css 11.6 KiB 4 modules
+  modules by path ./src/*.js 32.9 KiB
     ./src/index.js 530 bytes [built] [code generated]
     + 2 modules
 modules by path ./.ve/ 15.1 KiB
@@ -24,56 +24,190 @@ modules by path ./.ve/ 15.1 KiB
     ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
     ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
   ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 1375 ms
-assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 1.39 MiB
-  asset bundle.js 1.39 MiB [emitted] (name: main)
-  asset main.61bd16081e8485e39190.hot-update.js 2.69 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.61bd16081e8485e39190.hot-update.json 61 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.39 MiB = bundle.js 1.39 MiB main.61bd16081e8485e39190.hot-update.js 2.69 KiB
-cached modules 1.26 MiB [cached] 41 modules
-runtime modules 27.5 KiB 14 modules
-./src/App.js 554 bytes [built] [code generated]
-
-ERROR in ./src/App.js 3:0-56
-Module not found: Error: Can't resolve './GoalieMainContainer' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
-resolve './GoalieMainContainer' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
-  using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./src)
-    Field 'browser' doesn't contain a valid alias configuration
-    using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./src/GoalieMainContainer)
-      no extension
-        Field 'browser' doesn't contain a valid alias configuration
-        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/GoalieMainContainer doesn't exist
-      .js
-        Field 'browser' doesn't contain a valid alias configuration
-        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/GoalieMainContainer.js doesn't exist
-      .jsx
-        Field 'browser' doesn't contain a valid alias configuration
-        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/GoalieMainContainer.jsx doesn't exist
-      as directory
-        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/GoalieMainContainer doesn't exist
- @ ./src/index.js 5:0-24 11:32-35
-
-webpack 5.99.9 compiled with 1 error in 116 ms
+webpack 5.99.9 compiled successfully in 1303 ms
+Injecting EditorRootWrapper import: ../.ve/EditorRootWrapper
+assets by status 1.43 MiB [cached] 1 asset
+asset index.html 1.98 KiB [emitted]
+cached modules 1.25 MiB (javascript) 27.5 KiB (runtime) [cached] 51 modules
+javascript modules 45.1 KiB
+  modules by path ./src/*.js 32.9 KiB
+    ./src/index.js 530 bytes [built]
+    ./src/App.js 554 bytes [built]
+    ./src/GoalieMainContainer.js 31.9 KiB [built]
+  modules by path ./.ve/ 12.2 KiB
+    ./.ve/EditorRootWrapper.js 2.68 KiB [built]
+    ./.ve/EditorOverlay.jsx 1.58 KiB [built]
+    ./.ve/SidePanel.js 7.93 KiB [built]
+webpack 5.99.9 compiled successfully in 368 ms
 assets by status 1.98 KiB [cached] 1 asset
 assets by path *.js 1.47 MiB
   asset bundle.js 1.43 MiB [emitted] (name: main)
-  asset main.e47b1754e16eebe732e2.hot-update.js 42.3 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.e47b1754e16eebe732e2.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.47 MiB = bundle.js 1.43 MiB main.e47b1754e16eebe732e2.hot-update.js 42.3 KiB
-cached modules 1.26 MiB [cached] 41 modules
+  asset main.5f63a0ed1730bac0a897.hot-update.js 40.6 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.5f63a0ed1730bac0a897.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.47 MiB = bundle.js 1.43 MiB main.5f63a0ed1730bac0a897.hot-update.js 40.6 KiB
+cached modules 1.27 MiB [cached] 42 modules
 runtime modules 27.5 KiB 14 modules
-javascript modules 32.4 KiB
-  ./src/App.js 554 bytes [code generated]
-  ./src/GoalieMainContainer.js 31.9 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 186 ms
+./src/GoalieMainContainer.js 32 KiB [built] [code generated]
+
+ERROR in ./src/GoalieMainContainer.js 2:0-77
+Module not found: Error: Can't resolve 'recharts' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+resolve 'recharts' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+  Parsed request is a module
+  using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    resolve as module
+      /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/node_modules doesn't exist or is not a directory
+      looking for modules in /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules
+        single file module
+          using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./node_modules/recharts)
+            no extension
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts doesn't exist
+            .js
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts.js doesn't exist
+            .jsx
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts.jsx doesn't exist
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts doesn't exist
+      /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/code-generation/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/node_modules doesn't exist or is not a directory
+      /home/kavia/node_modules doesn't exist or is not a directory
+      /home/node_modules doesn't exist or is not a directory
+      /node_modules doesn't exist or is not a directory
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 110 ms
 assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 1.44 MiB
-  asset bundle.js 1.43 MiB [emitted] (name: main)
-  asset main.771a1db20ab85c4f038b.hot-update.js 8.9 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.771a1db20ab85c4f038b.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.44 MiB = bundle.js 1.43 MiB main.771a1db20ab85c4f038b.hot-update.js 8.9 KiB
-cached modules 1.29 MiB [cached] 42 modules
+assets by path *.js 1.49 MiB
+  asset bundle.js 1.44 MiB [emitted] (name: main)
+  asset main.b5abc7d9d4a57ce5a04c.hot-update.js 47.9 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.b5abc7d9d4a57ce5a04c.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.49 MiB = bundle.js 1.44 MiB main.b5abc7d9d4a57ce5a04c.hot-update.js 47.9 KiB
+cached modules 1.27 MiB [cached] 42 modules
 runtime modules 27.5 KiB 14 modules
-./node_modules/css-loader/dist/cjs.js!./src/App.css 6.27 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 53 ms
+./src/GoalieMainContainer.js 37.5 KiB [built] [code generated]
+
+ERROR in ./src/GoalieMainContainer.js 2:0-77
+Module not found: Error: Can't resolve 'recharts' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+resolve 'recharts' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+  Parsed request is a module
+  using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    resolve as module
+      /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/node_modules doesn't exist or is not a directory
+      looking for modules in /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules
+        single file module
+          using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./node_modules/recharts)
+            no extension
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts doesn't exist
+            .js
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts.js doesn't exist
+            .jsx
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts.jsx doesn't exist
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts doesn't exist
+      /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/code-generation/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/node_modules doesn't exist or is not a directory
+      /home/kavia/node_modules doesn't exist or is not a directory
+      /home/node_modules doesn't exist or is not a directory
+      /node_modules doesn't exist or is not a directory
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 119 ms
+assets by status 1.44 MiB [cached] 2 assets
+cached modules 1.3 MiB (javascript) 27.5 KiB (runtime) [cached] 57 modules
+
+ERROR in ./src/GoalieMainContainer.js 2:0-77
+Module not found: Error: Can't resolve 'recharts' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+resolve 'recharts' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+  Parsed request is a module
+  using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    resolve as module
+      /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/node_modules doesn't exist or is not a directory
+      looking for modules in /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules
+        single file module
+          using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./node_modules/recharts)
+            no extension
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts is not a file
+            .js
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts.js doesn't exist
+            .jsx
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts.jsx doesn't exist
+        existing directory /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts
+          using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./node_modules/recharts)
+            using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./node_modules/recharts)
+              no extension
+                Field 'browser' doesn't contain a valid alias configuration
+                /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts is not a file
+              .js
+                Field 'browser' doesn't contain a valid alias configuration
+                /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts.js doesn't exist
+              .jsx
+                Field 'browser' doesn't contain a valid alias configuration
+                /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts.jsx doesn't exist
+              as directory
+                existing directory /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts
+                  using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./node_modules/recharts)
+                    using path: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts/index
+                      using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./node_modules/recharts/index)
+                        no extension
+                          Field 'browser' doesn't contain a valid alias configuration
+                          /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts/index doesn't exist
+                        .js
+                          Field 'browser' doesn't contain a valid alias configuration
+                          /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts/index.js doesn't exist
+                        .jsx
+                          Field 'browser' doesn't contain a valid alias configuration
+                          /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/recharts/index.jsx doesn't exist
+      /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/code-generation/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/node_modules doesn't exist or is not a directory
+      /home/kavia/node_modules doesn't exist or is not a directory
+      /home/node_modules doesn't exist or is not a directory
+      /node_modules doesn't exist or is not a directory
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 52 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 4.57 MiB
+  asset bundle.js 2.98 MiB [emitted] (name: main)
+  asset main.14e7754e4ed4163d0c1c.hot-update.js 1.59 MiB [emitted] [immutable] [hmr] (name: main)
+asset main.14e7754e4ed4163d0c1c.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 4.57 MiB = bundle.js 2.98 MiB main.14e7754e4ed4163d0c1c.hot-update.js 1.59 MiB
+orphan modules 366 KiB [orphan] 145 modules
+cached modules 1.27 MiB [cached] 42 modules
+runtime modules 27.5 KiB 14 modules
+built modules 1.06 MiB [built] 439 modules
+./src/GoalieMainContainer.js 37.5 KiB [code generated]
+webpack 5.99.9 compiled successfully in 1270 ms
+Injecting EditorRootWrapper import: ../.ve/EditorRootWrapper
+assets by path *.js 2.98 MiB
+  asset bundle.js 2.98 MiB [emitted] (name: main)
+  asset main.10d0146f112de802385d.hot-update.js 854 bytes [emitted] [immutable] [hmr] (name: main)
+asset index.html 1.98 KiB [emitted]
+asset main.10d0146f112de802385d.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 2.98 MiB = bundle.js 2.98 MiB main.10d0146f112de802385d.hot-update.js 854 bytes
+cached modules 2.67 MiB [cached] 621 modules
+runtime modules 27.5 KiB 14 modules
+javascript modules 50.7 KiB
+  modules by path ./src/*.js 38.6 KiB
+    ./src/index.js 530 bytes [built]
+    ./src/App.js 554 bytes [built]
+    ./src/GoalieMainContainer.js 37.5 KiB [built]
+  modules by path ./.ve/ 12.2 KiB
+    ./.ve/EditorRootWrapper.js 2.68 KiB [built]
+    ./.ve/EditorOverlay.jsx 1.58 KiB [built]
+    ./.ve/SidePanel.js 7.93 KiB [built]
+webpack 5.99.9 compiled successfully in 310 ms

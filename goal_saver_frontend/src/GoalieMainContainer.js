@@ -1,42 +1,98 @@
 import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
-// --- CURRENCY RATE COMPONENT ---
-// Fetches and displays INR→USD currency exchange rate using exchangerate.host (public API)
+/*
+ * --- CURRENCY RATE COMPONENT ---
+ * Fetches and displays INR→USD currency exchange rate using exchangerate.host (public API)
+ * with robust error, CORS, and user feedback handling.
+ */
+
+// PUBLIC_INTERFACE
 function CurrencyRateSection() {
   const [rate, setRate] = useState(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
-    // PUBLIC_INTERFACE
-    /** Fetches INR→USD exchange rate from exchangerate.host */
+    /** Fetches latest INR→USD rate from exchangerate.host.
+     * Adds explicit timeout, robust error, CORS, and status text handling.
+     */
+    let didCancel = false;
+
     async function fetchRate() {
       setLoading(true);
       setErr(null);
+
+      // Use AbortController for a timeout
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 6000); // 6s timeout
+
       try {
-        const url = "https://api.exchangerate.host/latest?base=INR&symbols=USD";
-        const resp = await fetch(url);
-        if (!resp.ok) throw new Error("Network error");
+        const resp = await fetch(
+          "https://api.exchangerate.host/latest?base=INR&symbols=USD",
+          { signal: controller.signal, cache: "reload" }
+        );
+        clearTimeout(timeout);
+
+        if (!resp.ok) {
+          const msg = resp.status === 429 ? "Rate limit (try again later)" : "Network error";
+          throw new Error(msg);
+        }
         const data = await resp.json();
-        const usdRate =
-          data && data.rates && data.rates.USD
-            ? (typeof data.rates.USD === "number"
-                ? data.rates.USD
-                : parseFloat(data.rates.USD)).toFixed(4)
-            : null;
-        setRate(usdRate);
-      } catch (e) {
-        setErr("Could not fetch current rate.");
+
+        // Defensive API parsing
+        let usdRate = null;
+        if (data && data.rates && typeof data.rates.USD !== "undefined") {
+          usdRate =
+            typeof data.rates.USD === "number"
+              ? data.rates.USD
+              : parseFloat(data.rates.USD);
+          if (isNaN(usdRate)) usdRate = null;
+        }
+
+        if (!didCancel) {
+          setRate(usdRate ? usdRate.toFixed(4) : null);
+          setErr(
+            usdRate
+              ? null
+              : "No data from API (temporarily unavailable)."
+          );
+        }
+      } catch (error) {
+        if (didCancel) return;
+        let userMsg = "Could not fetch rate.";
+        if (error.name === "AbortError") {
+          userMsg = "Network timeout—please check your internet";
+        } else if (
+          typeof error?.message === "string" &&
+          error.message.includes("CORS")
+        ) {
+          userMsg = "CORS/network issue—check your connection";
+        } else if (
+          typeof error?.message === "string" &&
+          error.message.includes("429")
+        ) {
+          userMsg = "API rate limited—try again soon.";
+        }
+        setErr(userMsg);
+        setRate(null);
       } finally {
-        setLoading(false);
+        if (!didCancel) setLoading(false);
       }
     }
+
     fetchRate();
-    // Optionally, refresh every 6 hrs
-    // const interval = setInterval(fetchRate, 6 * 3600 * 1000);
-    // return () => clearInterval(interval);
-  }, []);
+
+    return () => {
+      didCancel = true;
+    };
+  }, [retryCount]);
+
+  // Manual retry button for better UX
+  const handleRetry = () => {
+    setRetryCount((c) => c + 1);
+  };
 
   return (
     <div
@@ -48,7 +104,7 @@ function CurrencyRateSection() {
         borderRadius: 15,
         fontWeight: 510,
         fontSize: 15.2,
-        maxWidth: 370,
+        maxWidth: 390,
         margin: "14px auto 12px auto",
         padding: "9px 19px 6px 19px",
         display: "flex",
@@ -59,15 +115,51 @@ function CurrencyRateSection() {
       aria-live="polite"
       aria-label="INR to USD Exchange Rate"
     >
-      <span style={{ fontWeight: 700, color: "var(--lavender-main)", display:"flex", alignItems:'center', gap:7 }}>
-        <span role="img" aria-label="money" style={{ fontSize: 17, verticalAlign: "middle" }}>💱</span>
+      <span
+        style={{
+          fontWeight: 700,
+          color: "var(--lavender-main)",
+          display: "flex",
+          alignItems: "center",
+          gap: 7,
+          marginRight: 5,
+        }}
+      >
+        <span
+          role="img"
+          aria-label="money"
+          style={{ fontSize: 17, verticalAlign: "middle" }}
+        >
+          💱
+        </span>
         Currency Rate
       </span>
-      <span style={{ marginLeft: 14, color: "var(--lavender-dark)" }}>
+      <span style={{ marginLeft: 12, color: "var(--lavender-dark)" }}>
         {loading ? (
-          <span style={{ color: "var(--faded-txt)" }}>Loading...</span>
+          <span style={{ color: "var(--faded-txt)" }}>Loading…</span>
         ) : err ? (
-          <span style={{ color: "#fe5666", fontWeight: 600 }}>{err}</span>
+          <>
+            <span style={{ color: "#fe5666", fontWeight: 600 }}>{err}</span>
+            <button
+              onClick={handleRetry}
+              style={{
+                marginLeft: 14,
+                background: "var(--lavender-main)",
+                color: "#fff",
+                border: "none",
+                borderRadius: 7,
+                padding: "2.5px 14px",
+                fontWeight: 600,
+                cursor: "pointer",
+                fontSize: 13.2,
+                boxShadow: "0 2px 6px 0 #bca6ff29",
+              }}
+              aria-label="Retry fetching exchange rate"
+              title="Retry"
+            >
+              Retry
+            </button>
+          </>
         ) : rate ? (
           <span>
             <span style={{ color: "var(--lavender-main)", fontWeight: 800 }}>

@@ -9,90 +9,96 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 // PUBLIC_INTERFACE
 function CurrencyRateSection() {
+  // State for the rate, loading and error status, and manual retry attempts
   const [rate, setRate] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [err, setErr] = useState(null);
-  const [retryCount, setRetryCount] = useState(0);
+  const [error, setError] = useState(null);
+  const [retryKey, setRetryKey] = useState(0);
 
-  useEffect(() => {
-    /** Fetches latest INR→USD rate from exchangerate.host.
-     * Adds explicit timeout, robust error, CORS, and status text handling.
-     */
-    let didCancel = false;
+  // Function to actually fetch the INR -> USD rate
+  const fetchCurrencyRate = async () => {
+    setLoading(true);
+    setError(null);
+    setRate(null);
 
-    async function fetchRate() {
-      setLoading(true);
-      setErr(null);
+    // Promise-based fetch logic with timeout and robust error handling
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 7000); // 7s timeout
 
-      // Use AbortController for a timeout
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 6000); // 6s timeout
+    try {
+      const resp = await fetch(
+        "https://api.exchangerate.host/latest?base=INR&symbols=USD",
+        { method: "GET", signal: controller.signal, credentials: "omit", cache: "reload", mode: "cors" }
+      );
+      clearTimeout(timeout);
 
-      try {
-        const resp = await fetch(
-          "https://api.exchangerate.host/latest?base=INR&symbols=USD",
-          { signal: controller.signal, cache: "reload" }
-        );
-        clearTimeout(timeout);
-
-        if (!resp.ok) {
-          const msg = resp.status === 429 ? "Rate limit (try again later)" : "Network error";
-          throw new Error(msg);
-        }
-        const data = await resp.json();
-
-        // Defensive API parsing
-        let usdRate = null;
-        if (data && data.rates && typeof data.rates.USD !== "undefined") {
-          usdRate =
-            typeof data.rates.USD === "number"
-              ? data.rates.USD
-              : parseFloat(data.rates.USD);
-          if (isNaN(usdRate)) usdRate = null;
-        }
-
-        if (!didCancel) {
-          setRate(usdRate ? usdRate.toFixed(4) : null);
-          setErr(
-            usdRate
-              ? null
-              : "No data from API (temporarily unavailable)."
-          );
-        }
-      } catch (error) {
-        if (didCancel) return;
-        let userMsg = "Could not fetch rate.";
-        if (error.name === "AbortError") {
-          userMsg = "Network timeout—please check your internet";
-        } else if (
-          typeof error?.message === "string" &&
-          error.message.includes("CORS")
-        ) {
-          userMsg = "CORS/network issue—check your connection";
-        } else if (
-          typeof error?.message === "string" &&
-          error.message.includes("429")
-        ) {
-          userMsg = "API rate limited—try again soon.";
-        }
-        setErr(userMsg);
-        setRate(null);
-      } finally {
-        if (!didCancel) setLoading(false);
+      // Handle HTTP/network-level errors
+      if (!resp.ok) {
+        let code = resp.status || 0;
+        if (code === 0) throw new Error("No response from server");
+        if (code === 429) throw new Error("API rate limited (please try later)");
+        if (code >= 400 && code < 500) throw new Error("Unavailable or CORS error");
+        throw new Error("Remote server/network error");
       }
+      let data;
+      try {
+        data = await resp.json();
+      } catch (e) {
+        throw new Error("Response format parsing failed");
+      }
+
+      let usdRate = null;
+      // Defensive parsing, different provider APIs may be inconsistent
+      if (
+        typeof data === "object" &&
+        data.rates &&
+        (typeof data.rates.USD === "number" || typeof data.rates.USD === "string")
+      ) {
+        usdRate = typeof data.rates.USD === "string"
+          ? parseFloat(data.rates.USD)
+          : data.rates.USD;
+        if (!isFinite(usdRate)) usdRate = null;
+      }
+
+      if (usdRate != null && isFinite(usdRate)) {
+        setRate(usdRate.toFixed(4));
+        setError(null);
+      } else {
+        throw new Error("Invalid data from rate provider");
+      }
+    } catch (err) {
+      // Parse error types for actionable message
+      let msg = "Could not fetch latest INR→USD rate.";
+      if (err && typeof err === "object" && err.name === "AbortError") {
+        msg = "Connection timed out. Please check your internet and retry.";
+      } else if (
+        err?.message?.toLowerCase().includes("cors") ||
+        err?.message?.toLowerCase().includes("unavailable") ||
+        err?.message?.toLowerCase().includes("credentials")
+      ) {
+        msg = "CORS error or API currently unavailable.";
+      } else if (err?.message?.includes("rate limit") || err?.message?.includes("429")) {
+        msg = "API rate limit reached (try again soon).";
+      } else if (typeof err?.message === "string" && err?.message.length > 0) {
+        msg = err.message;
+      }
+      setError(msg);
+      setRate(null);
+    } finally {
+      setLoading(false);
     }
-
-    fetchRate();
-
-    return () => {
-      didCancel = true;
-    };
-  }, [retryCount]);
-
-  // Manual retry button for better UX
-  const handleRetry = () => {
-    setRetryCount((c) => c + 1);
   };
+
+  // Fetch rate on mount and on retryKey change
+  useEffect(() => {
+    let cancelled = false;
+    fetchCurrencyRate();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line
+  }, [retryKey]);
+
+  // Retry button click handler
+  const handleRetryClick = () => setRetryKey(key => key + 1);
 
   return (
     <div
@@ -125,11 +131,7 @@ function CurrencyRateSection() {
           marginRight: 5,
         }}
       >
-        <span
-          role="img"
-          aria-label="money"
-          style={{ fontSize: 17, verticalAlign: "middle" }}
-        >
+        <span role="img" aria-label="money" style={{ fontSize: 17, verticalAlign: "middle" }}>
           💱
         </span>
         Currency Rate
@@ -137,11 +139,13 @@ function CurrencyRateSection() {
       <span style={{ marginLeft: 12, color: "var(--lavender-dark)" }}>
         {loading ? (
           <span style={{ color: "var(--faded-txt)" }}>Loading…</span>
-        ) : err ? (
+        ) : error ? (
           <>
-            <span style={{ color: "#fe5666", fontWeight: 600 }}>{err}</span>
+            <span style={{ color: "#fe5666", fontWeight: 600 }}>
+              {error}
+            </span>
             <button
-              onClick={handleRetry}
+              onClick={handleRetryClick}
               style={{
                 marginLeft: 14,
                 background: "var(--lavender-main)",

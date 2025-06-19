@@ -25,9 +25,41 @@ This plugin enables **visual editing functionality** in supported tools.
 **DO NOT** remove or modify this section - it is ESSENTIAL for proper operation.
 Removing it will break editor integration and visual editing features.
 
-## Getting Started
+## Live Product API Integration (Amazon & Flipkart)
 
-In the project directory, you can run:
+This app supports real-time integration of Amazon and Flipkart product data to set goals using *actual prices and details*.
+
+### Setup Secure API Credentials
+
+1. **Copy** `.env.example` to `.env` in the frontend root.
+2. **Fill in** your Amazon Product Advertising API keys, Flipkart Affiliate API tokens, and backend proxy endpoint URL (recommended, see below).
+3. **Never** commit your `.env` file or credentials.
+
+**Backend Proxy Note:**  
+Amazon and Flipkart APIs require authentication using tokens or key signing not suitable for the frontend. You *must* provide your own backend proxy (NodeJS/Express or cloud function) to handle actual API calls and sign requests securely. The frontend will call this backend with a search keyword for Amazon/Flipkart products.
+
+#### Example Proxy endpoints:
+- `/amazon-product?keywords=YOUR_KEYWORDS`
+- `/flipkart-product?keywords=YOUR_KEYWORDS`
+
+Proxy backends should return:  
+```json
+{
+  "title": "Product Title",
+  "image": "Product Image URL",
+  "price": 1234,
+  "url": "amazon_or_flipkart_product_url"
+}
+```
+
+### Environment Variables Required
+See `.env.example` for all keys.
+
+### Secure Handling of Keys
+
+- Never put secret API keys directly in client code.
+- Use backend proxy for all real API calls.
+
 
 ### `npm start`
 

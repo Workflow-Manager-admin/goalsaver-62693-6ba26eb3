@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import { fetchAmazonProduct, fetchFlipkartProduct } from "./apiProductLive";
+import ProductGoalModal from "./ProductGoalModal";
 
 /**
  * Main Container for Goalie app.
@@ -69,6 +71,8 @@ function GoalieMainContainer() {
   });
   const [selectedGoalId, setSelectedGoalId] = useState(null);
   const [showReminder, setShowReminder] = useState(false);
+  // For Product Goal modal
+  const [showProductGoalModal, setShowProductGoalModal] = useState(false);
 
   // --- Persist to localStorage ---
   useEffect(() => {
@@ -118,6 +122,21 @@ function GoalieMainContainer() {
     setGoalForm({ name: "", target: "", deadline: "", notes: "" });
     setSelectedGoalId(null);
   }
+
+  // PUBLIC_INTERFACE
+  /** Fills goal form with product details and opens add-goal modal for finishing setup */
+  function handleCreateGoalFromProduct(productGoal) {
+    setGoalForm({
+      name: productGoal.name,
+      target: productGoal.target,
+      deadline: "",
+      notes: productGoal.notes || "",
+    });
+    setSelectedGoalId(null);
+    setShowProductGoalModal(false);
+    setShowGoalForm(true);
+  }
+
 
   // --- PUBLIC_INTERFACE: Edit a goal ---
   function handleEditGoal(goalId) {
@@ -929,16 +948,34 @@ function GoalieMainContainer() {
         <div className="goalie-desc">
           Beautifully track all your wishes, get custom savings advice, and build your best financial habits.
         </div>
-        <button
-          className="goalie-btn goalie-btn-large"
-          onClick={() => setShowGoalForm(true)}
-        >
-          + Add New Goal
-        </button>
+        <div style={{ display: "flex", gap: 12, marginTop: 9, flexWrap: "wrap", justifyContent: "center" }}>
+          <button
+            className="goalie-btn goalie-btn-large"
+            onClick={() => setShowGoalForm(true)}
+            style={{}}
+          >
+            + Add New Goal
+          </button>
+          <button
+            className="goalie-btn-outline"
+            style={{ fontSize: 17, padding: "11px 27px", borderRadius: 9, borderWidth: 2, borderColor: "#4CAF50" }}
+            onClick={() => setShowProductGoalModal(true)}
+          >
+            + Goal from Product
+          </button>
+        </div>
       </div>
 
       {/* PIE CHART SECTION: render above goal list */}
       <GoalsCompletionPieChart />
+
+      {/* Modal for Product-based goal creation */}
+      {showProductGoalModal && (
+        <ProductGoalModal
+          onClose={() => setShowProductGoalModal(false)}
+          onCreateGoal={handleCreateGoalFromProduct}
+        />
+      )}
 
       {/* Goal list */}
       {showGoalForm && <GoalForm />}

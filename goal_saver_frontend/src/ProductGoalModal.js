@@ -197,9 +197,9 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
             {err}
             <div style={{ color: "#473BC9", marginTop: 7, fontWeight: 400, fontSize: 13 }}>
               <ul style={{ marginLeft: 16, marginBottom: 0 }}>
-                {/* SAFELY Display the proxy URL as set at build-time; fallback hardcoded to match .env.example */}
+                {/* SAFELY Display the proxy URL as set at build-time via variable replacement at build */}
                 <li>
-                  If <b>no product appears</b>, check your backend proxy server is running at <code>{window.PRODUCT_BACKEND_PROXY_URL || "http://localhost:5001"}</code>.
+                  If <b>no product appears</b>, check your backend proxy server is running at <code>{process.env.REACT_APP_PRODUCT_BACKEND_PROXY || "http://localhost:5001"}</code>.
                 </li>
                 <li>Verify <b>Amazon/Flipkart API keys</b> are correct in your backend <code>.env</code> file.</li>
                 <li>If you see repeated failures, <b>restart both the backend and frontend</b> after checking environment variables.</li>

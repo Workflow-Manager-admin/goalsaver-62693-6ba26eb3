@@ -5,6 +5,7 @@
  * Throws an Error on failure, network problems, or malformed data for graceful user handling.
  */
 export async function fetchAmazonProduct(keywords) {
+  // Only resolve proxy at build-time for safe injection, never at browser runtime
   const proxy = process.env.REACT_APP_PRODUCT_BACKEND_PROXY || "http://localhost:5001";
   let resp = null;
   try {
@@ -49,6 +50,7 @@ export async function fetchAmazonProduct(keywords) {
  * Throws an Error on failure, network problems, or malformed data.
  */
 export async function fetchFlipkartProduct(keywords) {
+  // Only resolve proxy at build-time for safe injection, never at browser runtime
   const proxy = process.env.REACT_APP_PRODUCT_BACKEND_PROXY || "http://localhost:5001";
   let resp = null;
   try {

@@ -13,6 +13,7 @@
  */
 export async function fetchCourseraCourses(query) {
   // Prefer proxy if provided (as CORS may block direct call)
+  // Only access REACT_APP_ variables that are statically inlined at build time
   const proxy = process.env.REACT_APP_COURSERA_PROXY;
   const apiKey = process.env.REACT_APP_COURSERA_API_KEY;
   let url = "";
@@ -54,6 +55,7 @@ export async function fetchCourseraCourses(query) {
  */
 export async function fetchUdemyCourses(query) {
   // Use backend proxy for credentials & CORS
+  // Only access REACT_APP_ variables that are statically inlined at build time
   const proxy = process.env.REACT_APP_UDEMY_PROXY;
   if (!proxy) return [];
   const resp = await fetch(`${proxy}/udemy-courses?search=${encodeURIComponent(query)}`);
@@ -82,6 +84,7 @@ export async function fetchUdemyCourses(query) {
  * @returns {Promise<Array<{title: string, image: string, price: string | null, url: string, description: string, provider: string}>>}
  */
 export async function fetchSkillshareCourses(query) {
+  // Only access REACT_APP_ variables that are statically inlined at build time
   const proxy = process.env.REACT_APP_SKILLSHARE_PROXY;
   if (!proxy) return [];
   const resp = await fetch(`${proxy}/skillshare-courses?search=${encodeURIComponent(query)}`);

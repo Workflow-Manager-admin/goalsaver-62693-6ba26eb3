@@ -1,19 +1,20 @@
 /* --- Goalie Lavender Theme Variables --- */
 :root {
-  --lavender-main: #8682e4;
+  --lavender-main: #8b82e4;
   --lavender-dark: #473BC9;
-  --lavender-accent: #a391ff;
-  --lavender-bg: #f7f5fe;
+  --lavender-accent: #ae9eff;
+  --lavender-bg: #f9f7fc;
   --card-bg: #fff;
   --lavender-muted: #bfbbec;
-  --contrib-bg: #f2eefc;
-  --progress-bg: #edeafd;
-  --input-bg: #f5f3fb;
+  --contrib-bg: #f4f0fb;
+  --progress-bg: #ece9fa;
+  --input-bg: #f7f5ff;
   --grey: #9d9db4;
-  --border-color: #e8e3ff;
-  --faded-txt: #978ea1;
-  --text-dark: #37314e;
-  --lavender-shadow: #d8d8fb88;
+  --border-color: #e6e1f8;
+  --faded-txt: #958ca7;
+  --text-dark: #30284e;
+  --lavender-shadow: #a093ef46;
+  --brand-gradient: linear-gradient(90deg, #a391ff 50%, #cre8ed 100%);
 }
 
 /* --- General styles and resets --- */

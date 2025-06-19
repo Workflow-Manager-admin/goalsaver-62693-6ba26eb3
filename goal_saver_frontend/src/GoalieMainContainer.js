@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
+/** Typography preset for all main areas */
+const BRAND_FONT = "Inter, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif";
+
 /**
  * Main Container for Goalie app (fully local version).
  * Implements: lavender theme, onboarding modal for user budget, core goal creation/tracker/habit features.
@@ -290,7 +293,6 @@ function GoalieMainContainer() {
     });
     const [err, setErr] = useState("");
 
-    // Determine if this is an initial onboarding (block app use), or edit mode (from Profile/settings)
     const isEditMode = !!profile.onboarded;
 
     function handleSubmit(e) {
@@ -320,53 +322,63 @@ function GoalieMainContainer() {
 
     return (
       <div className="goalie-modal-overlay">
-        <div className="goalie-modal">
-          <div className="goalie-modal-head">
-            <span className="goalie-logo-icon" style={{ fontSize: 29 }}>
-              <GoalPostSVG size={22} />{" "}
+        <div className="goalie-modal" style={{
+          borderRadius: 20,
+          padding: "39px 27px 33px 27px",
+          boxShadow: "0 16px 60px 0 #a093ef43, 0 1.4px 9px 0 #d9cbf760",
+          fontFamily: BRAND_FONT,
+          border: "1.6px solid var(--border-color)",
+          maxWidth: 420
+        }}>
+          <div className="goalie-modal-head" style={{ marginBottom: 14 }}>
+            <span className="goalie-logo-icon" style={{ fontSize: 33 }}>
+              <GoalPostSVG size={26} />
             </span>
-            <span
-              style={{
-                fontWeight: 700,
-                fontSize: 21,
-                color: "var(--lavender-dark)",
-                marginLeft: 4,
-                letterSpacing: "-1px",
-                display: "inline-block",
-                verticalAlign: "middle",
-              }}
-            >
+            <span style={{
+              fontWeight: 800,
+              fontSize: 22,
+              color: "var(--lavender-main)",
+              marginLeft: 4,
+              letterSpacing: "-1.1px",
+              display: "inline-block",
+              verticalAlign: "middle",
+            }}>
               {isEditMode
                 ? "Edit Savings Preferences"
                 : "Welcome to Goalie"}
             </span>
           </div>
-          <div
-            style={{
-              fontSize: 17,
-              marginBottom: 19,
-              color: "var(--faded-txt)",
-              fontWeight: 400,
-              marginTop: 6,
-              lineHeight: 1.5,
-            }}
-          >
+          <div style={{
+            fontSize: 17.5,
+            marginBottom: 18,
+            color: "var(--faded-txt)",
+            fontWeight: 400,
+            marginTop: 3,
+            lineHeight: 1.5,
+            maxWidth: 325,
+          }}>
             {isEditMode
-              ? "Update your savings method, monthly income, or spending habits. These values help customize how much you should save for each goal."
+              ? "Update your savings method, monthly income, or spending habits. These values help personalize your per-goal advice."
               : "Set up your personalized savings journey. We’ll recommend how much to save for each of your goals!"}
           </div>
           <form onSubmit={handleSubmit}>
-            <label className="goalie-label">
+            <label className="goalie-label" style={{ fontSize: 16, fontWeight: 600, marginBottom: 2 }}>
               Saving Method:
               <select
                 value={local.savingsMethod}
-                onChange={(e) =>
-                  setLocal((l) => ({
-                    ...l,
-                    savingsMethod: e.target.value,
-                  }))
+                onChange={e =>
+                  setLocal(l => ({ ...l, savingsMethod: e.target.value }))
                 }
-                style={inputStyle}
+                style={{
+                  width: "100%",
+                  border: "1.3px solid var(--lavender-main)",
+                  borderRadius: 7,
+                  background: "var(--input-bg)",
+                  fontSize: 17,
+                  padding: "7.5px 11px",
+                  marginTop: 7,
+                  marginBottom: 3,
+                }}
                 required
               >
                 <option value="daily">Daily</option>
@@ -374,36 +386,48 @@ function GoalieMainContainer() {
                 <option value="monthly">Monthly</option>
               </select>
             </label>
-            <label className="goalie-label" style={{ marginTop: 10 }}>
+            <label className="goalie-label" style={{ marginTop: 10, fontSize: 16 }}>
               Monthly Income ($):
               <input
-                style={inputStyle}
+                style={{
+                  width: "100%",
+                  border: "1.3px solid var(--lavender-main)",
+                  borderRadius: 7,
+                  background: "var(--input-bg)",
+                  fontSize: 17,
+                  padding: "7.5px 11px",
+                  marginTop: 7,
+                  marginBottom: 3,
+                }}
                 type="number"
                 min={1}
                 step={1}
                 value={local.monthlyIncome}
-                onChange={(e) =>
-                  setLocal((l) => ({
-                    ...l,
-                    monthlyIncome: e.target.value,
-                  }))
+                onChange={e =>
+                  setLocal(l => ({ ...l, monthlyIncome: e.target.value }))
                 }
                 required
               />
             </label>
-            <label className="goalie-label" style={{ marginTop: 10 }}>
+            <label className="goalie-label" style={{ marginTop: 10, fontSize: 16 }}>
               Average Monthly Spending ($):
               <input
-                style={inputStyle}
+                style={{
+                  width: "100%",
+                  border: "1.3px solid var(--lavender-main)",
+                  borderRadius: 7,
+                  background: "var(--input-bg)",
+                  fontSize: 17,
+                  padding: "7.5px 11px",
+                  marginTop: 7,
+                  marginBottom: 4,
+                }}
                 type="number"
                 min={0}
                 step={1}
                 value={local.monthlySpending}
-                onChange={(e) =>
-                  setLocal((l) => ({
-                    ...l,
-                    monthlySpending: e.target.value,
-                  }))
+                onChange={e =>
+                  setLocal(l => ({ ...l, monthlySpending: e.target.value }))
                 }
                 required
               />
@@ -412,9 +436,9 @@ function GoalieMainContainer() {
               <div
                 style={{
                   color: colors.error,
-                  fontSize: 14,
-                  marginTop: 7,
-                  fontWeight: 600,
+                  fontSize: 14.5,
+                  marginTop: 9,
+                  fontWeight: 700,
                 }}
               >
                 {err}
@@ -423,7 +447,14 @@ function GoalieMainContainer() {
             <button
               className="goalie-btn"
               type="submit"
-              style={{ marginTop: 22, width: "100%", fontSize: 18 }}
+              style={{
+                marginTop: 26,
+                width: "100%",
+                fontSize: 18,
+                fontWeight: 700,
+                borderRadius: 10,
+                boxShadow: "0 2px 12px 0 #bca6ff1a"
+              }}
             >
               {isEditMode ? "Update Preferences" : "Continue"}
             </button>
@@ -431,7 +462,14 @@ function GoalieMainContainer() {
               <button
                 type="button"
                 className="goalie-btn-outline"
-                style={{ marginTop: 10, width: "100%", fontSize: 15 }}
+                style={{
+                  marginTop: 13,
+                  width: "100%",
+                  fontSize: 15.7,
+                  borderRadius: 8,
+                  fontWeight: 600,
+                  background: "var(--contrib-bg)",
+                }}
                 onClick={() => setShowOnboarding(false)}
               >
                 Cancel
@@ -536,45 +574,66 @@ function GoalieMainContainer() {
 
   function GoalCard({ goal }) {
     const [addAmt, setAddAmt] = useState("");
-    // For celebration: show confetti if just completed
     const completed = goal.saved >= goal.target && goal.target > 0;
     return (
-      <div className="goalie-card">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            marginBottom: 1,
-          }}
-        >
+      <div
+        className="goalie-card"
+        style={{
+          background: "var(--card-bg)",
+          border: "1.5px solid var(--border-color)",
+          borderRadius: 19,
+          marginBottom: 18,
+          boxShadow: completed
+            ? "0 7px 32px 0 #d1c1ff44, 0 1px 7px 0 #eae4fb14"
+            : "0 4px 15px 0 var(--lavender-shadow)",
+          padding: "29px 26px 22px 24px",
+          width: "100%",
+          maxWidth: 500,
+          position: "relative",
+          transition: "box-shadow .14s, border .12s"
+        }}>
+        <div style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 4,
+        }}>
           <h4
             style={{
-              color: colors.lavender,
+              color: "var(--lavender-main)",
               margin: 0,
-              fontWeight: 700,
+              fontWeight: 800,
               fontSize: 21,
-              letterSpacing: "-0.5px",
+              letterSpacing: "-0.8px",
+              fontFamily: BRAND_FONT,
+              lineHeight: "1.15",
+              display: "flex",
+              alignItems: "center"
             }}
           >
-            {goal.name}{" "}
+            {goal.name}
             <span
               style={{
-                color: colors.faded,
+                color: "var(--faded-txt)",
                 fontWeight: 400,
-                fontSize: 15,
-                marginLeft: 1,
-              }}
-            >
+                fontSize: 15.5,
+                marginLeft: 9,
+                letterSpacing: "-0.2px",
+                fontFamily: BRAND_FONT
+              }}>
               (${goal.target})
             </span>
           </h4>
-          <div style={{ display: "flex", gap: 7 }}>
+          <div style={{ display: "flex", gap: 9 }}>
             <button
               className="goalie-icon-btn"
               title="Edit"
               onClick={() => handleEditGoal(goal.id)}
-              style={{ color: colors.lavender }}
+              style={{
+                color: "var(--lavender-main)",
+                background: "var(--contrib-bg)",
+                fontWeight: 600
+              }}
             >
               ✏️
             </button>
@@ -582,7 +641,11 @@ function GoalieMainContainer() {
               className="goalie-icon-btn"
               title="Delete"
               onClick={() => handleDeleteGoal(goal.id)}
-              style={{ color: "#fe5666" }}
+              style={{
+                color: "#fe5666",
+                background: "#fff0f4",
+                fontWeight: 600
+              }}
             >
               🗑️
             </button>
@@ -590,10 +653,11 @@ function GoalieMainContainer() {
         </div>
         <div
           style={{
-            color: colors.faded,
-            fontSize: 13,
-            margin: "6px 0 0",
+            color: "var(--faded-txt)",
+            fontSize: 13.3,
+            margin: "7px 0 0",
             fontWeight: 500,
+            fontFamily: BRAND_FONT
           }}
         >
           Deadline: {goal.deadline}
@@ -601,72 +665,99 @@ function GoalieMainContainer() {
         {goal.notes && (
           <div
             style={{
-              color: colors.dark,
-              fontSize: 13,
-              margin: "4px 0 0",
+              color: "var(--lavender-dark)",
+              fontSize: 13.2,
+              margin: "5px 0 0",
               fontStyle: "italic",
-            }}
-          >
+              fontWeight: 500,
+              fontFamily: BRAND_FONT
+            }}>
             Note: {goal.notes}
           </div>
         )}
 
-        <div style={{ margin: "11px 0 3px", fontWeight: 600 }}>
-          Saved: <span style={{ color: colors.accent }}>${goal.saved}</span>
+        <div style={{
+          margin: "15px 0 3px",
+          fontWeight: 700,
+          fontSize: 15.7,
+          fontFamily: BRAND_FONT,
+        }}>
+          Saved: <span style={{ color: "var(--lavender-accent)", fontWeight: 900 }}>${goal.saved}</span>
         </div>
         {renderProgressBar(goal)}
 
         <div
           style={{
-            fontSize: 13,
-            color: colors.muted,
+            fontSize: 14,
+            color: "var(--lavender-muted)",
             marginBottom: 6,
             fontWeight: 500,
+            fontFamily: BRAND_FONT
           }}
         >
           {getMotivationalMessage(goal)}
-          {completed && <span style={{ marginLeft: 6, color: "#4CAF50" }}>🎉</span>}
+          {completed && <span style={{ marginLeft: 8, color: "#49d677", fontWeight: 700 }}>🎉</span>}
         </div>
 
         <div
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 11,
-            marginTop: 3,
+            gap: 13,
+            marginTop: 4,
+            flexWrap: "wrap"
           }}
         >
           <ContributionStats goal={goal} />
           <form
-            onSubmit={(e) => {
+            onSubmit={e => {
               e.preventDefault();
               const amt = parseFloat(addAmt);
               if (!amt || amt < 1) return;
               handleAddSavings(goal.id, amt);
               setAddAmt("");
             }}
-            style={{ display: "flex", gap: 4, alignItems: "center" }}
+            style={{ display: "flex", gap: 6, alignItems: "center" }}
           >
             <input
-              style={{ ...inputStyle, padding: "4px 9px", width: 69 }}
+              style={{
+                width: 75,
+                border: "1.5px solid var(--lavender-main)",
+                borderRadius: 8,
+                fontSize: 15,
+                padding: "5px 12px",
+                marginBottom: 0,
+                marginTop: 0,
+                background: "var(--input-bg)",
+                color: "#332d44",
+                outline: "none",
+                boxShadow: "none",
+                fontFamily: BRAND_FONT,
+              }}
               type="number"
               inputMode="decimal"
               min={1}
               value={addAmt}
-              onChange={(e) => setAddAmt(e.target.value)}
+              onChange={e => setAddAmt(e.target.value)}
               placeholder="Add $"
               title="Manual add to savings"
             />
             <button
               type="submit"
               className="goalie-btn"
-              style={{ fontSize: 14, padding: "4px 12px" }}
+              style={{
+                fontSize: 14.5,
+                padding: "5px 13px",
+                borderRadius: 7,
+                background: "linear-gradient(90deg, var(--lavender-accent), var(--lavender-main) 80%)",
+                fontWeight: 700,
+              }}
             >
               +Save
             </button>
           </form>
         </div>
-        <div style={{ display: "flex", gap: 3, marginTop: 13, fontSize: 12 }}>
+        <div style={{ display: "flex", gap: 3, marginTop: 15, fontSize: 12.4, fontFamily: BRAND_FONT }}>
           <button
             disabled={goal.priority === 1}
             className="goalie-icon-btn"
@@ -674,7 +765,9 @@ function GoalieMainContainer() {
             title="Move Up"
             style={{
               color:
-                goal.priority === 1 ? colors.faded : colors.lavender,
+                goal.priority === 1 ? "var(--lavender-muted)" : "var(--lavender-main)",
+              background: goal.priority === 1 ? "var(--progress-bg)" : "var(--contrib-bg)",
+              fontWeight: 800
             }}
           >
             ↑
@@ -687,17 +780,20 @@ function GoalieMainContainer() {
             style={{
               color:
                 goal.priority === goals.length
-                  ? colors.faded
-                  : colors.lavender,
+                  ? "var(--lavender-muted)"
+                  : "var(--lavender-main)",
+              background: goal.priority === goals.length ? "var(--progress-bg)" : "var(--contrib-bg)",
+              fontWeight: 800
             }}
           >
             ↓
           </button>
           <span
             style={{
-              color: colors.muted,
-              marginLeft: 7,
+              color: "var(--lavender-muted)",
+              marginLeft: 9,
               fontWeight: 600,
+              fontSize: 13.6
             }}
           >
             Priority: {goal.priority}
@@ -718,14 +814,17 @@ function GoalieMainContainer() {
     return (
       <span
         style={{
-          fontSize: 15,
-          color: colors.lavender,
+          fontSize: 15.4,
+          color: "var(--lavender-main)",
+          fontWeight: 700,
           background: "var(--contrib-bg)",
-          padding: "3px 14px",
-          borderRadius: 15,
-          fontWeight: 500,
-          minWidth: 114,
+          border: "1.2px solid var(--border-color)",
+          padding: "4px 17px",
+          borderRadius: 17,
+          minWidth: 120,
           display: "inline-block",
+          boxShadow: "0 1.5px 7px 0 #eae4fb17",
+          fontFamily: BRAND_FONT,
         }}
       >
         {amt && profile.onboarded
@@ -784,12 +883,21 @@ function GoalieMainContainer() {
   const sortedGoals = [...goals].sort((a, b) => a.priority - b.priority);
 
   return (
-    <div className="goalie-theme-root">
+    <div
+      className="goalie-theme-root"
+      style={{
+        minHeight: "100vh",
+        fontFamily: BRAND_FONT,
+        background: "var(--lavender-bg)",
+        backgroundImage: "linear-gradient(135deg, #f9f7fc 75%, #ebe8fb 100%)",
+        color: "var(--text-dark)",
+      }}
+    >
       {showOnboarding && <OnboardingModal />}
       <ReminderNotification />
       {/* Header */}
-      <div className="goalie-navbar">
-        <span className="goalie-logo">
+      <div className="goalie-navbar" style={{ fontFamily: BRAND_FONT, fontWeight: 600, fontSize: 17 }}>
+        <span className="goalie-logo" style={{ letterSpacing: "-0.8px" }}>
           <span className="goalie-logo-icon">
             <GoalPostSVG size={28} />
           </span>
@@ -798,12 +906,13 @@ function GoalieMainContainer() {
         <span
           style={{
             color: "var(--lavender-accent)",
-            letterSpacing: "0.2ch",
+            letterSpacing: "0.11em",
             fontWeight: 500,
-            fontSize: 15,
+            fontSize: 15.5,
             display: "flex",
             alignItems: "center",
-            gap: 15
+            gap: 16,
+            fontFamily: BRAND_FONT,
           }}
         >
           Save. Track. Win.
@@ -812,13 +921,16 @@ function GoalieMainContainer() {
             type="button"
             style={{
               margin: 0,
-              padding: "4px 14px",
-              fontSize: 15,
-              borderRadius: 8,
-              fontWeight: 600,
-              border: "1.3px solid var(--lavender-main)",
+              padding: "5px 17px",
+              fontSize: 15.4,
+              borderRadius: 9,
+              fontWeight: 700,
+              border: "1.47px solid var(--lavender-main)",
               color: "var(--lavender-main)",
-              background: "#fff"
+              background: "#fff",
+              letterSpacing: "0.01em",
+              boxShadow: "0 1.5px 8px 0 #eae4fb33",
+              transition: "all .13s",
             }}
             onClick={() => setShowOnboarding(true)}
             title="Profile / Edit Preferences"
@@ -828,35 +940,30 @@ function GoalieMainContainer() {
         </span>
       </div>
       {/* Main hero */}
-      <div className="goalie-hero">
+      <div className="goalie-hero" style={{ paddingBottom: 3, paddingTop: 56 }}>
         {/* Pie Chart Summary */}
         <div
           style={{
             width: "100%",
-            maxWidth: 410,
+            maxWidth: 420,
             margin: "0 auto 22px auto",
-            minHeight: 188,
+            minHeight: 191,
             position: "relative",
             background: "var(--progress-bg)",
-            borderRadius: 18,
-            boxShadow: "0 3px 22px 0 var(--lavender-shadow)",
-            padding: "18px 0 0 0",
+            borderRadius: 20,
+            boxShadow: "0 8px 32px 0 var(--lavender-shadow)",
+            padding: "19px 0 0 0",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center"
+            alignItems: "center",
+            border: "1.3px solid var(--border-color)"
           }}
         >
           <GoalProgressPie
             goals={sortedGoals}
             themeColors={{
               lavenders: [
-                "#8682e4",
-                "#a391ff",
-                "#beb3fd",
-                "#6d82c0",
-                "#473BC9",
-                "#aba6fe",
-                "#bdbbcf"
+                "#8682e4", "#a391ff", "#beb3fd", "#6d82c0", "#473BC9", "#aba6fe", "#bdbbcf"
               ],
               border: "#edeafd",
               accent: "#b3a6ee"
@@ -867,22 +974,48 @@ function GoalieMainContainer() {
           className="goalie-title"
           style={{
             color: "var(--lavender-main)",
-            fontWeight: 700,
+            fontWeight: 800,
+            letterSpacing: "-1.3px",
+            fontFamily: BRAND_FONT,
+            marginTop: 2,
+            marginBottom: 1,
+            display: "flex",
+            alignItems: "center"
           }}
         >
           <GoalPostSVG size={32} style={{ verticalAlign: "-7px" }} /> Goalie
         </div>
-        <div className="goalie-subtitle">
+        <div className="goalie-subtitle" style={{
+          color: "var(--lavender-dark)",
+          fontWeight: 500,
+          fontSize: "1.25rem",
+          marginTop: 15,
+        }}>
           Set financial goals, save smarter—no bank linkage needed.
         </div>
-        <div className="goalie-desc">
+        <div className="goalie-desc" style={{
+          color: "var(--faded-txt)",
+          marginTop: 9,
+          marginBottom: 0,
+          fontSize: 17,
+          lineHeight: 1.53,
+        }}>
           Beautifully track all your wishes, get custom savings advice, and build your best financial habits.
         </div>
-        <div style={{ display: "flex", gap: 12, marginTop: 9, flexWrap: "wrap", justifyContent: "center" }}>
+        <div style={{ display: "flex", gap: 16, marginTop: 16, flexWrap: "wrap", justifyContent: "center" }}>
           <button
             className="goalie-btn goalie-btn-large"
             onClick={() => setShowGoalForm(true)}
-            style={{}}
+            style={{
+              background: "linear-gradient(90deg, var(--lavender-main), var(--lavender-dark))",
+              fontFamily: BRAND_FONT,
+              fontWeight: 700,
+              fontSize: "1.18rem",
+              letterSpacing: "-.5px",
+              borderRadius: 13,
+              boxShadow: "0 3px 18px 0 #bca6ff36",
+              padding: "15px 45px"
+            }}
           >
             + Add New Goal
           </button>
@@ -891,7 +1024,7 @@ function GoalieMainContainer() {
 
       {/* Goal list */}
       {showGoalForm && <GoalForm />}
-      <div className="goalie-goals-wrap">
+      <div className="goalie-goals-wrap" style={{ marginTop: 7 }}>
         {sortedGoals.length === 0 ? (
           <div className="goalie-emptymsg">
             No goals yet—start by adding your first savings goal!
@@ -901,10 +1034,21 @@ function GoalieMainContainer() {
         )}
       </div>
       {/* Footer */}
-      <footer className="goalie-footer">
-        Goalie. <span style={{ color: "var(--lavender-main)" }}>#ReachYourGoals</span>
+      <footer className="goalie-footer" style={{
+        fontWeight: 400,
+        fontFamily: BRAND_FONT,
+        fontSize: 15,
+        color: "var(--faded-txt)",
+        marginTop: 42,
+        marginBottom: 6,
+        letterSpacing: ".03em",
+      }}>
+        Goalie.{" "}
+        <span style={{ color: "var(--lavender-main)", fontWeight: 800, letterSpacing: "-0.5px" }}>
+          #ReachYourGoals
+        </span>
         <br />
-        <span style={{ fontSize: 11, color: "var(--faded-txt)" }}>
+        <span style={{ fontSize: 11.5, color: "var(--faded-txt)" }}>
           All data stays on your device.
         </span>
       </footer>

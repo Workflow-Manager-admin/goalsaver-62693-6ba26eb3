@@ -154,3 +154,158 @@ cached modules 2.75 MiB [cached] 630 modules
 runtime modules 27.5 KiB 14 modules
 ./src/notifications.js 4.58 KiB [built] [code generated]
 webpack 5.99.9 compiled successfully in 80 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 3.07 MiB
+  asset bundle.js 3.01 MiB [emitted] (name: main)
+  asset main.9c81ce522e28ee274d71.hot-update.js 63.2 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.9c81ce522e28ee274d71.hot-update.json 55 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.07 MiB = bundle.js 3.01 MiB main.9c81ce522e28ee274d71.hot-update.js 63.2 KiB
+cached modules 2.69 MiB [cached] 629 modules
+runtime modules 27.5 KiB 14 modules
+./src/GoalieMainContainer.js 49.6 KiB [code generated]
+
+ERROR in ./src/GoalieMainContainer.js 5:0-50
+Module not found: Error: Can't resolve './ProductGoalModal' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+resolve './ProductGoalModal' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+  using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./src/ProductGoalModal)
+      no extension
+        Field 'browser' doesn't contain a valid alias configuration
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/ProductGoalModal doesn't exist
+      .js
+        Field 'browser' doesn't contain a valid alias configuration
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/ProductGoalModal.js doesn't exist
+      .jsx
+        Field 'browser' doesn't contain a valid alias configuration
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/ProductGoalModal.jsx doesn't exist
+      as directory
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/ProductGoalModal doesn't exist
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 159 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 3.07 MiB
+  asset bundle.js 3.01 MiB [emitted] (name: main)
+  asset main.5437f65004328c6e8a32.hot-update.js 63.2 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.5437f65004328c6e8a32.hot-update.json 53 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.07 MiB = bundle.js 3.01 MiB main.5437f65004328c6e8a32.hot-update.js 63.2 KiB
+cached modules 2.69 MiB [cached] 628 modules
+runtime modules 27.5 KiB 14 modules
+./src/GoalieMainContainer.js 49.6 KiB [code generated]
+
+ERROR in ./src/GoalieMainContainer.js 3:0-76
+Module not found: Error: Can't resolve './apiProductLive' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+resolve './apiProductLive' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+  using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./src/apiProductLive)
+      no extension
+        Field 'browser' doesn't contain a valid alias configuration
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/apiProductLive doesn't exist
+      .js
+        Field 'browser' doesn't contain a valid alias configuration
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/apiProductLive.js doesn't exist
+      .jsx
+        Field 'browser' doesn't contain a valid alias configuration
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/apiProductLive.jsx doesn't exist
+      as directory
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/apiProductLive doesn't exist
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+ERROR in ./src/GoalieMainContainer.js 5:0-50
+Module not found: Error: Can't resolve './ProductGoalModal' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+resolve './ProductGoalModal' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+  using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    using description file: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/package.json (relative path: ./src/ProductGoalModal)
+      no extension
+        Field 'browser' doesn't contain a valid alias configuration
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/ProductGoalModal doesn't exist
+      .js
+        Field 'browser' doesn't contain a valid alias configuration
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/ProductGoalModal.js doesn't exist
+      .jsx
+        Field 'browser' doesn't contain a valid alias configuration
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/ProductGoalModal.jsx doesn't exist
+      as directory
+        /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/ProductGoalModal doesn't exist
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 2 errors in 100 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 3.06 MiB
+  asset bundle.js 3 MiB [emitted] (name: main)
+  asset main.a2286125ad69868d29d5.hot-update.js 63.5 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.a2286125ad69868d29d5.hot-update.json 52 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.06 MiB = bundle.js 3 MiB main.a2286125ad69868d29d5.hot-update.js 63.5 KiB
+cached modules 2.69 MiB [cached] 627 modules
+runtime modules 27.5 KiB 14 modules
+./src/GoalieMainContainer.js 49.6 KiB [code generated]
+
+ERROR in ./src/GoalieMainContainer.js 3:0-76
+Module not found: Error: Can't resolve './apiProductLive' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+ERROR in ./src/GoalieMainContainer.js 4:0-98
+Module not found: Error: Can't resolve './apiCourseLive' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+ERROR in ./src/GoalieMainContainer.js 5:0-50
+Module not found: Error: Can't resolve './ProductGoalModal' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+3 errors have detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.99.9 compiled with 3 errors in 70 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 3.06 MiB
+  asset bundle.js 3 MiB [emitted] (name: main)
+  asset main.354e8eeacd9d55fb7fed.hot-update.js 63.7 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.354e8eeacd9d55fb7fed.hot-update.json 52 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.06 MiB = bundle.js 3 MiB main.354e8eeacd9d55fb7fed.hot-update.js 63.7 KiB
+cached modules 2.68 MiB [cached] 626 modules
+runtime modules 27.5 KiB 14 modules
+./src/GoalieMainContainer.js 49.6 KiB [code generated]
+
+ERROR in ./src/GoalieMainContainer.js 3:0-76
+Module not found: Error: Can't resolve './apiProductLive' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+ERROR in ./src/GoalieMainContainer.js 4:0-98
+Module not found: Error: Can't resolve './apiCourseLive' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+ERROR in ./src/GoalieMainContainer.js 5:0-50
+Module not found: Error: Can't resolve './ProductGoalModal' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+ERROR in ./src/GoalieMainContainer.js 6:0-74
+Module not found: Error: Can't resolve './notifications' in '/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src'
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+4 errors have detailed information that is not shown.
+Use 'stats.errorDetails: true' resp. '--stats-error-details' to show it.
+
+webpack 5.99.9 compiled with 4 errors in 61 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 1.47 MiB
+  asset bundle.js 1.43 MiB [emitted] (name: main)
+  asset main.58753a5c8e6b668250bc.hot-update.js 41.6 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.58753a5c8e6b668250bc.hot-update.json 18.7 KiB [emitted] [immutable] [hmr]
+Entrypoint main 1.47 MiB = bundle.js 1.43 MiB main.58753a5c8e6b668250bc.hot-update.js 41.6 KiB
+cached modules 1.27 MiB [cached] 42 modules
+runtime modules 27.5 KiB 14 modules
+./src/GoalieMainContainer.js 32.8 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 216 ms

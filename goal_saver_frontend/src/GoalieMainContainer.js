@@ -1,23 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
-import { fetchAmazonProduct, fetchFlipkartProduct } from "./apiProductLive";
-import {
-  fetchCourseraCourses,
-  fetchUdemyCourses,
-  fetchSkillshareCourses,
-} from "./apiCourseLive";
-import ProductGoalModal from "./ProductGoalModal";
-import { initNotifications, sendPushNotification } from "./notifications";
 
 /**
- * Main Container for Goalie app.
- * Implements: lavender theme, onboarding input modal for savings method/income/spending,
- * dynamic per-goal recommendations, branding updates, and modernized visual styles.
+ * Main Container for Goalie app (fully local version).
+ * Implements: lavender theme, onboarding modal for user budget, core goal creation/tracker/habit features.
+ * All logic is local — no Amazon/Flipkart, no course APIs, no push notification integrations.
  */
 
 // PUBLIC_INTERFACE
 function GoalieMainContainer() {
-  // --- State for user profile and onboarding, persisting in localStorage ---
+  // --- State for user profile and onboarding, local only ---
   const defaultProfile = {
     savingsMethod: "monthly", // daily/weekly/monthly
     monthlyIncome: "",
@@ -33,14 +24,9 @@ function GoalieMainContainer() {
       return { ...defaultProfile };
     }
   });
-
-  // --- Push notification opt-in/init: on mount
-  useEffect(() => {
-    initNotifications();
-  }, []);
   const [showOnboarding, setShowOnboarding] = useState(!profile.onboarded);
 
-  // --- Goals state ---
+  // --- Goals state (local only) ---
   const [goals, setGoals] = useState(() => {
     try {
       const data = localStorage.getItem("goalieGoals");
@@ -55,7 +41,7 @@ function GoalieMainContainer() {
               saved: 400,
               priority: 1,
               notes: "",
-            },
+            }
           ];
     } catch {
       return [
@@ -67,7 +53,7 @@ function GoalieMainContainer() {
           saved: 400,
           priority: 1,
           notes: "",
-        },
+        }
       ];
     }
   });
@@ -82,8 +68,6 @@ function GoalieMainContainer() {
   });
   const [selectedGoalId, setSelectedGoalId] = useState(null);
   const [showReminder, setShowReminder] = useState(false);
-  // For Product Goal modal
-  const [showProductGoalModal, setShowProductGoalModal] = useState(false);
 
   // --- Persist to localStorage ---
   useEffect(() => {
@@ -93,16 +77,10 @@ function GoalieMainContainer() {
     localStorage.setItem("goalieGoals", JSON.stringify(goals));
   }, [goals]);
 
-  // --- Reminder trigger: 10s after load/goals change ---
+  // --- Reminder trigger: 10s after load/goals change (native reminder only) ---
   useEffect(() => {
     const timeout = setTimeout(() => {
       setShowReminder(true);
-      // Fire a real push notification if permission granted
-      sendPushNotification({
-        title: "💡 Savings Habit Reminder",
-        message: "Time to save a little for your goal! Open Goalie to check your progress.",
-        url: window.location.href
-      });
     }, 10000);
     return () => clearTimeout(timeout);
   }, [goals]);
@@ -142,21 +120,6 @@ function GoalieMainContainer() {
     setSelectedGoalId(null);
   }
 
-  // PUBLIC_INTERFACE
-  /** Fills goal form with product details and opens add-goal modal for finishing setup */
-  function handleCreateGoalFromProduct(productGoal) {
-    setGoalForm({
-      name: productGoal.name,
-      target: productGoal.target,
-      deadline: "",
-      notes: productGoal.notes || "",
-    });
-    setSelectedGoalId(null);
-    setShowProductGoalModal(false);
-    setShowGoalForm(true);
-  }
-
-
   // --- PUBLIC_INTERFACE: Edit a goal ---
   function handleEditGoal(goalId) {
     const goal = goals.find((g) => g.id === goalId);
@@ -183,14 +146,7 @@ function GoalieMainContainer() {
         if (g.id === goalId) {
           const oldSaved = g.saved;
           const newSaved = Math.min(g.saved + amount, g.target);
-          const justCompleted = oldSaved < g.target && newSaved >= g.target;
-          if (justCompleted) {
-            sendPushNotification({
-              title: "🎉 Goal Reached!",
-              message: `Congratulations, you just achieved your goal: "${g.name}"!`,
-              url: window.location.href,
-            });
-          }
+          // For this local-only version, celebration is shown via UI, not push
           return { ...g, saved: newSaved };
         }
         return g;
@@ -325,7 +281,6 @@ function GoalieMainContainer() {
   };
 
   // --- COMPONENTS ---
-
   function OnboardingModal() {
     const [local, setLocal] = useState({
       savingsMethod: profile.savingsMethod,
@@ -561,6 +516,8 @@ function GoalieMainContainer() {
 
   function GoalCard({ goal }) {
     const [addAmt, setAddAmt] = useState("");
+    // For celebration: show confetti if just completed
+    const completed = goal.saved >= goal.target && goal.target > 0;
     return (
       <div className="goalie-card">
         <div
@@ -648,6 +605,7 @@ function GoalieMainContainer() {
           }}
         >
           {getMotivationalMessage(goal)}
+          {completed && <span style={{ marginLeft: 6, color: "#4CAF50" }}>🎉</span>}
         </div>
 
         <div
@@ -805,139 +763,6 @@ function GoalieMainContainer() {
   // --- MAIN CONTENT ---
   const sortedGoals = [...goals].sort((a, b) => a.priority - b.priority);
 
-  // Pie chart colors: play on lavender theme (soft pastels and lavender shades)
-  const chartColors = [
-    "#8682e4", // lavender-main
-    "#a391ff", // lavender-accent
-    "#473BC9", // lavender-dark
-    "#bfbbec", // lavender-muted
-    "#dad5fa",
-    "#d3c6fa",
-    "#b9adf1",
-    "#9a90e8",
-    "#aba6fe",
-  ];
-
-  // Prepare pie chart data (skip if goal.target is 0 by logic)
-  const pieData =
-    sortedGoals.length === 0
-      ? []
-      : sortedGoals.map((goal, i) => {
-          const pct =
-            goal.target && goal.target > 0
-              ? Math.min(((goal.saved / goal.target) * 100), 100)
-              : 0;
-          return {
-            name: goal.name,
-            value: pct,
-            percentText: `${Math.round(pct)}%`,
-            original: goal,
-            fill: chartColors[i % chartColors.length],
-          };
-        });
-
-  // Chart Custom Tooltip
-  function CustomTooltip({ active, payload }) {
-    if (active && payload && payload.length) {
-      const { name, value } = payload[0].payload;
-      return (
-        <div style={{
-          background: "white",
-          border: "1.5px solid var(--lavender-accent)",
-          color: "var(--lavender-main)",
-          boxShadow: "0 3px 12px var(--lavender-shadow)",
-          borderRadius: 9,
-          padding: "10px 19px",
-          fontWeight: 600,
-          fontSize: 17
-        }}>
-          <div style={{color:"var(--lavender-dark)", fontWeight:700, fontSize:"1.07em"}}>{name}</div>
-          <div style={{fontSize:15, color:"var(--lavender-main)",marginTop:3}}>
-            Completion: <span style={{color:"var(--lavender-accent)",fontWeight:600}}>{Math.round(value)}%</span>
-          </div>
-        </div>
-      );
-    }
-    return null;
-  }
-
-  // Pie chart block (show blank with message if no goals)
-  function GoalsCompletionPieChart() {
-    if (!pieData.length) {
-      return (
-        <div style={{
-          margin: "0 auto",
-          textAlign: "center",
-          padding: "44px 0 36px 0"
-        }}>
-          <div style={{
-            color: "var(--lavender-main)",
-            background: "var(--progress-bg)",
-            fontSize: 22,
-            borderRadius: 21,
-            padding: "24px 28px",
-            display: "inline-block",
-            fontWeight: 600
-          }}>
-            No data yet — Add a goal to see your progress!
-          </div>
-        </div>
-      );
-    }
-    return (
-      <div style={{
-        width: "100%",
-        maxWidth: 610,
-        margin: "0 auto",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        paddingTop: 12,
-        paddingBottom: 36,
-      }}>
-        <div style={{
-          fontSize: 24,
-          color: "var(--lavender-main)",
-          fontWeight: 800,
-          letterSpacing: "-0.7px",
-          marginBottom: 4
-        }}>
-          Overall Goal Progress
-        </div>
-        <ResponsiveContainer width="100%" minWidth={320} height={340}>
-          <PieChart>
-            <Pie
-              data={pieData}
-              cx="50%"
-              cy="47%"
-              innerRadius={80}
-              outerRadius={130}
-              dataKey="value"
-              paddingAngle={sortedGoals.length > 1 ? 4 : 0}
-              labelLine={false}
-              label={({ name, value }) =>
-                value > 8
-                  ? `${name}: ${Math.round(value)}%`
-                  : ""
-              }
-              isAnimationActive={true}
-              animationDuration={1100}
-              style={{ cursor: "pointer" }}
-            >
-              {pieData.map((entry, idx) => (
-                <Cell key={entry.name} fill={entry.fill}/>
-              ))}
-            </Pie>
-            <Tooltip content={<CustomTooltip />} />
-          </PieChart>
-        </ResponsiveContainer>
-        <div style={{color:"var(--faded-txt)",fontWeight:400,marginTop:-14,fontSize:14}}>
-          Each slice shows a goal's saved percent — hover to see details.
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="goalie-theme-root">
       {showOnboarding && <OnboardingModal />}
@@ -986,29 +811,8 @@ function GoalieMainContainer() {
           >
             + Add New Goal
           </button>
-          <button
-            className="goalie-btn-outline"
-            style={{ fontSize: 17, padding: "11px 27px", borderRadius: 9, borderWidth: 2, borderColor: "#4CAF50" }}
-            onClick={() => setShowProductGoalModal(true)}
-          >
-            + Goal from Product
-          </button>
         </div>
       </div>
-
-      {/* PIE CHART SECTION: render above goal list */}
-      <GoalsCompletionPieChart />
-
-      {/* Live Financial & Goal-Planning Courses Recommendations */}
-      <CourseRecommendationsSection />
-
-      {/* Modal for Product-based goal creation */}
-      {showProductGoalModal && (
-        <ProductGoalModal
-          onClose={() => setShowProductGoalModal(false)}
-          onCreateGoal={handleCreateGoalFromProduct}
-        />
-      )}
 
       {/* Goal list */}
       {showGoalForm && <GoalForm />}
@@ -1029,256 +833,6 @@ function GoalieMainContainer() {
           All data stays on your device.
         </span>
       </footer>
-    </div>
-  );
-
-}
-
-// --- Course Recommendation UI Component ---
-function CourseRecommendationsSection() {
-  const [loading, setLoading] = React.useState(true);
-  const [courses, setCourses] = React.useState([]);
-  const [activeTab, setActiveTab] = React.useState("all");
-  const [error, setError] = React.useState("");
-  const keywords = "financial literacy, money, personal finance, goal planning, saving, investing";
-
-  React.useEffect(() => {
-    let mounted = true;
-    setError("");
-    setLoading(true);
-    Promise.all([
-      fetchCourseraCourses(keywords),
-      fetchUdemyCourses(keywords),
-      fetchSkillshareCourses(keywords),
-    ])
-      .then(([coursera, udemy, skillshare]) => {
-        if (!mounted) return;
-        const all = [
-          ...(coursera || []),
-          ...(udemy || []),
-          ...(skillshare || []),
-        ];
-        setCourses(all.filter(Boolean));
-      })
-      .catch((err) => {
-        setError("Couldn't load live courses. Please try again later.");
-      })
-      .finally(() => {
-        if (mounted) setLoading(false);
-      });
-    return () => {
-      mounted = false;
-    };
-  }, []);
-
-  // Tabs logic
-  const filtered = courses.filter(
-    c => activeTab === "all" || String(c.provider).toLowerCase() === activeTab
-  );
-
-  return (
-    <div
-      style={{
-        maxWidth: 720,
-        margin: "0 auto 55px auto",
-        background: "var(--card-bg)",
-        borderRadius: 17,
-        boxShadow: "0 4px 28px 0 var(--lavender-shadow)",
-        padding: "23px 19px 12px 19px",
-        border: "1.3px solid var(--border-color)",
-        marginTop: 7,
-      }}
-      data-testid="live-courses-section"
-    >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 12,
-          marginBottom: 10,
-        }}
-      >
-        <span style={{ fontWeight: 700, fontSize: 20, color: "var(--lavender-main)" }}>
-          📚 Financial Learning: Live Course Picks
-        </span>
-        <div style={{
-          display: "flex",
-          gap: 9,
-          alignItems: "center",
-          marginLeft: "auto",
-        }}>
-          <button
-            className="goalie-btn-outline"
-            style={{
-              padding: "5px 21px",
-              fontSize: 15,
-              borderRadius: 9,
-              background: activeTab === "all" ? "var(--contrib-bg)" : "#fff",
-              fontWeight: 600,
-            }}
-            onClick={() => setActiveTab("all")}
-          >
-            All
-          </button>
-          <button
-            className="goalie-btn-outline"
-            style={{
-              padding: "5px 17px",
-              fontSize: 15,
-              borderRadius: 8,
-              background: activeTab === "coursera" ? "var(--contrib-bg)" : "#fff",
-              fontWeight: 600,
-            }}
-            onClick={() => setActiveTab("coursera")}
-          >
-            Coursera
-          </button>
-          <button
-            className="goalie-btn-outline"
-            style={{
-              padding: "5px 17px",
-              fontSize: 15,
-              borderRadius: 8,
-              background: activeTab === "udemy" ? "var(--contrib-bg)" : "#fff",
-              fontWeight: 600,
-            }}
-            onClick={() => setActiveTab("udemy")}
-          >
-            Udemy
-          </button>
-          <button
-            className="goalie-btn-outline"
-            style={{
-              padding: "5px 17px",
-              fontSize: 15,
-              borderRadius: 8,
-              background: activeTab === "skillshare" ? "var(--contrib-bg)" : "#fff",
-              fontWeight: 600,
-            }}
-            onClick={() => setActiveTab("skillshare")}
-          >
-            Skillshare
-          </button>
-        </div>
-      </div>
-      {loading && (
-        <div style={{ color: "var(--lavender-main)", fontSize: 17, padding: "22px 0", textAlign: "center" }}>
-          Loading the latest finance courses...
-        </div>
-      )}
-      {error && (
-        <div style={{ color: "#fe5666", fontSize: 15, fontWeight: 600, margin: "12px 0" }}>
-          {error}
-        </div>
-      )}
-      {!loading && !error && (
-        <>
-          {filtered.length === 0 ? (
-            <div style={{ color: "var(--lavender-dark)", padding: "18px 12px", fontWeight: 500 }}>
-              No courses to show for this provider.
-            </div>
-          ) : (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-                gap: 16,
-                marginBottom: 3,
-              }}
-            >
-              {filtered.slice(0, 8).map((course, i) => (
-                <div
-                  key={course.url + (course.title || "") + i}
-                  style={{
-                    background: "var(--progress-bg)",
-                    borderRadius: 13,
-                    boxShadow: "0 1px 7px #d8d8fb55",
-                    padding: "14px 13px 17px 13px",
-                    minHeight: 162,
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <div style={{
-                    display: "flex",
-                    alignItems: "flex-start",
-                    gap: 13,
-                  }}>
-                    <img
-                      src={course.image || ""}
-                      alt={course.title}
-                      style={{
-                        width: 56,
-                        height: 56,
-                        borderRadius: 9,
-                        objectFit: "cover",
-                        background: "#fff",
-                        border: "1.1px solid var(--border-color)",
-                        boxShadow: "0 1px 6px #e8e3ff66",
-                        marginRight: 3,
-                        flex: "0 0 56px",
-                      }}
-                      loading="lazy"
-                      onError={e => (e.currentTarget.style.display = "none")}
-                    />
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontWeight: 700, color: "var(--lavender-dark)", fontSize: 16, marginBottom: 1, lineHeight: "1.12" }}>
-                        {course.title}
-                      </div>
-                      <div style={{ fontWeight: 600, color: "#756ee6", fontSize: 12, marginBottom: 2 }}>
-                        {course.provider}
-                      </div>
-                      <div style={{
-                        color: "var(--text-dark)",
-                        fontSize: 13,
-                        marginBottom: 3,
-                        minHeight: 34,
-                        display: "-webkit-box",
-                        WebkitLineClamp: 2,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                      }}>
-                        {course.description}
-                      </div>
-                      {course.price && (
-                        <div style={{ fontSize: 12, color: "#2ba772", fontWeight: 600 }}>
-                          {String(course.price).indexOf("$") !== -1 || String(course.price).toLowerCase().includes("free")
-                            ? course.price
-                            : "$" + course.price}
-                        </div>
-                      )}
-                      <a
-                        href={course.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{
-                          color: "#2196F3",
-                          fontWeight: 600,
-                          fontSize: 13,
-                          textDecoration: "underline",
-                          marginTop: 3,
-                          display: "inline-block",
-                        }}
-                      >
-                        View Course
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          <div style={{
-            color: "var(--faded-txt)",
-            fontSize: 13,
-            textAlign: "right",
-            marginTop: 7,
-            fontStyle: "italic",
-          }}>
-            Powered by live Coursera, Udemy & Skillshare APIs
-          </div>
-        </>
-      )}
     </div>
   );
 }

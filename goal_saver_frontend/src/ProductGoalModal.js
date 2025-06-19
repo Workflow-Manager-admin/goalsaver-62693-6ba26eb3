@@ -27,7 +27,10 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
         data = await fetchFlipkartProduct(query);
       }
       if (!data) {
-        setErr("No product found for your keywords.");
+        setErr(
+          "No product found for your keywords." + 
+          " If this happens repeatedly, ensure your backend proxy is running and credentials are correct."
+        );
         setProduct(null);
       } else {
         setProduct(data);
@@ -35,7 +38,8 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
     } catch (ex) {
       setErr(
         "API error: Could not fetch product. " +
-          (ex && ex.message ? String(ex.message) : "Unknown error")
+          (ex && ex.message ? String(ex.message) : "Unknown error") +
+          " (Tip: Is the backend proxy running at the address set in .env? Are credentials set up?)"
       );
       setProduct(null);
     }

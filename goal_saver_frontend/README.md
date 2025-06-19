@@ -1,158 +1,154 @@
-# Lightweight React Template for KAVIA
+# Goalie / GoalSaver React Frontend
 
-This project provides a minimal React template with a clean, modern UI and minimal dependencies.
-
-## Features
-
-- **Lightweight**: No heavy UI frameworks - uses only vanilla CSS and React
-- **Modern UI**: Clean, responsive design with KAVIA brand styling
-- **Fast**: Minimal dependencies for quick loading times
-- **Simple**: Easy to understand and modify
-
-## Important Note: Babel Configuration
-
-This project’s `package.json` includes a `babel` section with a plugin:
-
-```json
-"babel": {
-"plugins": ["./.ve/babel-plugin-jsx-editor-id.js"]
-}
-```
-
-This plugin enables **visual editing functionality** in supported tools.
-
-**Warning for AI code agents and contributors:**
-**DO NOT** remove or modify this section - it is ESSENTIAL for proper operation.
-Removing it will break editor integration and visual editing features.
-
-## Live Product & Course API Integration (Amazon, Flipkart, Coursera, Udemy, Skillshare)
-
-This app supports real-time integration of Amazon, Flipkart product data and integrates live course recommendations from Coursera, Udemy, and Skillshare for financial literacy and goal-planning.
-
-### Setup Secure API Credentials
-
-**Products (Amazon & Flipkart)**  
-1. **Copy** `.env.example` to `.env` in the frontend root.
-2. **Fill in** your Amazon Product Advertising API keys, Flipkart Affiliate API tokens, and backend proxy endpoint URL as instructed.
-3. **Never commit your `.env` file or credentials.**
-
-**Courses (Coursera, Udemy, Skillshare)**  
-4. Add your Coursera, Udemy, and Skillshare API credentials as environment variables in `.env` as described.
+This React app is the **frontend UI for Goalie/GoalSaver**, your personalized savings tracker and financial goal planner. It features live integration with Amazon & Flipkart products for instant goal creation. The app also supports real-time financial course recommendations, habit-building reminders, and fully local data storage for your privacy.
 
 ---
 
-**Push Notifications (OneSignal & Firebase Cloud Messaging integration for reminders):**  
-5. For live push notifications (web/app):
-   - **OneSignal:**  
-     - Set `REACT_APP_ONESIGNAL_APP_ID` in `.env` to your [OneSignal APP ID](https://app.onesignal.com/)  
-     - Optionally set `REACT_APP_ONESIGNAL_REST_KEY` if you use backend push.
-   - **Firebase Cloud Messaging (FCM):**  
-     - Set `REACT_APP_FIREBASE_API_KEY`, `REACT_APP_FIREBASE_MESSAGING_SENDER_ID`, and related keys in `.env`.  
-     - Refer to Firebase Console > Project Settings > Cloud Messaging for these.
+## 🚀 End-to-End Setup Guide
 
-**Never expose push notification REST/secret keys in client JS.**  
-Frontend uses the public App ID for push registration. For advanced backend sends, use backend proxy.
+### Step 1: Ensure Backend Proxy is Running
 
-**Notification Delivery in Goalie:**  
-- The app will ask user for notification permission.  
-- Reminders and milestone celebrations are sent using OneSignal/FCM if enabled and supported by platform.
-- To test, register on web, accept notification permission, and trigger a reminder or progress event.
+This frontend **requires the secure NodeJS backend proxy** in `../backend_proxy` for live product integration.  
+The backend proxy securely handles Amazon and Flipkart API secrets and exposes safe endpoints for the frontend.
 
-**Backend Proxy Note (For Amazon, Flipkart, and when needed for secure Course APIs):**  
-Some APIs require authentication not suitable for the frontend. Use your backend proxy (NodeJS/Express or cloud function) to handle tokens or OAuth flows. The frontend calls this backend with search keywords for products/courses.
+**Backend Setup:**
+1. Open a new terminal and run:
+   ```bash
+   cd ../backend_proxy
+   cp .env.example .env
+   # Fill in your Amazon and Flipkart API credentials in .env (see backend_proxy/README.md)
+   npm install
+   npm start
+   ```
+2. By default, the backend runs at `http://localhost:5001`.
 
-###### Example Proxy endpoints:
-- `/amazon-product?keywords=YOUR_KEYWORDS`
-- `/flipkart-product?keywords=YOUR_KEYWORDS`
-- `/coursera-courses?search=YOUR_QUERY`
-- `/udemy-courses?search=YOUR_QUERY`
-- `/skillshare-courses?search=YOUR_QUERY`
+---
 
-Proxy backends should return consistent course/product listing format:
-```json
-{
-  "title": "Product or Course Title",
-  "image": "Image URL",
-  "price": 1234,
-  "url": "details_url_here",
-  "provider": "Coursera|Udemy|Skillshare|Amazon|Flipkart",
-  "description": "Course description or summary"
-}
+### Step 2: Frontend Setup & Environment Variables
+
+1. **Clone/copy this repo and enter the frontend directory:**
+   ```bash
+   cd goal_saver_frontend
+   ```
+2. **Environment Configuration:**
+   - Copy the example environment file:
+     ```bash
+     cp .env.example .env
+     ```
+   - Edit `.env` and set:
+     ```
+     REACT_APP_PRODUCT_BACKEND_PROXY=http://localhost:5001
+     ```
+     (Set this to your running backend proxy URL—if you change backend port or run it on a remote server, update accordingly.)
+   - For push notifications or live course APIs, add additional keys as desired (see `.env.example`).
+
+   > **Never commit `.env` with private information!**
+
+3. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+4. **Start the app:**
+   ```bash
+   npm start
+   ```
+   By default, the frontend runs at [http://localhost:3000](http://localhost:3000).
+
+---
+
+## 🛒 Creating a Goal from Amazon/Flipkart Products
+
+Once both backend and frontend are running:
+
+1. Visit [http://localhost:3000](http://localhost:3000).
+2. Click "+ Goal from Product" (hero landing area).
+3. Choose "Amazon" or "Flipkart" and enter your product keywords.
+4. The frontend will securely request live results from the backend proxy (no secrets in browser).
+5. See product details and click "Use This As My Goal" — the app will pre-fill a new goal for you!
+6. Set your target date/notes and save.
+
+> **Tip:** If no product is found or you see an error, check your backend credentials, server status, and that `REACT_APP_PRODUCT_BACKEND_PROXY` is correct.
+
+---
+
+## 🧑‍💻 Environment Files Summary
+- `.env.example`: Template file with all required variable names.
+- `.env`: Your local copy (edit this for backend URL, notification, or course API keys).
+- Keep `.env` private and never add real keys to version control.
+
+---
+
+## 🔔 Push Notification Setup (Optional)
+
+To use goal reminders and push notifications (web/app):
+
+- **OneSignal:**  
+  - Set `REACT_APP_ONESIGNAL_APP_ID` in `.env` to your [OneSignal APP ID](https://app.onesignal.com/).
+- **Firebase Cloud Messaging (FCM):**
+  - Set `REACT_APP_FIREBASE_API_KEY`, `REACT_APP_FIREBASE_MESSAGING_SENDER_ID`, plus any other required keys.
+
+Reminders and celebration notifications are triggered automatically by goal progress and periodic app usage.
+You must allow notifications in your browser for this to work.
+
+---
+
+## 🎓 Live Learning / Course API Integration (Coursera, Udemy, Skillshare)
+
+Optionally use the integrated financial literacy course picker in-app.  
+For course search to work fully, set the required proxy URLs or API keys in `.env` for each provider as described in `.env.example`.
+
+---
+
+## 🔄 Common Issues & Troubleshooting
+
+- **Frontend can't reach proxy:** Make sure `REACT_APP_PRODUCT_BACKEND_PROXY` is correct and backend is running.
+- **CORS errors:** Backend proxy by default allows all origins. For more security, restrict CORS origins in `server.js`.
+- **Product search fails:** Check backend API credentials, network access, or quota limits.
+- **.env changes not taking effect:** Restart the frontend after editing `.env`.
+
+---
+
+## ⚡ Quick Start
+
+```bash
+cd ../backend_proxy && npm install && npm start
+cd ../goal_saver_frontend && npm install && npm start
 ```
+- Visit [http://localhost:3000](http://localhost:3000), use "+ Goal from Product".
 
-### Environment Variables Required
-See `.env.example` for all keys (including the additional Coursera/Udemy/Skillshare API variables).
+---
 
-### Secure Handling of Keys
+## 🛡️ Security Notice
 
-- Never put secret API keys directly in client code.
-- Use backend proxy for all real API calls, especially for Udemy and Skillshare.
+- All secret API keys must be handled only by the backend.
+- Never expose or commit `.env` files containing secrets.
 
-
-### `npm start`
-
-Runs the app in development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-### `npm test`
-
-Launches the test runner in interactive watch mode.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
 ## Customization
 
 ### Colors
-
-The main brand colors are defined as CSS variables in `src/App.css`:
+Lavender, pastel, and accent theme variables in `src/App.css`:
 
 ```css
 :root {
-  --kavia-orange: #E87A41;
-  --kavia-dark: #1A1A1A;
-  --text-color: #ffffff;
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --border-color: rgba(255, 255, 255, 0.1);
+  --lavender-main: #8682e4;
+  --lavender-dark: #473BC9;
+  /* ...other variables... */
 }
 ```
 
 ### Components
 
-This template uses pure HTML/CSS components instead of a UI framework. You can find component styles in `src/App.css`. 
+Lightweight, pure React/HTML/CSS components for performance.
 
-Common components include:
-- Buttons (`.btn`, `.btn-large`)
-- Container (`.container`)
-- Navigation (`.navbar`)
-- Typography (`.title`, `.subtitle`, `.description`)
+---
 
-## Learn More
+## Further Reading
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+See [backend_proxy/README.md](../backend_proxy/README.md) for proxy setup and [README.md](../README.md) for full-stack instructions.
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Happy goal-setting! 🎯
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

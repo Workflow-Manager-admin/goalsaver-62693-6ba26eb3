@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 /**
  * Main Container for Goalie app (fully local version).
@@ -788,6 +789,40 @@ function GoalieMainContainer() {
       </div>
       {/* Main hero */}
       <div className="goalie-hero">
+        {/* Pie Chart Summary */}
+        <div
+          style={{
+            width: "100%",
+            maxWidth: 410,
+            margin: "0 auto 22px auto",
+            minHeight: 188,
+            position: "relative",
+            background: "var(--progress-bg)",
+            borderRadius: 18,
+            boxShadow: "0 3px 22px 0 var(--lavender-shadow)",
+            padding: "18px 0 0 0",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
+          }}
+        >
+          <GoalProgressPie
+            goals={sortedGoals}
+            themeColors={{
+              lavenders: [
+                "#8682e4",
+                "#a391ff",
+                "#beb3fd",
+                "#6d82c0",
+                "#473BC9",
+                "#aba6fe",
+                "#bdbbcf"
+              ],
+              border: "#edeafd",
+              accent: "#b3a6ee"
+            }}
+          />
+        </div>
         <div
           className="goalie-title"
           style={{
@@ -901,6 +936,174 @@ function GoalPostSVG({ size = 26, style = {} }) {
         />
       </g>
     </svg>
+  );
+}
+
+/**
+ * Pie chart component to display visual progress of all goals.
+ */
+function GoalProgressPie({ goals, themeColors }) {
+  // Compute data for pie: one slice per goal, value = percent complete (min 0, max 100)
+  let pieData = [];
+  let colorPalette = themeColors && themeColors.lavenders
+    ? themeColors.lavenders
+    : ["#8682e4", "#a391ff", "#beb3fd", "#6d82c0", "#473BC9", "#aba6fe"];
+  if (goals && goals.length > 0) {
+    pieData = goals.map((g, idx) => {
+      const pct = Math.max(0, Math.min((g.saved / g.target) * 100, 100));
+      return {
+        name: g.name,
+        percent: pct,
+        saved: g.saved,
+        target: g.target,
+        fill: colorPalette[idx % colorPalette.length]
+      };
+    });
+  }
+  // Only show sections with progress or non-zero target.
+  const activeSlices = pieData.filter(p => p.percent > 0 || p.target > 0);
+
+  // Pie label for center: mean/total percent, or "-"
+  const totalComplete = pieData.reduce((acc, d) => acc + d.percent, 0);
+  const pctAvg =
+    pieData.length > 0
+      ? Math.round(
+          pieData.reduce((acc, d) => acc + d.percent, 0) / pieData.length
+        )
+      : 0;
+  // Central label color
+  const labelStyle = {
+    fontSize: 27,
+    fontWeight: 700,
+    fontFamily: "inherit",
+    fill: "#8682e4",
+    textAnchor: "middle",
+    dominantBaseline: "middle",
+    // Slight text shadow
+    textShadow: "0 2px 9px #cbc5fa",
+  };
+
+  // Custom tooltip
+  function CustomTooltip({ active, payload }) {
+    if (active && payload && payload.length && payload[0].payload) {
+      const { name, percent, saved, target } = payload[0].payload;
+      return (
+        <div
+          style={{
+            background: "#fff",
+            border: "1.5px solid #eee9fd",
+            color: "#7768b4",
+            borderRadius: 9,
+            boxShadow: "0 2px 10px 0 #bdbbf726",
+            padding: "9px 16px",
+            fontSize: 15,
+            fontWeight: 500
+          }}
+        >
+          <div style={{ fontWeight: 700, color: "#a391ff", marginBottom: 2 }}>{name}</div>
+          <div>
+            <span style={{ color: "#bd93e9" }}>
+              {isNaN(percent) ? "--%" : `${percent.toFixed(1)}%`}
+            </span>
+            {"  "}
+            <span style={{ color: "#8f89af", fontSize: 13 }}>
+              (${saved ?? "--"} / ${target ?? "--"})
+            </span>
+          </div>
+        </div>
+      );
+    }
+    return null;
+  }
+
+  // If no goals/trivial, show fallback text.
+  if (!goals || goals.length === 0) {
+    return (
+      <div style={{ color: "#bdbbf7", fontSize: 19, textAlign: "center", margin: "28px 0" }}>
+        Add goals to see your progress!
+      </div>
+    );
+  }
+  // Empty/unstarted goals
+  if (activeSlices.length === 0) {
+    return (
+      <div style={{ color: "#bdbbf7", fontSize: 18, textAlign: "center", margin: "22px 0" }}>
+        No progress yet—start saving!
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ width: "100%", height: 187 }}>
+      <ResponsiveContainer width="100%" height={180}>
+        <PieChart>
+          <Pie
+            data={pieData}
+            dataKey="percent"
+            nameKey="name"
+            cx="50%"
+            cy="50%"
+            innerRadius={53}
+            outerRadius={84}
+            startAngle={90}
+            endAngle={-270}
+            paddingAngle={2}
+            isAnimationActive={true}
+            animationDuration={820}
+            stroke={themeColors?.border ?? "#edeafd"}
+            strokeWidth={5}
+            labelLine={false}
+            minAngle={2}
+          >
+            {pieData.map((entry, i) => (
+              <Cell
+                key={`cell-${i}`}
+                fill={entry.fill}
+                stroke={themeColors?.border ?? "#edeafd"}
+                style={{ transition: "fill 0.22s" }}
+              />
+            ))}
+          </Pie>
+          {/* Central hollow-label for average % */}
+          <svg
+            x="50%"
+            y="51%"
+            width="0"
+            height="0"
+            style={{ pointerEvents: "none", position: "absolute" }}
+          >
+            <text
+              x="0"
+              y="0"
+              dy=".3em"
+              textAnchor="middle"
+              style={labelStyle}
+              alignmentBaseline="middle"
+            >
+              {pieData.length > 0 ? pctAvg + "%" : "-"}
+            </text>
+          </svg>
+          {/* Custom tooltip for pie */}
+          <Tooltip content={<CustomTooltip />} />
+        </PieChart>
+      </ResponsiveContainer>
+      <div style={{ fontSize: 16, color: "#8a88b5", fontWeight: 500, marginTop: 5 }}>
+        <span
+          style={{
+            color: "#aba6fe",
+            fontWeight: 700,
+            letterSpacing: "-0.5px",
+            fontSize: 16,
+            marginRight: 5
+          }}
+        >
+          Goal Progress
+        </span>
+        <span style={{ fontSize: 14, color: "#bcb8ef", fontWeight: 300 }}>
+          (avg {pctAvg}%)
+        </span>
+      </div>
+    </div>
   );
 }
 

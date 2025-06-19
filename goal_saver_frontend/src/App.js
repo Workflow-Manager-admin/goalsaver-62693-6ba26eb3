@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
-import GoalSaverMainContainer from './GoalSaverMainContainer';
+import GoalieMainContainer from './GoalieMainContainer';
 
 // PUBLIC_INTERFACE
-/** App Root: Renders the GoalSaver main container as the core of the app. */
+/** App Root: Renders the Goalie main container as the core of the app. */
 function App() {
   return (
-    <div className="app" style={{ background: "#FAFAFA" }}>
-      <GoalSaverMainContainer />
+    <div className="app" style={{ background: "var(--lavender-bg)" }}>
+      <GoalieMainContainer />
     </div>
   );
 }

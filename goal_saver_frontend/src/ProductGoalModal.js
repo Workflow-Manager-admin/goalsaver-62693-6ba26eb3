@@ -26,21 +26,32 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
       } else {
         data = await fetchFlipkartProduct(query);
       }
-      if (!data) {
-        setErr(
-          "No product found for your keywords." + 
-          " If this happens repeatedly, ensure your backend proxy is running and credentials are correct."
-        );
-        setProduct(null);
-      } else {
-        setProduct(data);
-      }
+      setProduct(data); // If successful, will always be non-null (else an error is thrown from the utility)
     } catch (ex) {
-      setErr(
-        "API error: Could not fetch product. " +
+      let friendlyMsg = "";
+      if (
+        ex &&
+        typeof ex.message === "string" &&
+        (
+          ex.message.includes("No product found") ||
+          ex.message.includes("empty or incomplete")
+        )
+      ) {
+        friendlyMsg = "No product found for your keywords. " +
+          "If this happens repeatedly, ensure your backend proxy is running and credentials are correct.";
+      } else if (
+        ex &&
+        typeof ex.message === "string" &&
+        ex.message.toLowerCase().includes("back end lookup failed: missing amazon api credentials")
+      ) {
+        friendlyMsg = "Backend missing Amazon API credentials. Check your backend .env and restart the proxy server.";
+      } else {
+        friendlyMsg =
+          "API error: Could not fetch product. " +
           (ex && ex.message ? String(ex.message) : "Unknown error") +
-          " (Tip: Is the backend proxy running at the address set in .env? Are credentials set up?)"
-      );
+          " (Tip: Is the backend proxy running at the address set in .env? Are credentials set up?)";
+      }
+      setErr(friendlyMsg);
       setProduct(null);
     }
     setLoading(false);

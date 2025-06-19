@@ -19,6 +19,7 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
     setErr("");
     setProduct(null);
     setLoading(true);
+
     try {
       let data = null;
       if (market === "amazon") {
@@ -26,35 +27,66 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
       } else {
         data = await fetchFlipkartProduct(query);
       }
-      setProduct(data); // If successful, will always be non-null (else an error is thrown from the utility)
+      if (!data) {
+        setErr("No product found for your keywords. Please try a different search, and ensure your backend proxy is running and configured.");
+        setProduct(null);
+      } else {
+        setProduct(data);
+      }
     } catch (ex) {
+      // Robust: handle all error types for display, and log to console for debugging
       let friendlyMsg = "";
       if (
         ex &&
         typeof ex.message === "string" &&
-        (
-          ex.message.includes("No product found") ||
-          ex.message.includes("empty or incomplete")
-        )
+        (ex.message.includes("No product found") ||
+         ex.message.includes("empty or incomplete") ||
+         ex.message.toLowerCase().includes("no product found"))
       ) {
         friendlyMsg = "No product found for your keywords. " +
           "If this happens repeatedly, ensure your backend proxy is running and credentials are correct.";
       } else if (
         ex &&
         typeof ex.message === "string" &&
-        ex.message.toLowerCase().includes("back end lookup failed: missing amazon api credentials")
+        (ex.message.toLowerCase().includes("missing amazon api credentials") ||
+         ex.message.toLowerCase().includes("backend lookup failed: missing amazon api credentials"))
       ) {
         friendlyMsg = "Backend missing Amazon API credentials. Check your backend .env and restart the proxy server.";
+      } else if (
+        ex &&
+        typeof ex.message === "string" &&
+        (ex.message.toLowerCase().includes("missing flipkart api credentials") ||
+         ex.message.toLowerCase().includes("backend lookup failed: missing flipkart api credentials"))
+      ) {
+        friendlyMsg = "Backend missing Flipkart API credentials. Check your backend .env and restart the proxy server.";
+      } else if (
+        ex &&
+        typeof ex.message === "string" &&
+        (ex.message.toLowerCase().includes("could not connect to backend proxy"))
+      ) {
+        friendlyMsg =
+          "Could not connect to backend proxy. Please ensure the backend is running at the address set in .env.";
+      } else if (
+        ex && typeof ex.message === "string" &&
+        (ex.message.toLowerCase().includes("cors") || ex.message.toLowerCase().includes("network"))
+      ) {
+        friendlyMsg =
+          "Network error or CORS issue. Make sure your backend proxy is accessible, and CORS is allowed from this frontend's origin.";
       } else {
         friendlyMsg =
           "API error: Could not fetch product. " +
           (ex && ex.message ? String(ex.message) : "Unknown error") +
           " (Tip: Is the backend proxy running at the address set in .env? Are credentials set up?)";
       }
+      // For debugging during development; doesn't affect user view.
+      if (window && window.console && window.console.error) {
+        window.console.error("Live product search error:", ex);
+      }
       setErr(friendlyMsg);
       setProduct(null);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   // PUBLIC_INTERFACE

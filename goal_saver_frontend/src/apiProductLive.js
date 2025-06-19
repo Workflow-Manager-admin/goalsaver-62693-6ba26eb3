@@ -27,7 +27,7 @@ export async function fetchAmazonProduct(keywords) {
     }
     data = await resp.json();
   } catch (err) {
-    throw new Error("Invalid backend response: " + (err?.message || "Malformed JSON"));
+    throw new Error("Invalid backend response: " + (err && err.message ? err.message : "Malformed JSON"));
   }
   // Always only use sanitized outgoing fields (never trust anything extra)
   if (!data || !data.title || !data.url) {
@@ -70,7 +70,7 @@ export async function fetchFlipkartProduct(keywords) {
     }
     data = await resp.json();
   } catch (err) {
-    throw new Error("Invalid backend response: " + (err?.message || "Malformed JSON"));
+    throw new Error("Invalid backend response: " + (err && err.message ? err.message : "Malformed JSON"));
   }
   if (!data || !data.title || !data.url) {
     throw new Error("No product found (empty or incomplete product data returned)");

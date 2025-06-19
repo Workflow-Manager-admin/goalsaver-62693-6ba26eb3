@@ -44,3 +44,33 @@ cached modules 2.74 MiB [cached] 630 modules
 runtime modules 27.5 KiB 14 modules
 ./src/ProductGoalModal.js 13 KiB [built] [code generated]
 webpack 5.99.9 compiled successfully in 158 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 3.05 MiB
+  asset bundle.js 3.03 MiB [emitted] (name: main)
+  asset main.284a0b4b1c9f2317c32e.hot-update.js 19.3 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.284a0b4b1c9f2317c32e.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.05 MiB = bundle.js 3.03 MiB main.284a0b4b1c9f2317c32e.hot-update.js 19.3 KiB
+cached modules 2.74 MiB [cached] 630 modules
+runtime modules 27.5 KiB 14 modules
+./src/ProductGoalModal.js 14.4 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 225 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 3.03 MiB
+  asset bundle.js 3.03 MiB [emitted] (name: main)
+  asset main.09bac26d570c7e701dc8.hot-update.js 4.47 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.09bac26d570c7e701dc8.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.03 MiB = bundle.js 3.03 MiB main.09bac26d570c7e701dc8.hot-update.js 4.47 KiB
+cached modules 2.75 MiB [cached] 630 modules
+runtime modules 27.5 KiB 14 modules
+./src/apiProductLive.js 2.92 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 128 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 3.03 MiB
+  asset bundle.js 3.03 MiB [emitted] (name: main)
+  asset main.4293911b8954d8668805.hot-update.js 4.49 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.4293911b8954d8668805.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.03 MiB = bundle.js 3.03 MiB main.4293911b8954d8668805.hot-update.js 4.49 KiB
+cached modules 2.75 MiB [cached] 630 modules
+runtime modules 27.5 KiB 14 modules
+./src/apiProductLive.js 2.93 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 84 ms

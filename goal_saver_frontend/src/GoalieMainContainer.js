@@ -1,6 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
+/** Luxurious pro font and palette */
+const BRAND_FONT = "Inter, Nunito, 'Roboto', 'Helvetica Neue', Arial, sans-serif";
+
+/** Priority badge rendering based on priority number (1,2,3...) */
+function PriorityBadge({ priority }) {
+  let prioText = "Priority " + priority;
+  let badgeClass = "goalie-prio-badge";
+  return (
+    <span
+      className={badgeClass}
+      data-prio={priority}
+      title={"Priority " + priority}
+    >
+      {prioText}
+    </span>
+  );
+}
 /** Typography preset for all main areas */
 const BRAND_FONT = "Inter, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif";
 
@@ -576,55 +593,47 @@ function GoalieMainContainer() {
     const [addAmt, setAddAmt] = useState("");
     const completed = goal.saved >= goal.target && goal.target > 0;
     return (
-      <div
-        className="goalie-card"
-        style={{
-          background: "var(--card-bg)",
-          border: "1.5px solid var(--border-color)",
-          borderRadius: 19,
-          marginBottom: 18,
-          boxShadow: completed
-            ? "0 7px 32px 0 #d1c1ff44, 0 1px 7px 0 #eae4fb14"
-            : "0 4px 15px 0 var(--lavender-shadow)",
-          padding: "29px 26px 22px 24px",
-          width: "100%",
-          maxWidth: 500,
-          position: "relative",
-          transition: "box-shadow .14s, border .12s"
-        }}>
-        <div style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: 4,
-        }}>
+      <div className="goalie-card">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: 4,
+            gap: 12,
+          }}
+        >
           <h4
             style={{
               color: "var(--lavender-main)",
               margin: 0,
               fontWeight: 800,
-              fontSize: 21,
+              fontSize: 21.5,
               letterSpacing: "-0.8px",
               fontFamily: BRAND_FONT,
-              lineHeight: "1.15",
+              lineHeight: "1.13",
               display: "flex",
               alignItems: "center"
             }}
           >
-            {goal.name}
-            <span
-              style={{
-                color: "var(--faded-txt)",
-                fontWeight: 400,
-                fontSize: 15.5,
-                marginLeft: 9,
-                letterSpacing: "-0.2px",
-                fontFamily: BRAND_FONT
-              }}>
-              (${goal.target})
+            <PriorityBadge priority={goal.priority} />
+            <span>
+              {goal.name}
+              <span
+                style={{
+                  color: "var(--faded-txt)",
+                  fontWeight: 400,
+                  fontSize: "15.1px",
+                  marginLeft: 8,
+                  letterSpacing: "-0.2px",
+                  fontFamily: BRAND_FONT,
+                }}
+              >
+                (${goal.target})
+              </span>
             </span>
           </h4>
-          <div style={{ display: "flex", gap: 9 }}>
+          <div style={{ display: "flex", gap: 7 }}>
             <button
               className="goalie-icon-btn"
               title="Edit"
@@ -632,7 +641,7 @@ function GoalieMainContainer() {
               style={{
                 color: "var(--lavender-main)",
                 background: "var(--contrib-bg)",
-                fontWeight: 600
+                fontWeight: 700,
               }}
             >
               ✏️
@@ -642,9 +651,9 @@ function GoalieMainContainer() {
               title="Delete"
               onClick={() => handleDeleteGoal(goal.id)}
               style={{
-                color: "#fe5666",
-                background: "#fff0f4",
-                fontWeight: 600
+                color: "var(--danger)",
+                background: "#fff0f7",
+                fontWeight: 700,
               }}
             >
               🗑️
@@ -654,10 +663,10 @@ function GoalieMainContainer() {
         <div
           style={{
             color: "var(--faded-txt)",
-            fontSize: 13.3,
-            margin: "7px 0 0",
+            fontSize: 13.2,
+            margin: "8px 0 0",
             fontWeight: 500,
-            fontFamily: BRAND_FONT
+            fontFamily: BRAND_FONT,
           }}
         >
           Deadline: {goal.deadline}
@@ -666,25 +675,46 @@ function GoalieMainContainer() {
           <div
             style={{
               color: "var(--lavender-dark)",
-              fontSize: 13.2,
+              fontSize: 13,
               margin: "5px 0 0",
               fontStyle: "italic",
               fontWeight: 500,
-              fontFamily: BRAND_FONT
-            }}>
+              fontFamily: BRAND_FONT,
+            }}
+          >
             Note: {goal.notes}
           </div>
         )}
 
-        <div style={{
-          margin: "15px 0 3px",
-          fontWeight: 700,
-          fontSize: 15.7,
-          fontFamily: BRAND_FONT,
-        }}>
-          Saved: <span style={{ color: "var(--lavender-accent)", fontWeight: 900 }}>${goal.saved}</span>
+        <div
+          style={{
+            margin: "15px 0 3px",
+            fontWeight: 700,
+            fontSize: 16,
+            fontFamily: BRAND_FONT,
+          }}
+        >
+          Saved:{" "}
+          <span
+            style={{
+              color: "var(--lavender-accent)",
+              fontWeight: 900,
+            }}
+          >
+            ${goal.saved}
+          </span>
         </div>
-        {renderProgressBar(goal)}
+        {/* Animated Progress Bar */}
+        <div className="goalie-progress-bar-outer">
+          <div
+            className="goalie-progress-bar-inner"
+            style={{
+              width: `${Math.min((goal.saved / goal.target) * 100, 100)}%`,
+              background:
+                "linear-gradient(90deg, var(--lavender-accent), var(--lavender-main) 85%)",
+            }}
+          ></div>
+        </div>
 
         <div
           style={{
@@ -692,20 +722,30 @@ function GoalieMainContainer() {
             color: "var(--lavender-muted)",
             marginBottom: 6,
             fontWeight: 500,
-            fontFamily: BRAND_FONT
+            fontFamily: BRAND_FONT,
+            marginTop: 4,
           }}
         >
           {getMotivationalMessage(goal)}
-          {completed && <span style={{ marginLeft: 8, color: "#49d677", fontWeight: 700 }}>🎉</span>}
+          {completed && (
+            <span
+              style={{
+                marginLeft: 8,
+                color: "#49d677",
+                fontWeight: 700,
+              }}
+            >
+              🎉
+            </span>
+          )}
         </div>
-
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: 13,
             marginTop: 4,
-            flexWrap: "wrap"
+            flexWrap: "wrap",
           }}
         >
           <ContributionStats goal={goal} />
@@ -733,6 +773,7 @@ function GoalieMainContainer() {
                 outline: "none",
                 boxShadow: "none",
                 fontFamily: BRAND_FONT,
+                fontWeight: 700,
               }}
               type="number"
               inputMode="decimal"
@@ -748,16 +789,17 @@ function GoalieMainContainer() {
               style={{
                 fontSize: 14.5,
                 padding: "5px 13px",
-                borderRadius: 7,
-                background: "linear-gradient(90deg, var(--lavender-accent), var(--lavender-main) 80%)",
-                fontWeight: 700,
+                borderRadius: 8,
+                background:
+                  "linear-gradient(90deg, var(--lavender-accent), var(--lavender-main) 90%)",
+                fontWeight: 800,
               }}
             >
               +Save
             </button>
           </form>
         </div>
-        <div style={{ display: "flex", gap: 3, marginTop: 15, fontSize: 12.4, fontFamily: BRAND_FONT }}>
+        <div style={{ display: "flex", gap: 3, marginTop: 15, fontSize: 12.2, fontFamily: BRAND_FONT }}>
           <button
             disabled={goal.priority === 1}
             className="goalie-icon-btn"
@@ -790,10 +832,10 @@ function GoalieMainContainer() {
           </button>
           <span
             style={{
+              marginLeft: 10,
               color: "var(--lavender-muted)",
-              marginLeft: 9,
-              fontWeight: 600,
-              fontSize: 13.6
+              fontWeight: 700,
+              fontSize: 13.5,
             }}
           >
             Priority: {goal.priority}

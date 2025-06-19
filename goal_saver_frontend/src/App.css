@@ -1,30 +1,45 @@
 /* --- Goalie Lavender Theme Variables --- */
 :root {
-  --lavender-main: #8b82e4;
-  --lavender-dark: #473BC9;
-  --lavender-accent: #ae9eff;
-  --lavender-bg: #f9f7fc;
+  --lavender-main: #8c78e9;
+  --lavender-dark: #5141b8;
+  --lavender-accent: #b3a5fc;
+  --lavender-bg: #f7f3fd;
   --card-bg: #fff;
-  --lavender-muted: #bfbbec;
-  --contrib-bg: #f4f0fb;
+  --lavender-muted: #cbc2f6;
+  --contrib-bg: #f0efff;
   --progress-bg: #ece9fa;
-  --input-bg: #f7f5ff;
+  --input-bg: #f8f6ff;
   --grey: #9d9db4;
-  --border-color: #e6e1f8;
+  --border-color: #e3dcf6;
   --faded-txt: #958ca7;
-  --text-dark: #30284e;
-  --lavender-shadow: #a093ef46;
-  --brand-gradient: linear-gradient(90deg, #a391ff 50%, #cre8ed 100%);
+  --text-dark: #2f2553;
+  --shadow-intense: 0 10px 34px 0 #b4a7fc42;
+  --shadow-soft: 0 4px 16px 0 #b8b0f61a, 0 1.5px 7px 0 #ddc7fa1a;
+  --progress-gradient: linear-gradient(90deg, #b9a4fd 0%, #857cf2 100%);
+  --brand-gradient: linear-gradient(120deg, #b8a6ff 17%, #d2c5fa 81%);
+  --modal-gradient: linear-gradient(116deg, #faf8ff 63%, #e7e3f8 100%);
+  --danger: #fe5666;
+  --badge-prio1: linear-gradient(90deg, #7f6aed, #d2c5fa 90%);
+  --badge-prio2: linear-gradient(90deg, #a7aae2, #ded3fd 100%);
+  --badge-prio3: linear-gradient(90deg, #c0bcfb, #f3f1ff 90%);
+  --pie-accent: #b79dfe;
+  --pie-shadow: 0 8px 38px 0 #cbc1f544, 0 2px 17px 0 #e0ddfa23;
+  --btn-hover: #aea1fb;
+  --btn-active: #7e6be2;
 }
+
 
 /* --- General styles and resets --- */
 body {
   margin: 0;
-  font-family: 'Inter', 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-family: 'Inter', 'Nunito', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
   background: var(--lavender-bg);
   color: var(--text-dark);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.01em;
+  scroll-behavior: smooth;
+  min-height: 100vh;
 }
 
 .app, .goalie-theme-root {
@@ -32,32 +47,38 @@ body {
   background: var(--lavender-bg);
   display: flex;
   flex-direction: column;
+  font-family: inherit;
 }
 
-/* --- Navbar/Header --- */
+/* NAVIGATION */
 .goalie-navbar {
   background: var(--card-bg);
-  padding: 14px 0 12px 0;
+  padding: 17px 0 12px 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1.2px solid var(--border-color);
+  border-bottom: 1.4px solid var(--border-color);
   position: sticky;
   top: 0;
   width: 100%;
   box-sizing: border-box;
-  z-index: 90;
-  min-height: 57px;
+  z-index: 999;
+  min-height: 62px;
+  font-family: inherit;
+  transition: box-shadow .22s;
+  box-shadow: 0 2px 12px 0 #d8d2f914;
 }
 
 .goalie-logo {
-  font-size: 1.48rem;
-  font-weight: 700;
+  font-size: 1.6rem;
+  font-weight: 800;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
   background: none;
-  letter-spacing: -0.5px;
+  letter-spacing: -0.7px;
+  font-family: inherit;
+  color: var(--lavender-main);
 }
 .goalie-logo-icon {
   display: flex;
@@ -67,159 +88,328 @@ body {
   color: var(--lavender-main);
 }
 
+/* HERO SECTION */
 .goalie-hero {
-  max-width: 730px;
+  max-width: 720px;
   margin: 0 auto;
   text-align: center;
-  padding: 46px 10px 18px 10px;
+  padding: 58px 10px 26px 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 11px;
+  gap: 13px;
 }
 
 .goalie-title {
-  font-size: 2.7rem;
-  font-weight: 700;
+  font-size: 2.9rem;
+  font-weight: 900;
   margin: 0;
-  letter-spacing: -1.3px;
+  letter-spacing: -1.35px;
+  color: var(--lavender-main);
+  background: var(--brand-gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 11px;
 }
 .goalie-subtitle {
   color: var(--lavender-dark);
-  font-weight: 500;
-  font-size: 1.23rem;
-  margin-top: 12px;
-  margin-bottom: -1px;
+  font-weight: 600;
+  font-size: 1.26rem;
+  margin-top: 18px;
+  margin-bottom: 2px;
+  font-family: inherit;
 }
 .goalie-desc {
-  font-size: 1.07rem;
+  font-size: 1.08rem;
   color: var(--faded-txt);
-  max-width: 630px;
+  max-width: 580px;
   margin: 0 auto 8px auto;
-  line-height: 1.5;
+  line-height: 1.57;
   font-weight: 500;
 }
+
+/* BUTTONS */
 .goalie-btn,
 .goalie-btn-large {
-  background: linear-gradient(90deg, var(--lavender-main) 75%, var(--lavender-dark));
+  background: linear-gradient(90deg, var(--lavender-main) 60%, var(--lavender-dark) 170%);
   color: #fff;
   border: none;
-  border-radius: 7px;
-  padding: 11px 33px;
-  font-size: 1rem;
-  font-weight: 600;
+  border-radius: 11px;
+  padding: 13px 36px;
+  font-size: 1.07rem;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 2px 12px 0 #e8e3ff1a;
+  box-shadow: 0 3px 13px 0 #ccb1fa23;
   margin: 0 0 4px 0;
-  transition: background 0.16s;
+  transition: background 0.19s, box-shadow .21s, filter .13s;
   outline: none;
+  letter-spacing: -.07px;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
 }
 .goalie-btn-large {
-  font-size: 1.18rem;
-  padding: 14px 41px;
-  border-radius: 11px;
-  margin-top: 7px;
+  font-size: 1.22rem;
+  padding: 16px 46px;
+  border-radius: 14px;
+  margin-top: 9px;
+}
+.goalie-btn:active,
+.goalie-btn-large:active {
+  filter: brightness(0.96);
+  background: var(--btn-active);
 }
 .goalie-btn:hover,
 .goalie-btn-large:hover {
-  filter: brightness(0.97);
-  background: var(--lavender-accent);
+  background: linear-gradient(98deg, var(--btn-hover) 30%, var(--lavender-main) 80%);
   color: #fff;
+  box-shadow: 0 5px 24px 0 #bca6ff2f;
+  filter: brightness(1.04);
 }
 
+/* OUTLINE BUTTON (profile, cancel) */
 .goalie-btn-outline {
   background: #fff;
   color: var(--lavender-main);
   border: 1.7px solid var(--lavender-main);
-  border-radius: 6px;
-  padding: 8px 22px;
-  font-size: 1rem;
-  font-weight: 700;
+  border-radius: 9px;
+  padding: 8px 23px;
+  font-size: 1.01rem;
+  font-weight: 800;
   cursor: pointer;
   margin-left: 0;
   margin-right: 7px;
   margin-top: 0;
   outline: none;
-  transition: background 0.12s, color 0.12s;
+  font-family: inherit;
+  box-shadow: 0 1.5px 8px 0 #eae4fb22;
+  transition: background 0.13s, color 0.13s;
 }
 .goalie-btn-outline:hover {
   background: var(--contrib-bg);
+  color: var(--lavender-dark);
 }
 
 .goalie-label {
   color: var(--lavender-dark);
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 1.02rem;
   margin-bottom: 1px;
   display: block;
-  margin-top: 11px;
-  letter-spacing: 0.1px;
+  margin-top: 12px;
+  letter-spacing: 0.04px;
+  font-family: inherit;
 }
 
-/* --- Modal for onboarding --- */
+/* MODALS */
 .goalie-modal-overlay {
-  background: rgba(54, 43, 112, 0.21);
+  background: rgba(54, 43, 112, 0.22);
   position: fixed;
   z-index: 1112;
   inset: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  animation: fadein 0.17s;
+  animation: modal-fadein 0.17s;
+  transition: background .11s;
 }
-@keyframes fadein { from { opacity: 0 } to { opacity: 1 } }
+@keyframes modal-fadein { 
+  from { opacity: 0 } 
+  to { opacity: 1 } 
+}
 
 .goalie-modal {
-  background: #fff;
-  max-width: 410px;
-  min-width: 288px;
-  padding: 34px 25px 29px 25px;
-  box-shadow: 0 8px 60px var(--lavender-shadow);
-  border-radius: 18px;
-  border: 1.2px solid var(--border-color);
-  animation: modalin .23s cubic-bezier(.62,0,.23,1.03);
-  transition: box-shadow 0.17s;
+  background: var(--modal-gradient);
+  max-width: 450px;
+  min-width: 280px;
+  padding: 39px 31px 33px 33px;
+  box-shadow: 0 16px 68px var(--lavender-shadow), 0 2px 18px 0 #ddc7fa16;
+  border-radius: 20px;
+  border: 1.5px solid var(--border-color);
+  animation: modalin .29s cubic-bezier(.62,0,.23,1.03);
+  transition: box-shadow 0.23s, border .15s;
+  font-family: inherit;
+  position: relative;
+  backdrop-filter: blur(1.5px);
 }
 @keyframes modalin {
-  0% { transform: scale(0.97) translateY(30px); opacity: 0.2 }
-  100% { transform: scale(1) translateY(0); opacity: 1; }
+  0% { 
+    transform: scale(0.97) translateY(36px); 
+    opacity: 0.12 
+  }
+  100% { 
+    transform: scale(1) translateY(0); 
+    opacity: 1; 
+  }
 }
 .goalie-modal-head {
   display: flex;
   align-items: center;
-  gap: 7px;
-  margin-bottom: 8px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
-/* --- Goal Card Styles --- */
+.goalie-modal .step-marker {
+  width: 16px; height: 16px;
+  background: var(--progress-gradient);
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 7px;
+  border: 2.2px solid var(--lavender-main);
+  box-shadow: 0 1px 5px #ccc4f614;
+}
+
+/* FORM & PROFILE FIELDS */
+.goalie-modal input[type="number"], 
+.goalie-modal input[type="text"], 
+.goalie-modal input[type="date"],
+.goalie-modal textarea, 
+.goalie-modal select {
+  width: 100%;
+  border: 1.4px solid var(--lavender-main);
+  border-radius: 8px;
+  background: var(--input-bg);
+  padding: 9px 14px;
+  font-size: 17px;
+  margin-top: 7px;
+  margin-bottom: 6px;
+  font-family: inherit;
+  color: var(--text-dark);
+  transition: border-color .14s, box-shadow .15s;
+  box-shadow: 0 1.2px 8px 0 #eae4fb09;
+  outline: none;
+  font-weight: 600;
+  appearance: none;
+}
+
+.goalie-modal input:focus,
+.goalie-modal textarea:focus,
+.goalie-modal select:focus {
+  border-color: var(--lavender-dark);
+  box-shadow: 0 1.7px 8px 0 #bca6ff24;
+}
+
+.goalie-modal input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.3) brightness(1.2);
+}
+
+/* GOAL CARDS */
 .goalie-goals-wrap {
-  max-width: 620px;
-  margin: 0 auto 69px auto;
+  max-width: 680px;
+  margin: 0 auto 88px auto;
   display: flex;
   flex-direction: column;
-  gap: 17px;
+  gap: 19px;
   align-items: center;
 }
 
 .goalie-card {
   background: var(--card-bg);
-  border: 1.3px solid var(--border-color);
-  border-radius: 19px;
-  margin-bottom: 14px;
-  box-shadow: 0 3px 18px 0 var(--lavender-shadow);
-  padding: 24px 22px 20px 22px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 23px;
+  margin-bottom: 15px;
+  box-shadow: var(--shadow-soft);
+  padding: 29px 27px 21px 27px;
   width: 100%;
-  max-width: 500px;
-  transition: box-shadow .16s;
+  max-width: 520px;
+  transition: box-shadow .18s, border .14s, transform 0.34s;
   position: relative;
+  opacity: 0;
+  transform: translateY(46px) scale(0.97);
+  animation: cardDropIn .44s cubic-bezier(0.28, 0.78, 0.42, 0.97) forwards;
+}
+@keyframes cardDropIn {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .goalie-card:hover {
-  box-shadow: 0 10px 32px 0 #cdcbfb44;
+  box-shadow: var(--shadow-intense);
   border-color: var(--lavender-main);
+  transform: scale(1.02) translateY(-3px);
+}
+
+/* Priority Badge Styles */
+.goalie-prio-badge {
+  display: inline-block;
+  min-width: 57px;
+  padding: 2.5px 14px;
+  font-size: 13.2px;
+  font-weight: 900;
+  color: #fff;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px 0 #bca6ff29;
+  text-align: center;
+  letter-spacing: .06em;
+  margin-right: 7px;
+  vertical-align: middle;
+  user-select: none;
+  border: none;
+}
+.goalie-prio-badge[data-prio="1"] { background: var(--badge-prio1);}
+.goalie-prio-badge[data-prio="2"] { background: var(--badge-prio2);}
+.goalie-prio-badge[data-prio="3"] { background: var(--badge-prio3);}
+.goalie-prio-badge[data-prio] { background: var(--badge-prio2); }
+
+/* Animated Progress Bars */
+.goalie-progress-bar-outer {
+  width: 100%;
+  background: var(--progress-bg);
+  border-radius: 14px;
+  height: 15px;
+  margin: 13px 0 8px 0;
+  overflow: hidden;
+  box-shadow: 0 3px 8px #eae4fb21;
+  position: relative;
+}
+
+.goalie-progress-bar-inner {
+  background: var(--progress-gradient);
+  height: 100%;
+  border-radius: 11px 14px 14px 11px;
+  transition: width 0.77s cubic-bezier(0.34, 0.94, 0.58, 1);
+}
+
+.goalie-pie-wrap {
+  background: var(--progress-bg);
+  border-radius: 21px;
+  box-shadow: var(--pie-shadow);
+  border: 1.7px solid var(--border-color);
+}
+
+/* Pie tooltip */
+.goalie-pie-tooltip {
+  background: #fff;
+  border: 1.5px solid #eee9fd;
+  color: #7768b4;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px 0 #bdbbf72b;
+  padding: 12px 19px 13px 19px;
+  font-size: 15.2px;
+  font-weight: 600;
+  animation: toolFade .2s;
+}
+@keyframes toolFade {
+  from { opacity: 0;  }
+  to { opacity: 1; }
+}
+
+/* Tooltips, badges, tag/label structure for clean UI */
+.goalie-emptymsg {
+  background: var(--contrib-bg);
+  color: var(--lavender-main);
+  padding: 27px 33px;
+  font-size: 18px;
+  border-radius: 16px;
+  margin: 0 auto;
+  box-shadow: 0 2px 13px 0 #d9cbf766;
+  font-weight: 700;
+  min-width: 240px;
 }
 
 /* Icon button styles */
@@ -232,15 +422,23 @@ body {
   font-size: 19px;
   padding: 2px 11px 2px 8px;
   outline: none;
-  font-weight: 700;
+  font-weight: 800;
   margin-right: 1px;
-  transition: background 0.15s;
+  transition: background 0.13s, color .17s;
 }
 .goalie-icon-btn:disabled {
-  color: var(--faded-txt);
+  color: var(--lavender-muted);
   cursor: not-allowed;
   background: none;
 }
+
+/* Modal transitions */
+.goalie-modal,
+.goalie-card,
+.goalie-pie-wrap {
+  will-change: opacity, transform;
+}
+
 /* Empty msg for no goals */
 .goalie-emptymsg {
   background: var(--contrib-bg);
@@ -256,33 +454,76 @@ body {
 .goalie-footer {
   text-align: center;
   color: var(--faded-txt);
-  font-size: 15px;
-  margin-top: 32px;
-  margin-bottom: 10px;
+  font-size: 15.5px;
+  margin-top: 42px;
+  margin-bottom: 9px;
+  font-family: inherit;
+  font-weight: 500;
+  letter-spacing: .02em;
 }
 
 /* Reminder popup */
 .goalie-reminder {
   background: var(--lavender-accent);
   color: #fff;
-  border-radius: 11px;
-  box-shadow: 0 2px 16px 0 #b1b9de58;
+  border-radius: 13px;
+  box-shadow: 0 4px 19px 0 #b1b9de66;
   position: fixed;
-  right: 35px;
+  right: 29px;
   top: 89px;
-  z-index: 513;
-  min-width: 220px;
-  padding: 16px 23px 14px 23px;
+  z-index: 1023;
+  min-width: 230px;
+  padding: 18px 25px 16px 25px;
   font-size: 16px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  animation: reminderin .14s;
+  animation: reminderin .17s;
+  transition: box-shadow 0.13s, background 0.13s;
 }
 @keyframes reminderin {
-  0% { opacity: 0;right:0;transform:translateY(-36px);}
+  0% { opacity: 0;right:0;transform:translateY(-23px);}
   100% { opacity:1; }
 }
 
 input, select, textarea {
   font-family: inherit;
+}
+
+/* Responsive Design */
+@media (max-width: 820px) {
+  .goalie-hero, .goalie-goals-wrap {
+    max-width: 98vw;
+  }
+  .goalie-card,
+  .goalie-pie-wrap {
+    max-width: 98vw;
+    min-width: 0;
+    padding-left: 8vw;
+    padding-right: 8vw;
+  }
+}
+@media (max-width: 600px) {
+  .goalie-hero,
+  .goalie-goals-wrap {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    max-width: 100vw;
+  }
+  .goalie-card {
+    padding-top: 22px;
+    padding-bottom: 18px;
+    padding-left: 7vw;
+    padding-right: 7vw;
+    max-width: 99vw;
+  }
+  .goalie-pie-wrap {
+    padding: 10px 2vw 4vw 2vw !important;
+    min-width: 0;
+    max-width: 98vw;
+  }
+  .goalie-title { font-size: 2.0rem; }
+}
+@media (max-width: 450px) {
+  .goalie-modal { max-width: 99vw; padding: 17vw 2vw; min-width: 0; }
+  .goalie-card { padding-left: 3vw; padding-right: 3vw; }
 }

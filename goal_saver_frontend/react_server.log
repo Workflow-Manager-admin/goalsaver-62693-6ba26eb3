@@ -12,9 +12,9 @@ asset index.html 1.98 KiB [emitted]
 orphan modules 366 KiB [orphan] 145 modules
 runtime modules 27.5 KiB 14 modules
 modules by path ./node_modules/ 2.3 MiB 470 modules
-modules by path ./src/ 54.4 KiB
+modules by path ./src/ 60 KiB
   modules by path ./src/*.css 11.6 KiB 4 modules
-  modules by path ./src/*.js 42.9 KiB
+  modules by path ./src/*.js 48.4 KiB
     ./src/index.js 530 bytes [built] [code generated]
     + 2 modules
 modules by path ./.ve/ 15.1 KiB
@@ -23,64 +23,205 @@ modules by path ./.ve/ 15.1 KiB
     ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
     ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
   ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 2298 ms
+webpack 5.99.9 compiled successfully in 2384 ms
 assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 2.99 MiB
+assets by path *.js 3 MiB
   asset bundle.js 2.99 MiB [emitted] (name: main)
-  asset main.c878d7348b75919d6557.hot-update.js 8.97 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.c878d7348b75919d6557.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 2.99 MiB = bundle.js 2.99 MiB main.c878d7348b75919d6557.hot-update.js 8.97 KiB
+  asset main.70d913feb1d081ebec15.hot-update.js 9.55 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.70d913feb1d081ebec15.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3 MiB = bundle.js 2.99 MiB main.70d913feb1d081ebec15.hot-update.js 9.55 KiB
 cached modules 2.72 MiB [cached] 626 modules
 runtime modules 27.5 KiB 14 modules
-./node_modules/css-loader/dist/cjs.js!./src/App.css 6.34 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 201 ms
+./node_modules/css-loader/dist/cjs.js!./src/App.css 6.9 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 186 ms
 assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 3.04 MiB
+assets by path *.js 3.01 MiB
   asset bundle.js 2.99 MiB [emitted] (name: main)
-  asset main.cbe01759c2fa6d7e737e.hot-update.js 53.3 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.cbe01759c2fa6d7e737e.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 3.04 MiB = bundle.js 2.99 MiB main.cbe01759c2fa6d7e737e.hot-update.js 53.3 KiB
-cached modules 2.68 MiB [cached] 626 modules
+  asset main.355544c303f167011423.hot-update.js 12.1 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.355544c303f167011423.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.01 MiB = bundle.js 2.99 MiB main.355544c303f167011423.hot-update.js 12.1 KiB
+cached modules 2.72 MiB [cached] 626 modules
 runtime modules 27.5 KiB 14 modules
-./src/GoalieMainContainer.js 41.9 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 306 ms
-assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 3.04 MiB
-  asset bundle.js 2.99 MiB [emitted] (name: main)
-  asset main.1e51acc715f6eca6be7d.hot-update.js 55.2 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.1e51acc715f6eca6be7d.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 3.04 MiB = bundle.js 2.99 MiB main.1e51acc715f6eca6be7d.hot-update.js 55.2 KiB
-cached modules 2.68 MiB [cached] 626 modules
-runtime modules 27.5 KiB 14 modules
-./src/GoalieMainContainer.js 43.8 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 214 ms
-assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 3.04 MiB
-  asset bundle.js 2.99 MiB [emitted] (name: main)
-  asset main.ad08b36c6275ae1cb5c7.hot-update.js 56.8 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.ad08b36c6275ae1cb5c7.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 3.04 MiB = bundle.js 2.99 MiB main.ad08b36c6275ae1cb5c7.hot-update.js 56.8 KiB
-cached modules 2.68 MiB [cached] 626 modules
-runtime modules 27.5 KiB 14 modules
-./src/GoalieMainContainer.js 45.3 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 289 ms
-assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 3.05 MiB
-  asset bundle.js 2.99 MiB [emitted] (name: main)
-  asset main.ae46a1f8fe64c35ae0da.hot-update.js 58.9 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.ae46a1f8fe64c35ae0da.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 3.05 MiB = bundle.js 2.99 MiB main.ae46a1f8fe64c35ae0da.hot-update.js 58.9 KiB
-cached modules 2.68 MiB [cached] 626 modules
-runtime modules 27.5 KiB 14 modules
-./src/GoalieMainContainer.js 47.2 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 279 ms
-assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 3.05 MiB
-  asset bundle.js 2.99 MiB [emitted] (name: main)
-  asset main.78f2a063f3243847c30a.hot-update.js 59 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.78f2a063f3243847c30a.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 3.05 MiB = bundle.js 2.99 MiB main.78f2a063f3243847c30a.hot-update.js 59 KiB
-cached modules 2.68 MiB [cached] 626 modules
-runtime modules 27.5 KiB 14 modules
-./src/GoalieMainContainer.js 47.3 KiB [built] [code generated]
+./node_modules/css-loader/dist/cjs.js!./src/App.css 9.36 KiB [built] [code generated]
 webpack 5.99.9 compiled successfully in 174 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 3.01 MiB
+  asset bundle.js 3 MiB [emitted] (name: main)
+  asset main.91ce20657e1f716a836b.hot-update.js 14.2 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.91ce20657e1f716a836b.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.01 MiB = bundle.js 3 MiB main.91ce20657e1f716a836b.hot-update.js 14.2 KiB
+cached modules 2.72 MiB [cached] 626 modules
+runtime modules 27.5 KiB 14 modules
+./node_modules/css-loader/dist/cjs.js!./src/App.css 11.3 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 111 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 3.01 MiB
+  asset bundle.js 3 MiB [emitted] (name: main)
+  asset main.1100608870e5731e174d.hot-update.js 15.1 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.1100608870e5731e174d.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.01 MiB = bundle.js 3 MiB main.1100608870e5731e174d.hot-update.js 15.1 KiB
+cached modules 2.72 MiB [cached] 626 modules
+runtime modules 27.5 KiB 14 modules
+./node_modules/css-loader/dist/cjs.js!./src/App.css 12.3 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 82 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 1.41 MiB
+  asset bundle.js 1.4 MiB [emitted] (name: main)
+  asset main.7a83197e67c4137d29fa.hot-update.js 5.96 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.7a83197e67c4137d29fa.hot-update.json 18.7 KiB [emitted] [immutable] [hmr]
+Entrypoint main 1.41 MiB = bundle.js 1.4 MiB main.7a83197e67c4137d29fa.hot-update.js 5.96 KiB
+cached modules 1.27 MiB [cached] 41 modules
+runtime modules 27.5 KiB 14 modules
+javascript modules 593 bytes
+  ./src/App.js 554 bytes [code generated]
+  ./src/GoalieMainContainer.js 39 bytes [built] [code generated] [1 error]
+
+ERROR in ./src/GoalieMainContainer.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/GoalieMainContainer.js: Identifier 'BRAND_FONT' has already been declared. (8:6)
+
+   6 |
+   7 | /** Typography preset for all main areas */
+>  8 | const BRAND_FONT = "Inter, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif";
+     |       ^
+   9 |
+  10 | /**
+  11 |  * Main Container for Goalie app (fully local version).
+    at constructor (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:363:19)
+    at JSXParserMixin.raise (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:6609:19)
+    at ScopeHandler.checkRedeclarationInScope (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:1626:19)
+    at ScopeHandler.declareName (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:1592:12)
+    at JSXParserMixin.declareNameFromIdentifier (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:7538:16)
+    at JSXParserMixin.checkIdentifier (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:7534:12)
+    at JSXParserMixin.checkLVal (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:7475:12)
+    at JSXParserMixin.parseVarId (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13327:10)
+    at JSXParserMixin.parseVar (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13302:12)
+    at JSXParserMixin.parseVarStatement (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13149:10)
+    at JSXParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12770:23)
+    at JSXParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12685:17)
+    at JSXParserMixin.parseModuleItem (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12662:17)
+    at JSXParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13235:36)
+    at JSXParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13228:10)
+    at JSXParserMixin.parseProgram (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12541:10)
+    at JSXParserMixin.parseTopLevel (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12531:25)
+    at JSXParserMixin.parse (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:14410:10)
+    at parse (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:14444:38)
+    at parser (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/gensync/index.js:261:32)
+    at /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/gensync/index.js:223:11)
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 33 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 1.41 MiB
+  asset bundle.js 1.4 MiB [emitted] (name: main)
+  asset main.a97c30d6bbb5ee0e8860.hot-update.js 854 bytes [emitted] [immutable] [hmr] (name: main)
+asset main.a97c30d6bbb5ee0e8860.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.41 MiB = bundle.js 1.4 MiB main.a97c30d6bbb5ee0e8860.hot-update.js 854 bytes
+cached modules 1.27 MiB [cached] 42 modules
+runtime modules 27.5 KiB 14 modules
+./src/GoalieMainContainer.js 39 bytes [built] [1 error]
+
+ERROR in ./src/GoalieMainContainer.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/GoalieMainContainer.js: Identifier 'BRAND_FONT' has already been declared. (22:6)
+
+  20 | }
+  21 | /** Typography preset for all main areas */
+> 22 | const BRAND_FONT = "Inter, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif";
+     |       ^
+  23 |
+  24 | /**
+  25 |  * Main Container for Goalie app (fully local version).
+    at constructor (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:363:19)
+    at JSXParserMixin.raise (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:6609:19)
+    at ScopeHandler.checkRedeclarationInScope (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:1626:19)
+    at ScopeHandler.declareName (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:1592:12)
+    at JSXParserMixin.declareNameFromIdentifier (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:7538:16)
+    at JSXParserMixin.checkIdentifier (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:7534:12)
+    at JSXParserMixin.checkLVal (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:7475:12)
+    at JSXParserMixin.parseVarId (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13327:10)
+    at JSXParserMixin.parseVar (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13302:12)
+    at JSXParserMixin.parseVarStatement (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13149:10)
+    at JSXParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12770:23)
+    at JSXParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12685:17)
+    at JSXParserMixin.parseModuleItem (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12662:17)
+    at JSXParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13235:36)
+    at JSXParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13228:10)
+    at JSXParserMixin.parseProgram (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12541:10)
+    at JSXParserMixin.parseTopLevel (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12531:25)
+    at JSXParserMixin.parse (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:14410:10)
+    at parse (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:14444:38)
+    at parser (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/gensync/index.js:261:32)
+    at /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/gensync/index.js:223:11)
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 37 ms
+assets by status 1.41 MiB [cached] 2 assets
+cached modules 1.27 MiB (javascript) 27.5 KiB (runtime) [cached] 56 modules
+./src/GoalieMainContainer.js 39 bytes [built] [1 error]
+
+ERROR in ./src/GoalieMainContainer.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/src/GoalieMainContainer.js: Identifier 'BRAND_FONT' has already been declared. (22:6)
+
+  20 | }
+  21 | /** Typography preset for all main areas */
+> 22 | const BRAND_FONT = "Inter, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif";
+     |       ^
+  23 |
+  24 | /**
+  25 |  * Main Container for Goalie app (fully local version).
+    at constructor (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:363:19)
+    at JSXParserMixin.raise (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:6609:19)
+    at ScopeHandler.checkRedeclarationInScope (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:1626:19)
+    at ScopeHandler.declareName (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:1592:12)
+    at JSXParserMixin.declareNameFromIdentifier (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:7538:16)
+    at JSXParserMixin.checkIdentifier (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:7534:12)
+    at JSXParserMixin.checkLVal (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:7475:12)
+    at JSXParserMixin.parseVarId (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13327:10)
+    at JSXParserMixin.parseVar (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13302:12)
+    at JSXParserMixin.parseVarStatement (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13149:10)
+    at JSXParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12770:23)
+    at JSXParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12685:17)
+    at JSXParserMixin.parseModuleItem (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12662:17)
+    at JSXParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13235:36)
+    at JSXParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:13228:10)
+    at JSXParserMixin.parseProgram (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12541:10)
+    at JSXParserMixin.parseTopLevel (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:12531:25)
+    at JSXParserMixin.parse (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:14410:10)
+    at parse (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/parser/lib/index.js:14444:38)
+    at parser (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
+    at normalizeFile.next (<anonymous>)
+    at run (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/core/lib/transformation/index.js:22:50)
+    at run.next (<anonymous>)
+    at transform (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/@babel/core/lib/transform.js:22:33)
+    at transform.next (<anonymous>)
+    at step (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/gensync/index.js:261:32)
+    at /home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/home/kavia/workspace/code-generation/goalsaver-62693-6ba26eb3/goal_saver_frontend/node_modules/gensync/index.js:223:11)
+ @ ./src/App.js 3:0-56 15:32-51
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 33 ms

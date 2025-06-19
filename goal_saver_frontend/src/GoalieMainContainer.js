@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { fetchAmazonProduct, fetchFlipkartProduct } from "./apiProductLive";
+import {
+  fetchCourseraCourses,
+  fetchUdemyCourses,
+  fetchSkillshareCourses,
+} from "./apiCourseLive";
 import ProductGoalModal from "./ProductGoalModal";
 
 /**
@@ -969,6 +974,9 @@ function GoalieMainContainer() {
       {/* PIE CHART SECTION: render above goal list */}
       <GoalsCompletionPieChart />
 
+      {/* Live Financial & Goal-Planning Courses Recommendations */}
+      <CourseRecommendationsSection />
+
       {/* Modal for Product-based goal creation */}
       {showProductGoalModal && (
         <ProductGoalModal
@@ -996,6 +1004,256 @@ function GoalieMainContainer() {
           All data stays on your device.
         </span>
       </footer>
+    </div>
+  );
+
+}
+
+// --- Course Recommendation UI Component ---
+function CourseRecommendationsSection() {
+  const [loading, setLoading] = React.useState(true);
+  const [courses, setCourses] = React.useState([]);
+  const [activeTab, setActiveTab] = React.useState("all");
+  const [error, setError] = React.useState("");
+  const keywords = "financial literacy, money, personal finance, goal planning, saving, investing";
+
+  React.useEffect(() => {
+    let mounted = true;
+    setError("");
+    setLoading(true);
+    Promise.all([
+      fetchCourseraCourses(keywords),
+      fetchUdemyCourses(keywords),
+      fetchSkillshareCourses(keywords),
+    ])
+      .then(([coursera, udemy, skillshare]) => {
+        if (!mounted) return;
+        const all = [
+          ...(coursera || []),
+          ...(udemy || []),
+          ...(skillshare || []),
+        ];
+        setCourses(all.filter(Boolean));
+      })
+      .catch((err) => {
+        setError("Couldn't load live courses. Please try again later.");
+      })
+      .finally(() => {
+        if (mounted) setLoading(false);
+      });
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  // Tabs logic
+  const filtered = courses.filter(
+    c => activeTab === "all" || String(c.provider).toLowerCase() === activeTab
+  );
+
+  return (
+    <div
+      style={{
+        maxWidth: 720,
+        margin: "0 auto 55px auto",
+        background: "var(--card-bg)",
+        borderRadius: 17,
+        boxShadow: "0 4px 28px 0 var(--lavender-shadow)",
+        padding: "23px 19px 12px 19px",
+        border: "1.3px solid var(--border-color)",
+        marginTop: 7,
+      }}
+      data-testid="live-courses-section"
+    >
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 12,
+          marginBottom: 10,
+        }}
+      >
+        <span style={{ fontWeight: 700, fontSize: 20, color: "var(--lavender-main)" }}>
+          📚 Financial Learning: Live Course Picks
+        </span>
+        <div style={{
+          display: "flex",
+          gap: 9,
+          alignItems: "center",
+          marginLeft: "auto",
+        }}>
+          <button
+            className="goalie-btn-outline"
+            style={{
+              padding: "5px 21px",
+              fontSize: 15,
+              borderRadius: 9,
+              background: activeTab === "all" ? "var(--contrib-bg)" : "#fff",
+              fontWeight: 600,
+            }}
+            onClick={() => setActiveTab("all")}
+          >
+            All
+          </button>
+          <button
+            className="goalie-btn-outline"
+            style={{
+              padding: "5px 17px",
+              fontSize: 15,
+              borderRadius: 8,
+              background: activeTab === "coursera" ? "var(--contrib-bg)" : "#fff",
+              fontWeight: 600,
+            }}
+            onClick={() => setActiveTab("coursera")}
+          >
+            Coursera
+          </button>
+          <button
+            className="goalie-btn-outline"
+            style={{
+              padding: "5px 17px",
+              fontSize: 15,
+              borderRadius: 8,
+              background: activeTab === "udemy" ? "var(--contrib-bg)" : "#fff",
+              fontWeight: 600,
+            }}
+            onClick={() => setActiveTab("udemy")}
+          >
+            Udemy
+          </button>
+          <button
+            className="goalie-btn-outline"
+            style={{
+              padding: "5px 17px",
+              fontSize: 15,
+              borderRadius: 8,
+              background: activeTab === "skillshare" ? "var(--contrib-bg)" : "#fff",
+              fontWeight: 600,
+            }}
+            onClick={() => setActiveTab("skillshare")}
+          >
+            Skillshare
+          </button>
+        </div>
+      </div>
+      {loading && (
+        <div style={{ color: "var(--lavender-main)", fontSize: 17, padding: "22px 0", textAlign: "center" }}>
+          Loading the latest finance courses...
+        </div>
+      )}
+      {error && (
+        <div style={{ color: "#fe5666", fontSize: 15, fontWeight: 600, margin: "12px 0" }}>
+          {error}
+        </div>
+      )}
+      {!loading && !error && (
+        <>
+          {filtered.length === 0 ? (
+            <div style={{ color: "var(--lavender-dark)", padding: "18px 12px", fontWeight: 500 }}>
+              No courses to show for this provider.
+            </div>
+          ) : (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                gap: 16,
+                marginBottom: 3,
+              }}
+            >
+              {filtered.slice(0, 8).map((course, i) => (
+                <div
+                  key={course.url + (course.title || "") + i}
+                  style={{
+                    background: "var(--progress-bg)",
+                    borderRadius: 13,
+                    boxShadow: "0 1px 7px #d8d8fb55",
+                    padding: "14px 13px 17px 13px",
+                    minHeight: 162,
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <div style={{
+                    display: "flex",
+                    alignItems: "flex-start",
+                    gap: 13,
+                  }}>
+                    <img
+                      src={course.image || ""}
+                      alt={course.title}
+                      style={{
+                        width: 56,
+                        height: 56,
+                        borderRadius: 9,
+                        objectFit: "cover",
+                        background: "#fff",
+                        border: "1.1px solid var(--border-color)",
+                        boxShadow: "0 1px 6px #e8e3ff66",
+                        marginRight: 3,
+                        flex: "0 0 56px",
+                      }}
+                      loading="lazy"
+                      onError={e => (e.currentTarget.style.display = "none")}
+                    />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 700, color: "var(--lavender-dark)", fontSize: 16, marginBottom: 1, lineHeight: "1.12" }}>
+                        {course.title}
+                      </div>
+                      <div style={{ fontWeight: 600, color: "#756ee6", fontSize: 12, marginBottom: 2 }}>
+                        {course.provider}
+                      </div>
+                      <div style={{
+                        color: "var(--text-dark)",
+                        fontSize: 13,
+                        marginBottom: 3,
+                        minHeight: 34,
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                      }}>
+                        {course.description}
+                      </div>
+                      {course.price && (
+                        <div style={{ fontSize: 12, color: "#2ba772", fontWeight: 600 }}>
+                          {String(course.price).indexOf("$") !== -1 || String(course.price).toLowerCase().includes("free")
+                            ? course.price
+                            : "$" + course.price}
+                        </div>
+                      )}
+                      <a
+                        href={course.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "#2196F3",
+                          fontWeight: 600,
+                          fontSize: 13,
+                          textDecoration: "underline",
+                          marginTop: 3,
+                          display: "inline-block",
+                        }}
+                      >
+                        View Course
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          <div style={{
+            color: "var(--faded-txt)",
+            fontSize: 13,
+            textAlign: "right",
+            marginTop: 7,
+            fontStyle: "italic",
+          }}>
+            Powered by live Coursera, Udemy & Skillshare APIs
+          </div>
+        </>
+      )}
     </div>
   );
 }

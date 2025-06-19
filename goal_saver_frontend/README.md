@@ -25,40 +25,60 @@ This plugin enables **visual editing functionality** in supported tools.
 **DO NOT** remove or modify this section - it is ESSENTIAL for proper operation.
 Removing it will break editor integration and visual editing features.
 
-## Live Product API Integration (Amazon & Flipkart)
+## Live Product & Course API Integration (Amazon, Flipkart, Coursera, Udemy, Skillshare)
 
-This app supports real-time integration of Amazon and Flipkart product data to set goals using *actual prices and details*.
+This app supports real-time integration of Amazon, Flipkart product data and integrates live course recommendations from Coursera, Udemy, and Skillshare for financial literacy and goal-planning.
 
 ### Setup Secure API Credentials
 
+**Products (Amazon & Flipkart)**  
 1. **Copy** `.env.example` to `.env` in the frontend root.
-2. **Fill in** your Amazon Product Advertising API keys, Flipkart Affiliate API tokens, and backend proxy endpoint URL (recommended, see below).
-3. **Never** commit your `.env` file or credentials.
+2. **Fill in** your Amazon Product Advertising API keys, Flipkart Affiliate API tokens, and backend proxy endpoint URL.
+3. **Never commit your `.env` file or credentials.**
 
-**Backend Proxy Note:**  
-Amazon and Flipkart APIs require authentication using tokens or key signing not suitable for the frontend. You *must* provide your own backend proxy (NodeJS/Express or cloud function) to handle actual API calls and sign requests securely. The frontend will call this backend with a search keyword for Amazon/Flipkart products.
+**Courses (Coursera, Udemy, Skillshare)**  
+4. Add your Coursera, Udemy, and Skillshare API credentials as environment variables in `.env`.  
+   - `REACT_APP_COURSERA_API_KEY`
+   - `REACT_APP_COURSERA_API_URL` (optional if URL differs)
+   - `REACT_APP_UDACITY_...` (if future support added)
+   - `REACT_APP_UDEMY_CLIENT_ID`
+   - `REACT_APP_UDEMY_CLIENT_SECRET`
+   - `REACT_APP_UDEMY_API_URL` (default: `https://www.udemy.com/api-2.0`)
+   - `REACT_APP_SKILLSHARE_TOKEN`
+   - `REACT_APP_SKILLSHARE_API_URL` (optional)
+
+**Never** expose your secret keys in client JS.  
+*Always* use a proxy backend if API requires secrets or CORS is enforced.
+
+**Backend Proxy Note (For Amazon, Flipkart, and when needed for secure Course APIs):**  
+Some APIs require authentication not suitable for the frontend. Use your backend proxy (NodeJS/Express or cloud function) to handle tokens or OAuth flows. The frontend calls this backend with search keywords for products/courses.
 
 #### Example Proxy endpoints:
 - `/amazon-product?keywords=YOUR_KEYWORDS`
 - `/flipkart-product?keywords=YOUR_KEYWORDS`
+- `/coursera-courses?search=YOUR_QUERY`
+- `/udemy-courses?search=YOUR_QUERY`
+- `/skillshare-courses?search=YOUR_QUERY`
 
-Proxy backends should return:  
+Proxy backends should return consistent course/product listing format:
 ```json
 {
-  "title": "Product Title",
-  "image": "Product Image URL",
+  "title": "Product or Course Title",
+  "image": "Image URL",
   "price": 1234,
-  "url": "amazon_or_flipkart_product_url"
+  "url": "details_url_here",
+  "provider": "Coursera|Udemy|Skillshare|Amazon|Flipkart",
+  "description": "Course description or summary"
 }
 ```
 
 ### Environment Variables Required
-See `.env.example` for all keys.
+See `.env.example` for all keys (including the additional Coursera/Udemy/Skillshare API variables).
 
 ### Secure Handling of Keys
 
 - Never put secret API keys directly in client code.
-- Use backend proxy for all real API calls.
+- Use backend proxy for all real API calls, especially for Udemy and Skillshare.
 
 
 ### `npm start`

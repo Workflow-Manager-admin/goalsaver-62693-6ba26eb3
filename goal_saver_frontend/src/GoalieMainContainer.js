@@ -289,6 +289,10 @@ function GoalieMainContainer() {
       monthlySpending: profile.monthlySpending,
     });
     const [err, setErr] = useState("");
+
+    // Determine if this is an initial onboarding (block app use), or edit mode (from Profile/settings)
+    const isEditMode = !!profile.onboarded;
+
     function handleSubmit(e) {
       e.preventDefault();
       if (
@@ -313,6 +317,7 @@ function GoalieMainContainer() {
       });
       setShowOnboarding(false);
     }
+
     return (
       <div className="goalie-modal-overlay">
         <div className="goalie-modal">
@@ -331,7 +336,9 @@ function GoalieMainContainer() {
                 verticalAlign: "middle",
               }}
             >
-              Welcome to Goalie
+              {isEditMode
+                ? "Edit Savings Preferences"
+                : "Welcome to Goalie"}
             </span>
           </div>
           <div
@@ -344,7 +351,9 @@ function GoalieMainContainer() {
               lineHeight: 1.5,
             }}
           >
-            Set up your personalized savings journey. We’ll recommend how much to save for each of your goals!
+            {isEditMode
+              ? "Update your savings method, monthly income, or spending habits. These values help customize how much you should save for each goal."
+              : "Set up your personalized savings journey. We’ll recommend how much to save for each of your goals!"}
           </div>
           <form onSubmit={handleSubmit}>
             <label className="goalie-label">
@@ -416,8 +425,18 @@ function GoalieMainContainer() {
               type="submit"
               style={{ marginTop: 22, width: "100%", fontSize: 18 }}
             >
-              Continue
+              {isEditMode ? "Update Preferences" : "Continue"}
             </button>
+            {isEditMode && (
+              <button
+                type="button"
+                className="goalie-btn-outline"
+                style={{ marginTop: 10, width: "100%", fontSize: 15 }}
+                onClick={() => setShowOnboarding(false)}
+              >
+                Cancel
+              </button>
+            )}
           </form>
         </div>
       </div>
@@ -782,9 +801,30 @@ function GoalieMainContainer() {
             letterSpacing: "0.2ch",
             fontWeight: 500,
             fontSize: 15,
+            display: "flex",
+            alignItems: "center",
+            gap: 15
           }}
         >
           Save. Track. Win.
+          <button
+            className="goalie-btn-outline"
+            type="button"
+            style={{
+              margin: 0,
+              padding: "4px 14px",
+              fontSize: 15,
+              borderRadius: 8,
+              fontWeight: 600,
+              border: "1.3px solid var(--lavender-main)",
+              color: "var(--lavender-main)",
+              background: "#fff"
+            }}
+            onClick={() => setShowOnboarding(true)}
+            title="Profile / Edit Preferences"
+          >
+            Profile
+          </button>
         </span>
       </div>
       {/* Main hero */}

@@ -23,24 +23,24 @@ modules by path ./.ve/ 15.1 KiB
     ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
     ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
   ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 2488 ms
+webpack 5.99.9 compiled successfully in 2353 ms
 assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 1.4 MiB
-  asset bundle.js 1.39 MiB [emitted] (name: main)
-  asset main.1871a187b7be6cf79d59.hot-update.js 1.91 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.1871a187b7be6cf79d59.hot-update.json 18.7 KiB [emitted] [immutable] [hmr]
-Entrypoint main 1.4 MiB = bundle.js 1.39 MiB main.1871a187b7be6cf79d59.hot-update.js 1.91 KiB
-cached modules 2.68 MiB [cached] 626 modules
-runtime modules 27.5 KiB 14 modules
-./src/GoalieMainContainer.js 349 bytes [built] [code generated]
-webpack 5.99.9 compiled successfully in 194 ms
-assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 4.58 MiB
+assets by path *.js 3.04 MiB
   asset bundle.js 2.98 MiB [emitted] (name: main)
-  asset main.5f487b3584bc244ca0b2.hot-update.js 1.59 MiB [emitted] [immutable] [hmr] (name: main)
-asset main.5f487b3584bc244ca0b2.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 4.58 MiB = bundle.js 2.98 MiB main.5f487b3584bc244ca0b2.hot-update.js 1.59 MiB
+  asset main.1871a187b7be6cf79d59.hot-update.js 52.3 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.1871a187b7be6cf79d59.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.04 MiB = bundle.js 2.98 MiB main.1871a187b7be6cf79d59.hot-update.js 52.3 KiB
 cached modules 2.68 MiB [cached] 626 modules
 runtime modules 27.5 KiB 14 modules
-./src/GoalieMainContainer.js 40.4 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 363 ms
+./src/GoalieMainContainer.js 41.1 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 343 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 3.04 MiB
+  asset bundle.js 2.99 MiB [emitted] (name: main)
+  asset main.64c5737b7d6aadb692cf.hot-update.js 53.2 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.64c5737b7d6aadb692cf.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 3.04 MiB = bundle.js 2.99 MiB main.64c5737b7d6aadb692cf.hot-update.js 53.2 KiB
+cached modules 2.68 MiB [cached] 626 modules
+runtime modules 27.5 KiB 14 modules
+./src/GoalieMainContainer.js 41.8 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 208 ms

@@ -284,6 +284,145 @@ function DailyTipSection() {
   );
 }
 
+/**
+ * PUBLIC_INTERFACE
+ * FinanceNewsSection
+ * Fetches and displays the latest financial news headline (from finnhub public endpoint for demo) or a fallback motivational financial fact.
+ * If the API fails for any reason, displays a positive finance fact instead.
+ * Styled inline with the Goalie lavender theme and visually placed prominently.
+ */
+function FinanceNewsSection() {
+  // Demo endpoint - no API key required for "demo", may rate limit
+  const FINNHUB_URL = "https://finnhub.io/api/v1/news?category=general&token=demo";
+
+  // Motivational fallback fact for static display
+  const FALLBACK_FACT = {
+    title: "Nearly 40% of millionaires built their wealth through regular saving—not just investing.",
+    url: "https://www.investopedia.com/articles/pf/08/wealth-building.asp",
+    source: "Investopedia"
+  };
+
+  const [headline, setHeadline] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  const [err, setErr] = React.useState("");
+
+  React.useEffect(() => {
+    let ignore = false;
+    async function fetchHeadline() {
+      setLoading(true);
+      setErr("");
+      try {
+        // Fetch from finnhub, expect an array with latest at index 0
+        const resp = await fetch(FINNHUB_URL, { method: "GET", mode: "cors", cache: "no-store" });
+        if (!resp.ok) throw new Error("Network or API error");
+        const data = await resp.json();
+        if (Array.isArray(data) && data.length > 0 && data[0].headline) {
+          if (ignore) return;
+          setHeadline({
+            title: data[0].headline,
+            url: data[0].url || null,
+            source: data[0].source || "Finnhub",
+          });
+        } else {
+          throw new Error("No valid headline found");
+        }
+      } catch (e) {
+        // Fallback to static fact
+        if (ignore) return;
+        setHeadline({ ...FALLBACK_FACT });
+        setErr("Unable to fetch live financial news");
+      } finally {
+        if (!ignore) setLoading(false);
+      }
+    }
+    fetchHeadline();
+    return () => { ignore = true; };
+  }, []);
+
+  return (
+    <div
+      className="goalie-finance-news-wrap"
+      style={{
+        background: "linear-gradient(99deg, var(--lavender-accent) 12%, var(--lavender-bg) 85%)",
+        border: "1.5px solid var(--lavender-main)",
+        color: "var(--lavender-dark)",
+        borderRadius: 15,
+        fontWeight: 530,
+        fontSize: 15.7,
+        maxWidth: 490,
+        margin: "16px auto 14px auto",
+        padding: "12px 26px 11px 26px",
+        display: "flex",
+        alignItems: "center",
+        boxShadow: "0 2px 11px 0 #cabefd22",
+        fontFamily: "Inter, Nunito, 'Roboto', 'Helvetica Neue', Arial, sans-serif",
+        minHeight: 37,
+      }}
+      aria-live="polite"
+      aria-label="Finance News or Fun Fact"
+      tabIndex={0}
+    >
+      <span style={{
+        fontWeight: 900,
+        color: "var(--lavender-main)",
+        fontSize: 19,
+        display: "flex",
+        alignItems: "center",
+        marginRight: 13
+      }}>
+        <span role="img" aria-label="news" style={{fontSize: 24, verticalAlign: "middle"}}>📰</span>
+        Finance News
+      </span>
+      <span style={{marginLeft: 9, color: "var(--lavender-dark)", display: "flex", alignItems: "center"}}>
+        {loading ? (
+          <span style={{ color: "var(--faded-txt)" }}>Loading…</span>
+        ) : (
+          <span>
+            <span style={{
+              fontWeight: 700,
+              color: "var(--lavender-main)",
+              fontSize: 15.8,
+              fontStyle: !!err ? "italic" : "normal"
+            }}>
+              {headline && headline.url
+                ? <a href={headline.url} target="_blank" rel="noopener noreferrer" style={{
+                    color: "var(--lavender-main)",
+                    textDecoration: "underline dotted",
+                    background: "none"
+                  }}>
+                    {headline.title}
+                  </a>
+                : headline && headline.title
+                  ? headline.title
+                  : "Stay motivated! Save, track, and grow."
+              }
+            </span>
+            {headline && headline.source && (
+              <span style={{
+                fontSize: 13.5,
+                color: "var(--lavender-muted)",
+                marginLeft: 8
+              }}>
+                {`(${headline.source})`}
+              </span>
+            )}
+            {!!err && (
+              <span style={{
+                color: "#bfafda",
+                fontSize: 12,
+                marginLeft: 7,
+                fontStyle: "italic"
+              }}>
+                (static fact)
+              </span>
+            )}
+          </span>
+        )}
+      </span>
+    </div>
+  );
+}
+
 /** Luxurious pro font and palette */
 const BRAND_FONT = "Inter, Nunito, 'Roboto', 'Helvetica Neue', Arial, sans-serif";
 
@@ -1220,6 +1359,8 @@ function GoalieMainContainer() {
     >
       {/* Daily Tip Section, at the very top */}
       <DailyTipSection />
+      {/* Finance News Section, at the top */}
+      <FinanceNewsSection />
       {/* Exchange Rate Section, placed after tip and above the header */}
       <CurrencyRateSection />
       {showOnboarding && <OnboardingModal />}

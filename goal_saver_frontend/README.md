@@ -101,10 +101,30 @@ For course search to work fully, set the required proxy URLs or API keys in `.en
 
 ## 🔄 Common Issues & Troubleshooting
 
-- **Frontend can't reach proxy:** Make sure `REACT_APP_PRODUCT_BACKEND_PROXY` is correct and backend is running.
-- **CORS errors:** Backend proxy by default allows all origins. For more security, restrict CORS origins in `server.js`.
-- **Product search fails:** Check backend API credentials, network access, or quota limits.
+> **In-app user tips:** If there’s a problem (no product found, out-of-date price, API/CORS error), the app provides tailored troubleshooting inside the product modal — look for step-by-step tips and highlights!
+
+- **Frontend can't reach proxy:** Make sure `REACT_APP_PRODUCT_BACKEND_PROXY` is correct in `.env` and backend is running (`npm start` in backend_proxy).
+- **CORS errors:** Backend proxy allows all origins by default. For more security, restrict CORS origins in `server.js`.
+- **Product search fails (empty or error):**  
+  - Backend API credentials may be missing or invalid; check `backend_proxy/.env`.
+  - Ensure API quotas are not exceeded.
+  - Restart both backend and frontend after updating `.env`.
 - **.env changes not taking effect:** Restart the frontend after editing `.env`.
+- **Still seeing issues?**  
+  - View backend logs in terminal for error details.  
+  - Open browser DevTools > Network tab to verify product API calls reach the backend.
+
+---
+
+## 👩‍💻 Developer & End-User Guidance
+
+- **Backend proxy setup:** See backend_proxy/README.md for how to set up live Amazon/Flipkart product integration and keep all credentials server-side.
+- **Frontend .env:** The proxy URL (REACT_APP_PRODUCT_BACKEND_PROXY) must match your backend’s address. Always use environment variables for integration secrets or endpoints.
+- **End-to-End workflow**: Fully tested with:
+  - Live product lookup and auto-fill goal flow.
+  - User-friendly in-app troubleshooting for all error conditions.
+  - All secrets held securely only in backend.
+  - Clear notifications inside the app on any possible user error.
 
 ---
 

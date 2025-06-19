@@ -150,8 +150,27 @@ function ProductGoalModal({ onClose, onCreateGoal }) {
         </form>
 
         {err && (
-          <div style={{ color: "#fe5666", marginBottom: 8, fontWeight: 600 }}>{err}</div>
+          <div style={{ color: "#fe5666", marginBottom: 8, fontWeight: 600 }}>
+            {err}
+            <div style={{ color: "#473BC9", marginTop: 7, fontWeight: 400, fontSize: 13 }}>
+              <ul style={{ marginLeft: 16, marginBottom: 0 }}>
+                <li>If <b>no product appears</b>, check your backend proxy server is running at <code>{process.env.REACT_APP_PRODUCT_BACKEND_PROXY || "http://localhost:5001"}</code>.</li>
+                <li>Verify <b>Amazon/Flipkart API keys</b> are correct in your backend <code>.env</code> file.</li>
+                <li>If you see repeated failures, <b>restart both the backend and frontend</b> after checking environment variables.</li>
+                <li><b>CORS errors?</b> Backend proxy by default allows all origins. Check <code>server.js</code> if using custom domains.</li>
+              </ul>
+            </div>
+          </div>
         )}
+
+        <div style={{
+          fontSize: 14, background: "#FFF4EA", color: "#8682e4", borderRadius: 9,
+          padding: "10px 16px", marginBottom: 10, fontWeight: 500, border: "1px solid #e8e3ff"
+        }}>
+          <span style={{fontWeight:700}}>Tip:</span> Search for products as you would on Amazon/Flipkart.<br/>
+          Your search is always secure – credentials are never sent to the browser.<br />
+          <span style={{fontWeight: 400, color: "#473BC9"}}>Trouble? See README "Testing & Troubleshooting" or hover tips on fields.</span>
+        </div>
 
         {product && (
           <div

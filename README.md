@@ -96,14 +96,37 @@ npm start
 ## 3. Creating Product-Based Goals (End-to-End Usage)
 
 - Goalie now lets you create goals directly from live e-commerce products!
-- **How-to:**
-  1. Use the "+ Goal from Product" button on the landing/hero section.
-  2. Choose "Amazon" or "Flipkart", and enter product keywords (e.g. "headphones").
-  3. The app securely queries your backend proxy (never exposes keys) and displays sanitized product results (with title, image, ₹price, link, provider).
-  4. Click "Use This As My Goal" — the info is filled in as a new goal, edit the target deadline/notes and save.
-  5. Progress, motivate, and track towards buying that item!
+
+### How-to (Live Product Search with Auto-Fill):
+
+1. Click the **"+ Goal from Product"** button on the landing/hero section of the app.
+2. Select either **Amazon** or **Flipkart**, and enter the desired product keywords (e.g. "headphones").
+3. The app will securely query your backend proxy (over the URL set in your `.env`) which fetches real-time product info from Amazon or Flipkart. Your API keys are never exposed in the browser.
+4. Product results appear showing title, image, price (₹), link, and provider.
+5. Choose your item and click **"Use This As My Goal"** – product details will be auto-filled into a new goal.
+6. Set your own target date and notes, then save to begin tracking your wish!
 
 **No secrets/tokens are ever stored or visible in the browser JS!**
+
+---
+
+### In-App Troubleshooting & Tips
+
+- If no products show up or you receive errors when searching:
+  - Confirm your backend proxy server is running at the URL in your frontend `.env`:  
+    <code>REACT_APP_PRODUCT_BACKEND_PROXY=http://localhost:5001</code>
+  - Check backend credentials in `backend_proxy/.env` are filled and valid.
+  - Restart both backend and frontend after changing any `.env` values.
+  - For CORS errors, the backend allows all origins by default. If needed, change or restrict this in `backend_proxy/server.js`.
+
+- For further troubleshooting, see:
+  - **Backend logs and errors** (run backend in terminal & watch for error output)
+  - **Frontend errors** (browser DevTools > Console & Network tabs)
+
+**All product search and goal creation flows are fully tested for the following:**
+- Backend proxy returns valid product info from live APIs.
+- Product details (title, price, URL, image) safely auto-fill the new goal modal.
+- Errors or issues are presented to the user with clear tips and self-help steps.
 
 ---
 

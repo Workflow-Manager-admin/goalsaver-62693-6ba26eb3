@@ -33,27 +33,35 @@ This app supports real-time integration of Amazon, Flipkart product data and int
 
 **Products (Amazon & Flipkart)**  
 1. **Copy** `.env.example` to `.env` in the frontend root.
-2. **Fill in** your Amazon Product Advertising API keys, Flipkart Affiliate API tokens, and backend proxy endpoint URL.
+2. **Fill in** your Amazon Product Advertising API keys, Flipkart Affiliate API tokens, and backend proxy endpoint URL as instructed.
 3. **Never commit your `.env` file or credentials.**
 
 **Courses (Coursera, Udemy, Skillshare)**  
-4. Add your Coursera, Udemy, and Skillshare API credentials as environment variables in `.env`.  
-   - `REACT_APP_COURSERA_API_KEY`
-   - `REACT_APP_COURSERA_API_URL` (optional if URL differs)
-   - `REACT_APP_UDACITY_...` (if future support added)
-   - `REACT_APP_UDEMY_CLIENT_ID`
-   - `REACT_APP_UDEMY_CLIENT_SECRET`
-   - `REACT_APP_UDEMY_API_URL` (default: `https://www.udemy.com/api-2.0`)
-   - `REACT_APP_SKILLSHARE_TOKEN`
-   - `REACT_APP_SKILLSHARE_API_URL` (optional)
+4. Add your Coursera, Udemy, and Skillshare API credentials as environment variables in `.env` as described.
 
-**Never** expose your secret keys in client JS.  
-*Always* use a proxy backend if API requires secrets or CORS is enforced.
+---
+
+**Push Notifications (OneSignal & Firebase Cloud Messaging integration for reminders):**  
+5. For live push notifications (web/app):
+   - **OneSignal:**  
+     - Set `REACT_APP_ONESIGNAL_APP_ID` in `.env` to your [OneSignal APP ID](https://app.onesignal.com/)  
+     - Optionally set `REACT_APP_ONESIGNAL_REST_KEY` if you use backend push.
+   - **Firebase Cloud Messaging (FCM):**  
+     - Set `REACT_APP_FIREBASE_API_KEY`, `REACT_APP_FIREBASE_MESSAGING_SENDER_ID`, and related keys in `.env`.  
+     - Refer to Firebase Console > Project Settings > Cloud Messaging for these.
+
+**Never expose push notification REST/secret keys in client JS.**  
+Frontend uses the public App ID for push registration. For advanced backend sends, use backend proxy.
+
+**Notification Delivery in Goalie:**  
+- The app will ask user for notification permission.  
+- Reminders and milestone celebrations are sent using OneSignal/FCM if enabled and supported by platform.
+- To test, register on web, accept notification permission, and trigger a reminder or progress event.
 
 **Backend Proxy Note (For Amazon, Flipkart, and when needed for secure Course APIs):**  
 Some APIs require authentication not suitable for the frontend. Use your backend proxy (NodeJS/Express or cloud function) to handle tokens or OAuth flows. The frontend calls this backend with search keywords for products/courses.
 
-#### Example Proxy endpoints:
+###### Example Proxy endpoints:
 - `/amazon-product?keywords=YOUR_KEYWORDS`
 - `/flipkart-product?keywords=YOUR_KEYWORDS`
 - `/coursera-courses?search=YOUR_QUERY`

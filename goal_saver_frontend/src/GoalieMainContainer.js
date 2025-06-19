@@ -7,6 +7,7 @@ import {
   fetchSkillshareCourses,
 } from "./apiCourseLive";
 import ProductGoalModal from "./ProductGoalModal";
+import { initNotifications, sendPushNotification } from "./notifications";
 
 /**
  * Main Container for Goalie app.
@@ -32,6 +33,11 @@ function GoalieMainContainer() {
       return { ...defaultProfile };
     }
   });
+
+  // --- Push notification opt-in/init: on mount
+  useEffect(() => {
+    initNotifications();
+  }, []);
   const [showOnboarding, setShowOnboarding] = useState(!profile.onboarded);
 
   // --- Goals state ---
@@ -89,7 +95,15 @@ function GoalieMainContainer() {
 
   // --- Reminder trigger: 10s after load/goals change ---
   useEffect(() => {
-    const timeout = setTimeout(() => setShowReminder(true), 10000);
+    const timeout = setTimeout(() => {
+      setShowReminder(true);
+      // Fire a real push notification if permission granted
+      sendPushNotification({
+        title: "💡 Savings Habit Reminder",
+        message: "Time to save a little for your goal! Open Goalie to check your progress.",
+        url: window.location.href
+      });
+    }, 10000);
     return () => clearTimeout(timeout);
   }, [goals]);
 
@@ -164,12 +178,23 @@ function GoalieMainContainer() {
 
   // --- PUBLIC_INTERFACE: Add savings to a goal ---
   function handleAddSavings(goalId, amount) {
-    setGoals(
-      goals.map((g) =>
-        g.id === goalId
-          ? { ...g, saved: Math.min(g.saved + amount, g.target) }
-          : g
-      )
+    setGoals((prevGoals) =>
+      prevGoals.map((g) => {
+        if (g.id === goalId) {
+          const oldSaved = g.saved;
+          const newSaved = Math.min(g.saved + amount, g.target);
+          const justCompleted = oldSaved < g.target && newSaved >= g.target;
+          if (justCompleted) {
+            sendPushNotification({
+              title: "🎉 Goal Reached!",
+              message: `Congratulations, you just achieved your goal: "${g.name}"!`,
+              url: window.location.href,
+            });
+          }
+          return { ...g, saved: newSaved };
+        }
+        return g;
+      })
     );
   }
 
